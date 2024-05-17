@@ -1,7 +1,7 @@
-import {IAccommodationCardProps} from "../../interfaces/cards/index.ts";
+
 import React from 'react';
 
-const AccommodationCard: React.FC<IAccommodationCardProps> = ({ imageSrc, title }) => {
+const AccommodationTypeCard: React.FC<IAccommodationTypeCardProps> = ({ imageSrc, title }) => {
     return (
         <div className="max-w-xs mx-auto">
             <div className="rounded overflow-hidden  p-2">
@@ -16,4 +16,4 @@ const AccommodationCard: React.FC<IAccommodationCardProps> = ({ imageSrc, title 
     );
 };
 
-export default AccommodationCard;
+export default AccommodationTypeCard;
