@@ -1,6 +1,23 @@
+using Booking.Services;
+using Microsoft.EntityFrameworkCore;
+using Model.Context;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var assemblyName = AssemblyService.GetAssemblyName();
+
+builder.Services.AddDbContext<DataContext>(
+	options => {
+		options.UseNpgsql(
+			builder.Configuration.GetConnectionString("Npgsql"),
+			npgsqlOptions => npgsqlOptions.MigrationsAssembly(assemblyName)
+		);
+
+		if (builder.Environment.IsDevelopment()) {
+			options.EnableSensitiveDataLogging();
+		}
+	}
+);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
