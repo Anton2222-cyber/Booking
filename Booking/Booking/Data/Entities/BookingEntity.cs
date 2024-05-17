@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BlogWebApi.Data.Entities.Identity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking.Data.Entities
@@ -12,9 +13,12 @@ namespace Booking.Data.Entities
         public DateTime EndDate { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
+        public virtual UserEntity User { get; set; }
         [ForeignKey("Room")]
         public int RoomId { get; set; }
+        public virtual RoomEntity Room { get; set; }
         [ForeignKey("BookingStatus")]
         public int StatusId { get; set; }
+        public virtual BookingStatusEntity Status { get; set; }
     }
 }

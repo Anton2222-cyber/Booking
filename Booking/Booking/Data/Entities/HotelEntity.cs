@@ -16,7 +16,9 @@ namespace Booking.Data.Entities
         public double Rating { get; set; }
         [ForeignKey("City")]
         public int CityId { get; set; }
+        public virtual CityEntity City { get; set; }
         [StringLength(255)]
         public string Image { get; set; }
+        public virtual ICollection<PhotoEntity> Photos { get; set; }
     }
 }

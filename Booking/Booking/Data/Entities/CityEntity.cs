@@ -11,8 +11,9 @@ namespace Booking.Data.Entities
         public string Name { get; set; }
         [ForeignKey("Contry")]
         public int CountryId { get; set; }
-        [ForeignKey("Coordinates")]
-        public int CoordinatesId { get; set; }
+        public virtual CountryEntity Country { get; set; }
+        public double lat { get; set; }
+        public double lng { get; set; }
         [StringLength(255)]
         public string Image { get; set; }
     }

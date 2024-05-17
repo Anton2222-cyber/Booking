@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Booking.Data.Entities
+namespace Booking.Models.Country
 {
-    public class CountryEntity : BaseEntity<int>
+    public class CountryItemViewModel
     {
-        [Key]
         public int Id { get; set; }
-        [StringLength(255)]
         public string Name { get; set; }
     }
 }

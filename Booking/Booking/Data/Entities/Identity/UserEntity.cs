@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Booking.Data.Entities;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlogWebApi.Data.Entities.Identity
@@ -10,5 +11,6 @@ namespace BlogWebApi.Data.Entities.Identity
         [StringLength(255)]
         public string Image { get; set; }
         public virtual ICollection<UserRoleEntity> Roles { get; set; }
+        public virtual ICollection<BookingEntity> Bookings { get; set; }
     }
 }
