@@ -1,3 +1,4 @@
+using Booking.Extensions;
 using Booking.Mapper;
 using Booking.Services;
 using Booking.Services.Interfaces;
@@ -69,5 +70,7 @@ app.UseCors(
 app.UseAuthorization();
 
 app.MapControllers();
+
+await app.MigrateAsync();
 
 app.Run();
