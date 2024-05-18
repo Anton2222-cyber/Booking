@@ -51,4 +51,11 @@ public class CountriesController(
 
 		return Ok(mapper.Map<CountryVm>(country));
 	}
+
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> Delete(long id) {
+		await service.DeleteIfExistsAsync(id);
+
+		return Ok();
+	}
 }

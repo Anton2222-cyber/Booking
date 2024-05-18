@@ -49,4 +49,16 @@ public class CountriesControllerService(
 
 		return country;
 	}
+
+	public async Task DeleteIfExistsAsync(long id) {
+		var country = await context.Countries.FirstAsync(c => c.Id == id);
+
+		if (country is null)
+			return;
+
+		context.Countries.Remove(country);
+		await context.SaveChangesAsync();
+
+		imageService.DeleteImageIfExists(country.Image);
+	}
 }
