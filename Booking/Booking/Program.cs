@@ -1,6 +1,10 @@
 using Booking.Mapper;
 using Booking.Services;
+using Booking.Services.Interfaces;
+using Booking.Validators.Country;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Model.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +29,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCountryValidator>();
+
+builder.Services.AddTransient<IImageService, ImageService>();
+builder.Services.AddTransient<IImageValidator, ImageValidator>();
+builder.Services.AddTransient<ICountriesControllerService, CountriesControllerService>();
+
 
 
 var app = builder.Build();
@@ -36,6 +48,16 @@ if (app.Environment.IsDevelopment()) {
 	app.UseSwaggerUI();
 }
 
+string imagesDirPath = app.Services.GetRequiredService<IImageService>().ImagesDir;
+
+if (!Directory.Exists(imagesDirPath)) {
+	Directory.CreateDirectory(imagesDirPath);
+}
+
+app.UseStaticFiles(new StaticFileOptions {
+	FileProvider = new PhysicalFileProvider(imagesDirPath),
+	RequestPath = "/images"
+});
 
 app.UseAuthorization();
 
