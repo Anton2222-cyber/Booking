@@ -8,7 +8,6 @@ public interface IImageService
     void DeleteImageIfExists(string nameWithFormat);
     void DeleteImages(ICollection<string> images);
     void DeleteImagesIfExists(ICollection<string> images);
-    bool IsImageExists(string name);
     Task<byte[]> LoadBytesAsync(string name);
     Task<string> SaveImageAsync(byte[] bytes);
     Task<string> SaveImageAsync(IFormFile image);

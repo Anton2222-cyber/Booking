@@ -15,6 +15,7 @@ public class CountriesController(
 	DataContext context,
 	IMapper mapper,
 	IValidator<CreateCountryVm> createValidator,
+	IValidator<UpdateCountryVm> updateValidator,
 	ICountriesControllerService service
 	) : ControllerBase {
 
@@ -35,6 +36,18 @@ public class CountriesController(
 			return BadRequest(validationResult.Errors);
 
 		var country = await service.CreateAsync(vm);
+
+		return Ok(mapper.Map<CountryVm>(country));
+	}
+
+	[HttpPut]
+	public async Task<IActionResult> Update([FromForm] UpdateCountryVm vm) {
+		var validationResult = await updateValidator.ValidateAsync(vm);
+
+		if (!validationResult.IsValid)
+			return BadRequest(validationResult.Errors);
+
+		var country = await service.UpdateAsync(vm);
 
 		return Ok(mapper.Map<CountryVm>(country));
 	}

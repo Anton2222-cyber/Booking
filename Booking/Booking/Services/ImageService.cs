@@ -35,8 +35,11 @@ public class ImageService(
 	public async Task<string> SaveImageAsync(string base64) {
 		if (base64.Contains(','))
 			base64 = base64.Split(',')[1];
+
 		var bytes = Convert.FromBase64String(base64);
+
 		var fileName = await SaveImageAsync(bytes);
+
 		return fileName;
 	}
 
@@ -90,10 +93,6 @@ public class ImageService(
 		return result;
 	}
 
-	public bool IsImageExists(string name) {
-		return File.Exists(Path.Combine(ImagesDir, name));
-	}
-
 	public async Task<byte[]> LoadBytesAsync(string name) {
 		return await File.ReadAllBytesAsync(Path.Combine(ImagesDir, name));
 	}
@@ -105,7 +104,9 @@ public class ImageService(
 	);
 
 	public void DeleteImage(string nameWithFormat) {
-		File.Delete(Path.Combine(ImagesDir, nameWithFormat));
+		foreach (var size in Sizes) {
+			File.Delete(Path.Combine(ImagesDir, $"{size}_{nameWithFormat}"));
+		}
 	}
 
 	public void DeleteImages(ICollection<string> images) {
@@ -114,13 +115,27 @@ public class ImageService(
 	}
 
 	public void DeleteImageIfExists(string nameWithFormat) {
-		if (File.Exists(Path.Combine(ImagesDir, nameWithFormat))) {
-			DeleteImage(nameWithFormat);
+		foreach (var size in Sizes) {
+			if (File.Exists(Path.Combine(ImagesDir, $"{size}_{nameWithFormat}"))) {
+				File.Delete(Path.Combine(ImagesDir, $"{size}_{nameWithFormat}"));
+			}
 		}
 	}
 
 	public void DeleteImagesIfExists(ICollection<string> images) {
 		foreach (var image in images)
 			DeleteImageIfExists(image);
+	}
+
+	private List<int> Sizes {
+		get {
+			List<int> sizes = configuration.GetRequiredSection("ImageSizes").Get<List<int>>()
+			?? throw new Exception("ImageSizes reading error");
+
+			if (sizes.Count == 0)
+				throw new Exception("ImageSizes not inicialized");
+
+			return sizes;
+		}
 	}
 }

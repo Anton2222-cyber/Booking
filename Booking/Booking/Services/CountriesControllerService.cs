@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Booking.Services.Interfaces;
 using Booking.ViewModels.Country;
+using Microsoft.EntityFrameworkCore;
 using Model.Context;
 using Model.Entities;
 
@@ -19,6 +20,27 @@ public class CountriesControllerService(
 		try {
 			await context.Countries.AddAsync(country);
 			await context.SaveChangesAsync();
+		}
+		catch (Exception) {
+			imageService.DeleteImageIfExists(country.Image);
+			throw;
+		}
+
+		return country;
+	}
+
+	public async Task<Country> UpdateAsync(UpdateCountryVm vm) {
+		Country country = await context.Countries.FirstAsync(c => c.Id == vm.Id);
+
+		string oldImage = country.Image;
+
+		try {
+			country.Name = vm.Name;
+			country.Image = await imageService.SaveImageAsync(vm.Image);
+
+			await context.SaveChangesAsync();
+
+			imageService.DeleteImageIfExists(oldImage);
 		}
 		catch (Exception) {
 			imageService.DeleteImageIfExists(country.Image);
