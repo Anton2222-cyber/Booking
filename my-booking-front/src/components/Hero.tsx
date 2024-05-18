@@ -1,4 +1,5 @@
 import { IconBed, IconCalendarWeek, IconMinus, IconUserFilled } from "@tabler/icons-react";
+import SelectPerson from "components/SelectPerson.tsx";
 import { Button } from "components/ui/Button.tsx";
 import { Input } from "components/ui/Input.tsx";
 import DatePicker from "react-datepicker";
@@ -68,11 +69,11 @@ const Hero = () => {
                         </div>
                     </div>
 
-                    <div className="relative">
+                    <div className="relative bg-white rounded-md  border border-white hover:border-yellow">
                         <div className="absolute h-full top-0 left-0 flex items-center justify-center px-2">
-                            <IconUserFilled className="text-lightgray" />
+                            <IconUserFilled className="text-lightgray z-50" />
                         </div>
-                        <Input placeholder="persons" />
+                        <SelectPerson />
                     </div>
                     <Button variant="primary" size="xl">
                         Шукати
