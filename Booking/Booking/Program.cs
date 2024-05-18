@@ -59,6 +59,13 @@ app.UseStaticFiles(new StaticFileOptions {
 	RequestPath = "/images"
 });
 
+app.UseCors(
+	configuration => configuration
+		.AllowAnyOrigin()
+		.AllowAnyHeader()
+		.AllowAnyMethod()
+);
+
 app.UseAuthorization();
 
 app.MapControllers();

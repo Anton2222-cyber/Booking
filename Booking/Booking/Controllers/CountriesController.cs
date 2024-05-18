@@ -6,7 +6,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
-using System.Diagnostics.Metrics;
 
 namespace Booking.Controllers;
 
