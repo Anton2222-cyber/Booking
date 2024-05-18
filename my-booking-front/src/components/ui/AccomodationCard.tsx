@@ -1,5 +1,4 @@
-import {IAccommodationCardProps} from "../../interfaces/cards/index.ts";
-import React from 'react';
+import React from "react";
 
 const AccommodationCard: React.FC<IAccommodationCardProps> = ({ imageSrc, title }) => {
     return (
