@@ -51,7 +51,7 @@ public class CountriesControllerService(
 	}
 
 	public async Task DeleteIfExistsAsync(long id) {
-		var country = await context.Countries.FirstAsync(c => c.Id == id);
+		var country = await context.Countries.FirstOrDefaultAsync(c => c.Id == id);
 
 		if (country is null)
 			return;
