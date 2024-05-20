@@ -1,35 +1,29 @@
+import Discount from "components/Discount.tsx";
 import Header from "components/Header.tsx";
 import Hero from "components/Hero.tsx";
+import Login from "pages/login";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
-import { useEffect } from "react";
+const RECAPTCHA_CLIENT_ID = import.meta.env.VITE_RECAPTCHA_CLIENT_ID;
 
 function App() {
-    useEffect(() => {
-        if (!navigator.geolocation) {
-        } else {
-            navigator.geolocation.getCurrentPosition((position) => {
-                console.log(position);
-            });
-        }
-    }, [location]);
+    // useEffect(() => {
+    //     if (!navigator.geolocation) {
+    //     } else {
+    //         navigator.geolocation.getCurrentPosition((position) => {
+    //             console.log(position);
+    //         });
+    //     }
+    // }, [location]);
 
     return (
         <>
-            <Header />
+            <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_CLIENT_ID}>
+                <Header />
+            </GoogleReCaptchaProvider>
             <Hero />
-            {/*<div>*/}
-            {/*    <div className="container mx-auto">*/}
-            {/*        <Button variant="primary" size="lg">*/}
-            {/*            Шукати помешкання для відпустки*/}
-            {/*        </Button>*/}
-
-            {/*        <div className="h-4"></div>*/}
-
-            {/*        <Button variant="primary" size="xl">*/}
-            {/*            Шукати*/}
-            {/*        </Button>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <Discount />
+            <Login/>
         </>
     );
 }
