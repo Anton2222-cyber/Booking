@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Booking.Services.Interfaces;
 using Booking.ViewModels.City;
 using Microsoft.EntityFrameworkCore;
@@ -9,69 +8,57 @@ using Model.Entities;
 namespace Booking.Services;
 
 public class CitiesControllerService(
-    DataContext context,
-    IMapper mapper,
-    IImageService imageService
-    ) : ICitiesControllerService
-{
-    public async Task<City> CreateAsync(CreateCityVm vm)
-    {
-        var city = mapper.Map<City>(vm);
-        city.Image = await imageService.SaveImageAsync(vm.Image);
+	DataContext context,
+	IMapper mapper,
+	IImageService imageService
+	) : ICitiesControllerService {
 
-        try
-        {
-            await context.Cities.AddAsync(city);
-            await context.SaveChangesAsync();
-        }
-        catch (Exception)
-        {
-            imageService.DeleteImageIfExists(city.Image);
-            throw;
-        }
+	public async Task CreateAsync(CreateCityVm vm) {
+		var city = mapper.Map<City>(vm);
+		city.Image = await imageService.SaveImageAsync(vm.Image);
 
-        return await context.Cities
-            .Include(c => c.Country)
-            .FirstAsync(c => c.Id == city.Id);
-    }
+		await context.Cities.AddAsync(city);
 
-    public async Task<City> UpdateAsync(UpdateCityVm vm)
-    {
-        City city = await context.Cities.FirstAsync(c => c.Id == vm.Id);
+		try {
+			await context.SaveChangesAsync();
+		}
+		catch (Exception) {
+			imageService.DeleteImageIfExists(city.Image);
+			throw;
+		}
+	}
 
-        string oldImage = city.Image;
+	public async Task UpdateAsync(UpdateCityVm vm) {
+		City city = await context.Cities.FirstAsync(c => c.Id == vm.Id);
 
-        try
-        {
-            city.Name = vm.Name;
-            city.Image = await imageService.SaveImageAsync(vm.Image);
-            city.Latitude = vm.Latitude;
-            city.Longitude = vm.Longitude;
-            city.CountryId = vm.CountryId;
+		string oldImage = city.Image;
 
-            await context.SaveChangesAsync();
+		city.Name = vm.Name;
+		city.Image = await imageService.SaveImageAsync(vm.Image);
+		city.Latitude = vm.Latitude;
+		city.Longitude = vm.Longitude;
+		city.CountryId = vm.CountryId;
 
-            imageService.DeleteImageIfExists(oldImage);
-        }
-        catch (Exception)
-        {
-            imageService.DeleteImageIfExists(city.Image);
-            throw;
-        }
+		try {
+			await context.SaveChangesAsync();
 
-        return city;
-    }
+			imageService.DeleteImageIfExists(oldImage);
+		}
+		catch (Exception) {
+			imageService.DeleteImageIfExists(city.Image);
+			throw;
+		}
+	}
 
-    public async Task DeleteIfExistsAsync(long id)
-    {
-        var city = await context.Cities.FirstOrDefaultAsync(c => c.Id == id);
+	public async Task DeleteIfExistsAsync(long id) {
+		var city = await context.Cities.FirstOrDefaultAsync(c => c.Id == id);
 
-        if (city is null)
-            return;
+		if (city is null)
+			return;
 
-        context.Cities.Remove(city);
-        await context.SaveChangesAsync();
+		context.Cities.Remove(city);
+		await context.SaveChangesAsync();
 
-        imageService.DeleteImageIfExists(city.Image);
-    }
+		imageService.DeleteImageIfExists(city.Image);
+	}
 }

@@ -1,11 +1,9 @@
 ﻿using Booking.ViewModels.City;
-using Model.Entities;
 
-namespace Booking.Services.Interfaces
-{
-    public interface ICitiesControllerService {
-        Task<City> CreateAsync(CreateCityVm vm);
-        Task<City> UpdateAsync(UpdateCityVm vm);
+namespace Booking.Services.Interfaces {
+	public interface ICitiesControllerService {
+        Task CreateAsync(CreateCityVm vm);
+        Task UpdateAsync(UpdateCityVm vm);
         Task DeleteIfExistsAsync(long id);
     }
 }
