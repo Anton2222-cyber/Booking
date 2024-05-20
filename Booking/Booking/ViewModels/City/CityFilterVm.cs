@@ -14,4 +14,6 @@ public class CityFilterVm : PaginationVm {
 	public double? MaxLatitude { get; set; }
 
 	public long? CountryId { get; set; }
+
+	public bool? IsRandomItems { get; set; }
 }
