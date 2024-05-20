@@ -12,3 +12,20 @@
         margin: 0;
     }
 }
+
+/*.swiper-button-next{*/
+/*    color: transparent;*/
+/*    z-index: 2;*/
+
+/*}*/
+
+/*.swiper-button-prev{*/
+/*    color: transparent;*/
+/*    z-index: 2;*/
+
+/*}*/
+
+.swiper-button-prev,
+.swiper-button-next {
+    display: none;
+}
