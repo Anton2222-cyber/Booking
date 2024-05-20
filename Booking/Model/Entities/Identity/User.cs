@@ -7,6 +7,8 @@ public class User : IdentityUser<long> {
 
 	public string LastName { get; set; } = null!;
 
+	public int Age { get; set; }
+
 	public string Photo { get; set; } = null!;
 
 	public virtual ICollection<UserRole> UserRoles { get; set; } = null!;
