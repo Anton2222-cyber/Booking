@@ -4,6 +4,7 @@ using Booking.Services;
 using Booking.Services.Interfaces;
 using Booking.Services.PaginationServices;
 using Booking.Validators.Country;
+using Booking.ViewModels.City;
 using Booking.ViewModels.Country;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,7 @@ builder.Services.AddTransient<IImageValidator, ImageValidator>();
 builder.Services.AddTransient<ICountriesControllerService, CountriesControllerService>();
 builder.Services.AddTransient<IPaginationService<CountryVm, CountryFilterVm>, CountryPaginationService>();
 builder.Services.AddTransient<ICitiesControllerService, CitiesControllerService>();
+builder.Services.AddTransient<IPaginationService<CityVm, CityFilterVm>, CityPaginationService>();
 
 
 
