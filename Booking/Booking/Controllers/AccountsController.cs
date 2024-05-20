@@ -3,6 +3,7 @@ using Booking.Constants;
 using Booking.Services;
 using Booking.Services.Interfaces;
 using Booking.ViewModels.Account;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Model.Entities.Identity;
@@ -16,7 +17,8 @@ public class AccountsController(
 	IJwtTokenService jwtTokenService,
 	IMapper mapper,
 	ImageService imageService,
-	IConfiguration configuration
+	IConfiguration configuration,
+	IValidator<RegisterVm> registerValidator
 	) : ControllerBase {
 
 	[HttpPost]
@@ -32,23 +34,20 @@ public class AccountsController(
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Registration([FromForm] RegisterVm model) {
-		if (await userManager.FindByEmailAsync(model.Email) is not null)
-			return BadRequest("The user with this email is already registered");
+	public async Task<IActionResult> Registration([FromForm] RegisterVm vm) {
+		var validationResult = await registerValidator.ValidateAsync(vm);
 
-		User user = mapper.Map<RegisterVm, User>(model);
+		if (!validationResult.IsValid)
+			return BadRequest(validationResult.Errors);
 
-		try {
-			user.Photo = await imageService.SaveImageAsync(model.Image);
-		}
-		catch (Exception) {
-			return BadRequest("Image error");
-		}
+		User user = mapper.Map<RegisterVm, User>(vm);
+
+		user.Photo = await imageService.SaveImageAsync(vm.Image);
 
 		try {
-			IdentityResult identityResult = await userManager.CreateAsync(user, model.Password);
+			IdentityResult identityResult = await userManager.CreateAsync(user, vm.Password);
 			if (!identityResult.Succeeded)
-				return BadRequest(identityResult.Errors.First().Description);
+				return BadRequest(identityResult.Errors);
 
 			identityResult = await userManager.AddToRoleAsync(user, Roles.User);
 
