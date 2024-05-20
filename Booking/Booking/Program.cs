@@ -35,9 +35,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCountryValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdateCountryValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<CreateCityValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdateCityValidator>();
 
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();

@@ -7,59 +7,66 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
 
-namespace Booking.Controllers
-{
-    [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class CitiesController(
-        DataContext context,
-        IMapper mapper,
-        IValidator<CreateCityVm> createValidator,
-        IValidator<UpdateCityVm> updateValidator,
-        ICitiesControllerService service
-        ) : ControllerBase {
+namespace Booking.Controllers {
+	[Route("api/[controller]/[action]")]
+	[ApiController]
+	public class CitiesController(
+		DataContext context,
+		IMapper mapper,
+		IValidator<CreateCityVm> createValidator,
+		IValidator<UpdateCityVm> updateValidator,
+		ICitiesControllerService service
+		) : ControllerBase {
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var cities = await context.Cities
-                .ProjectTo<CityVm>(mapper.ConfigurationProvider)
-                .ToArrayAsync();
+		[HttpGet]
+		public async Task<IActionResult> GetAll() {
+			var cities = await context.Cities
+				.ProjectTo<CityVm>(mapper.ConfigurationProvider)
+				.ToArrayAsync();
 
-            return Ok(cities);
-        }
+			return Ok(cities);
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateCityVm vm) 
-        {
-            var validationResult = await createValidator.ValidateAsync(vm);
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetById(long id) {
+			var countries = await context.Cities
+				.ProjectTo<CityVm>(mapper.ConfigurationProvider)
+				.FirstOrDefaultAsync(c => c.Id == id);
 
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors);
+			if (countries is null)
+				return NotFound();
 
-            var city = await service.CreateAsync(vm);
+			return Ok(countries);
+		}
 
-            return Ok(mapper.Map<CityVm>(city));
-        }
+		[HttpPost]
+		public async Task<IActionResult> Create([FromForm] CreateCityVm vm) {
+			var validationResult = await createValidator.ValidateAsync(vm);
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromForm] UpdateCityVm vm)
-        {
-            var validationResult = await updateValidator.ValidateAsync(vm);
+			if (!validationResult.IsValid)
+				return BadRequest(validationResult.Errors);
 
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors);
+			await service.CreateAsync(vm);
 
-            var city = await service.UpdateAsync(vm);
+			return Ok();
+		}
 
-            return Ok(mapper.Map<CityVm>(city));
-        }
+		[HttpPut]
+		public async Task<IActionResult> Update([FromForm] UpdateCityVm vm) {
+			var validationResult = await updateValidator.ValidateAsync(vm);
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
-        {
-            await service.DeleteIfExistsAsync(id);
-            return Ok();
-        }
-    }
+			if (!validationResult.IsValid)
+				return BadRequest(validationResult.Errors);
+
+			await service.UpdateAsync(vm);
+
+			return Ok();
+		}
+
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> Delete(long id) {
+			await service.DeleteIfExistsAsync(id);
+			return Ok();
+		}
+	}
 }
