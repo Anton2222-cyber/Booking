@@ -4,7 +4,7 @@ using Model.Entities;
 namespace Booking.Services.Interfaces;
 
 public interface ICountriesControllerService {
-	Task<Country> CreateAsync(CreateCountryVm vm);
-	Task<Country> UpdateAsync(UpdateCountryVm vm);
+	Task CreateAsync(CreateCountryVm vm);
+	Task UpdateAsync(UpdateCountryVm vm);
 	Task DeleteIfExistsAsync(long id);
 }

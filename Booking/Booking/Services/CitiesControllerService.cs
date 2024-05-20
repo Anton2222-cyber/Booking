@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Booking.Services.Interfaces;
 using Booking.ViewModels.City;
-using Booking.ViewModels.Country;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
 using Model.Entities;
@@ -30,7 +30,9 @@ public class CitiesControllerService(
             throw;
         }
 
-        return city;
+        return await context.Cities
+            .Include(c => c.Country)
+            .FirstAsync(c => c.Id == city.Id);
     }
 
     public async Task<City> UpdateAsync(UpdateCityVm vm)
@@ -70,6 +72,6 @@ public class CitiesControllerService(
         context.Cities.Remove(city);
         await context.SaveChangesAsync();
 
-        imageService?.DeleteImageIfExists(city.Image);
+        imageService.DeleteImageIfExists(city.Image);
     }
 }

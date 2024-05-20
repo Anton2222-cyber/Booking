@@ -13,31 +13,30 @@ public class CountriesControllerService(
 	IImageService imageService
 	) : ICountriesControllerService {
 
-	public async Task<Country> CreateAsync(CreateCountryVm vm) {
+	public async Task CreateAsync(CreateCountryVm vm) {
 		var country = mapper.Map<Country>(vm);
 		country.Image = await imageService.SaveImageAsync(vm.Image);
 
+		await context.Countries.AddAsync(country);
+
 		try {
-			await context.Countries.AddAsync(country);
 			await context.SaveChangesAsync();
 		}
 		catch (Exception) {
 			imageService.DeleteImageIfExists(country.Image);
 			throw;
 		}
-
-		return country;
 	}
 
-	public async Task<Country> UpdateAsync(UpdateCountryVm vm) {
+	public async Task UpdateAsync(UpdateCountryVm vm) {
 		Country country = await context.Countries.FirstAsync(c => c.Id == vm.Id);
 
 		string oldImage = country.Image;
 
-		try {
-			country.Name = vm.Name;
-			country.Image = await imageService.SaveImageAsync(vm.Image);
+		country.Name = vm.Name;
+		country.Image = await imageService.SaveImageAsync(vm.Image);
 
+		try {
 			await context.SaveChangesAsync();
 
 			imageService.DeleteImageIfExists(oldImage);
@@ -46,8 +45,6 @@ public class CountriesControllerService(
 			imageService.DeleteImageIfExists(country.Image);
 			throw;
 		}
-
-		return country;
 	}
 
 	public async Task DeleteIfExistsAsync(long id) {

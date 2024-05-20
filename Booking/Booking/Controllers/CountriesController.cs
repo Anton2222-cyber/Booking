@@ -28,6 +28,18 @@ public class CountriesController(
 		return Ok(countries);
 	}
 
+	[HttpGet("{id}")]
+	public async Task<IActionResult> GetById(long id) {
+		var countries = await context.Countries
+			.ProjectTo<CountryVm>(mapper.ConfigurationProvider)
+			.FirstOrDefaultAsync(c => c.Id == id);
+
+		if (countries is null)
+			return NotFound();
+
+		return Ok(countries);
+	}
+
 	[HttpPost]
 	public async Task<IActionResult> Create([FromForm] CreateCountryVm vm) {
 		var validationResult = await createValidator.ValidateAsync(vm);
@@ -35,9 +47,9 @@ public class CountriesController(
 		if (!validationResult.IsValid)
 			return BadRequest(validationResult.Errors);
 
-		var country = await service.CreateAsync(vm);
+		await service.CreateAsync(vm);
 
-		return Ok(mapper.Map<CountryVm>(country));
+		return Ok();
 	}
 
 	[HttpPut]
@@ -47,9 +59,9 @@ public class CountriesController(
 		if (!validationResult.IsValid)
 			return BadRequest(validationResult.Errors);
 
-		var country = await service.UpdateAsync(vm);
+		await service.UpdateAsync(vm);
 
-		return Ok(mapper.Map<CountryVm>(country));
+		return Ok();
 	}
 
 	[HttpDelete("{id}")]
