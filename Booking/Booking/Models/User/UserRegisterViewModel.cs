@@ -1,6 +1,6 @@
 ﻿namespace Booking.Models.User
 {
-    public class UserCreateViewModel
+    public class UserRegisterViewModel
     {
         public string Username { get; set; }
         public string FullName { get; set; }

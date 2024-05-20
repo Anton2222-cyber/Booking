@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking.Data.Entities
 {
+    [Table("Reviews")]
     public class ReviewEntity : BaseEntity<int>
     {
         [Key]

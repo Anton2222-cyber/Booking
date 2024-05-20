@@ -2,6 +2,7 @@ using Booking.Extensions;
 using Booking.Mapper;
 using Booking.Services;
 using Booking.Services.Interfaces;
+using Booking.Validators.City;
 using Booking.Validators.Country;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -34,10 +35,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCountryValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateCountryValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCityValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateCityValidator>();
 
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();
 builder.Services.AddTransient<ICountriesControllerService, CountriesControllerService>();
+builder.Services.AddTransient<ICitiesControllerService, CitiesControllerService>();
 
 
 

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking.Data.Entities
 {
+    [Table("Hotels")]
     public class HotelEntity : BaseEntity<int>
     {
         [Key]

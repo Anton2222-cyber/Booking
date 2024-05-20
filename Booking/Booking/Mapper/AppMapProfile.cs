@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Booking.ViewModels.City;
 using Booking.ViewModels.Country;
 using Model.Entities;
 
@@ -10,5 +11,8 @@ public class AppMapProfile : Profile {
 		CreateMap<CreateCountryVm, Country>()
 			.ForMember(c => c.Image, opt => opt.Ignore());
 
+		CreateMap<City, CityVm>();
+		CreateMap<CreateCityVm, City>()
+			.ForMember(c => c.Image, opt => opt.Ignore());
 	}
 }

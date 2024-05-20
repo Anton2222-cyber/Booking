@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking.Data.Entities
 {
-    [Table("tblBookings")]
+    [Table("Bookings")]
     public class BookingEntity : BaseEntity<int>
     {
         [Key]
@@ -17,7 +17,7 @@ namespace Booking.Data.Entities
         [ForeignKey("Room")]
         public int RoomId { get; set; }
         public virtual RoomEntity Room { get; set; }
-        [ForeignKey("BookingStatus")]
+        [ForeignKey("Status")]
         public int StatusId { get; set; }
         public virtual BookingStatusEntity Status { get; set; }
     }
