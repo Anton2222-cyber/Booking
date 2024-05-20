@@ -16,7 +16,8 @@ public class CountriesController(
 	IMapper mapper,
 	IValidator<CreateCountryVm> createValidator,
 	IValidator<UpdateCountryVm> updateValidator,
-	ICountriesControllerService service
+	ICountriesControllerService service,
+	IPaginationService<CountryVm, CountryFilterVm> pagination
 	) : ControllerBase {
 
 	[HttpGet]
@@ -26,6 +27,16 @@ public class CountriesController(
 			.ToArrayAsync();
 
 		return Ok(countries);
+	}
+
+	[HttpGet]
+	public async Task<IActionResult> GetPage([FromQuery] CountryFilterVm vm) {
+		try {
+			return Ok(await pagination.GetPageAsync(vm));
+		}
+		catch (Exception ex) {
+			return BadRequest(ex.Message);
+		}
 	}
 
 	[HttpGet("{id}")]
