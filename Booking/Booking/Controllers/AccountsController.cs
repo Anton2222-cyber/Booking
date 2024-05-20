@@ -6,6 +6,7 @@ using Booking.ViewModels.Account;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Model.Context;
 using Model.Entities.Identity;
 
 namespace Booking.Controllers;
@@ -13,10 +14,11 @@ namespace Booking.Controllers;
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class AccountsController(
+	DataContext context,
 	UserManager<User> userManager,
 	IJwtTokenService jwtTokenService,
 	IMapper mapper,
-	ImageService imageService,
+	IImageService imageService,
 	IConfiguration configuration,
 	IValidator<RegisterVm> registerValidator
 	) : ControllerBase {
@@ -44,24 +46,33 @@ public class AccountsController(
 
 		user.Photo = await imageService.SaveImageAsync(vm.Image);
 
+		using var transaction = await context.Database.BeginTransactionAsync();
+
 		try {
 			IdentityResult identityResult = await userManager.CreateAsync(user, vm.Password);
-			if (!identityResult.Succeeded)
-				return BadRequest(identityResult.Errors);
+			if (!identityResult.Succeeded) {
+				await transaction.RollbackAsync();
+
+				return StatusCode(500, identityResult.Errors);
+			}
 
 			identityResult = await userManager.AddToRoleAsync(user, Roles.User);
 
 			if (!identityResult.Succeeded) {
-				await userManager.DeleteAsync(user);
+				await transaction.RollbackAsync();
 				imageService.DeleteImageIfExists(user.Photo);
-				return BadRequest("Role assignment error");
+
+				return StatusCode(500, "Role assignment error");
 			}
+
+			await transaction.CommitAsync();
 
 			return Ok(new JwtTokenResponse {
 				Token = await jwtTokenService.CreateTokenAsync(user)
 			});
 		}
 		catch {
+			await transaction.RollbackAsync();
 			imageService.DeleteImageIfExists(user.Photo);
 			throw;
 		}

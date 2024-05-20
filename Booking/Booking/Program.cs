@@ -103,7 +103,9 @@ builder.Services.AddSwaggerGen(options => {
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCountryValidator>();
 
+builder.Services.AddTransient<IIdentitySeeder, IdentitySeeder>();
 builder.Services.AddTransient<IImageService, ImageService>();
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();
 builder.Services.AddTransient<ICountriesControllerService, CountriesControllerService>();
 builder.Services.AddTransient<IPaginationService<CountryVm, CountryFilterVm>, CountryPaginationService>();
@@ -138,10 +140,14 @@ app.UseCors(
 		.AllowAnyMethod()
 );
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 await app.MigrateAsync();
+using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateAsyncScope()) {
+	await scope.ServiceProvider.GetRequiredService<IIdentitySeeder>().SeedAsync();
+}
 
 app.Run();
