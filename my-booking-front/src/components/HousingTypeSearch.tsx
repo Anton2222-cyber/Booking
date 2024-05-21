@@ -9,7 +9,7 @@ const HousingTypeSearch = () => {
             <Label variant="title">Пошук за типом помешкання</Label>
 
             <Swiper id="swiper2" slidesPerView={4}>
-                {Array.from({ length: 25 }).map((_, index) => (
+                {Array.from({ length: 24 }).map((_, index) => (
                     <SwiperSlide key={index}>
                         <AccommodationTypeCard
                             title="Апартаменти"
