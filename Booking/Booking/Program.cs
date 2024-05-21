@@ -6,6 +6,7 @@ using Booking.Services.PaginationServices;
 using Booking.Validators.Country;
 using Booking.ViewModels.City;
 using Booking.ViewModels.Country;
+using Booking.ViewModels.Hotel;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -111,6 +112,8 @@ builder.Services.AddTransient<ICountriesControllerService, CountriesControllerSe
 builder.Services.AddTransient<IPaginationService<CountryVm, CountryFilterVm>, CountryPaginationService>();
 builder.Services.AddTransient<ICitiesControllerService, CitiesControllerService>();
 builder.Services.AddTransient<IPaginationService<CityVm, CityFilterVm>, CityPaginationService>();
+builder.Services.AddTransient<IHotelControllerService, HotelControllerService>();
+builder.Services.AddTransient<IPaginationService<HotelVm, HotelFilterVm>, HotelPaginationService>();
 
 
 
