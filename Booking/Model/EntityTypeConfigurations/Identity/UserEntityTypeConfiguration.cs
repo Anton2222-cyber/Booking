@@ -14,9 +14,6 @@ internal class UserEntityTypeConfiguration : IEntityTypeConfiguration<User> {
 			.IsRequired()
 			.HasMaxLength(100);
 
-		builder.Property(u => u.Age)
-			.IsRequired();
-
 		builder.Property(u => u.Photo)
 			.IsRequired()
 			.HasMaxLength(200);

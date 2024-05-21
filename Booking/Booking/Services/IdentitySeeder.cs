@@ -49,7 +49,6 @@ public class IdentitySeeder(
 		var user = new User {
 			FirstName = "Олег",
 			LastName = "Ольжич",
-			Age = 18,
 			Email = configuration["Admin:Email"]
 				?? throw new NullReferenceException("Admin:Email"),
 			UserName = "admin",
