@@ -29,9 +29,11 @@ const Header = () => {
                             Зареєструватися
                         </Button>
 
-                        <Button variant="secondary" size="sm">
-                            Увійти
-                        </Button>
+                        <Link to={"auth/login"}>
+                            <Button variant="secondary" size="sm">
+                                Увійти
+                            </Button>
+                        </Link>
                     </div>
                 </div>
 

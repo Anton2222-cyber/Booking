@@ -48,7 +48,7 @@ const Hero: React.FC<IHeroProps> = (props) => {
                             >
                                 <IconBed className="text-lightgray" />
                             </label>
-                            <Input id="destination" placeholder="Куди ви вирушаєте?" />
+                            <Input variant="withIcon" id="destination" placeholder="Куди ви вирушаєте?" />
                         </div>
 
                         <div className="  flex bg-white rounded-md  border border-white hover:border-yellow">

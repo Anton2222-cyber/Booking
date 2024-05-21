@@ -1,13 +1,11 @@
-﻿namespace Booking.Constants
-{
-    public static class Roles
-    {
-        public static List<string> All = new()
-        {
-            Admin,
-            User
-        };
-        public const string Admin = "admin";
-        public const string User = "user";
-    }
+﻿namespace Booking.Constants;
+
+public static class Roles {
+	public const string Admin = "Admin";
+	public const string User = "User";
+
+	public static readonly IReadOnlyList<string> All = [
+		Admin,
+		User
+	];
 }

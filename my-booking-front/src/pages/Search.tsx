@@ -11,7 +11,7 @@ const SearchPage = () => {
                 title={"Знайдіть ідеальне помешкання для відпустки"}
                 subtitle={"Знайдіть помешкання для відпустки, які вам сподобаються найбільше"}
                 isButton={false}
-                img={"assets/searchHero.jpg"}
+                img={"../../public/searchHero.jpg"}
             />
 
             <AccommodationBlock title={"Гості люблять ці приватні помешкання"}>
