@@ -23,7 +23,7 @@ const Hero: React.FC<IHeroProps> = (props) => {
     const [endDate, setEndDate] = useState<Date | null>(null);
 
     return (
-        <div className={`h-96 bg-[url('${img}')] bg-cover`}>
+        <div className={`h-96 bg-cover ${img}`}>
             <div className=" h-full container mx-auto">
                 <div className="relative h-full grid grid-cols-2 pt-12 pb-24">
                     <div className="text-white col-span-1 flex flex-col justify-between">

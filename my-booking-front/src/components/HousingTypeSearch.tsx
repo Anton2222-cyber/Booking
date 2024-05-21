@@ -8,8 +8,8 @@ const HousingTypeSearch = () => {
         <div className="flex flex-col container mx-auto mt-5 gap-2">
             <Label variant="title">Пошук за типом помешкання</Label>
 
-            <Swiper slidesPerView={4}>
-                {Array.from({ length: 4 }).map((_, index) => (
+            <Swiper id="swiper2" slidesPerView={4}>
+                {Array.from({ length: 25 }).map((_, index) => (
                     <SwiperSlide key={index}>
                         <AccommodationTypeCard
                             title="Апартаменти"

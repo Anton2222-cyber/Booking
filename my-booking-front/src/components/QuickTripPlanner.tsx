@@ -22,7 +22,7 @@ const QuickTripPlanner = () => {
                 </Button>
             </div>
 
-            <Swiper slidesPerView={5}>
+            <Swiper id="swiper1" slidesPerView={5}>
                 {Array.from({ length: 25 }).map((_, index) => (
                     <SwiperSlide key={index}>
                         <CityCard cityName="Київ" geolocation={50} imageSrc="https://picsum.photos/500/700" />

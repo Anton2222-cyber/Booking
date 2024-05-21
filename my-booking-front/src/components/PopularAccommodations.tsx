@@ -10,7 +10,7 @@ const PopularAccommodations = () => {
                 <Label variant="title">Забронюйте наші найпопулярніші унікальні помешкання</Label>
                 <Label variant="subtitle">Від замків і вілл до ботелів та іглу – у нас є все</Label>
             </div>
-            <Swiper slidesPerView={4}>
+            <Swiper id="swiper3" slidesPerView={4}>
                 {Array.from({ length: 20 }).map((_, index) => (
                     <SwiperSlide key={index}>
                         <AccommodationCard
