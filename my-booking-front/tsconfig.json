@@ -28,6 +28,7 @@
       "constants/*": ["constants/*"],
       "assets/*": ["assets/*"],
       "hooks/*": ["hooks/*"],
+      "data/*": ["data/*"],
       "pages/*": ["pages/*"],
       "services/*": ["services/*"],
       "store/*": ["store/*"],

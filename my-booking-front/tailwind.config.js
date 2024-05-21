@@ -2,9 +2,13 @@
 export default {
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
     theme: {
+        container: {
+            padding: "5rem",
+        },
         extend: {},
         colors: {
             blue: "#003b95",
+            red: "#A30000",
             lightblue: "#1A4FA0",
             white: "#ffffff",
             sky: "#006ce4",

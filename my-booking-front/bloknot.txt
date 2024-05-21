@@ -1,0 +1,57 @@
+import Discount from "components/Discount.tsx";
+import Header from "components/Header.tsx";
+import Hero from "components/Hero.tsx";
+import Login from "pages/login";
+
+import { useEffect, useState } from "react";
+
+interface ILocation {
+    latitude: number;
+    longitude: number;
+}
+
+function App() {
+    const [location, setLocation] = useState<ILocation | null>(null);
+
+    useEffect(() => {
+        if (!navigator.geolocation) {
+        } else {
+            navigator.geolocation.getCurrentPosition((position) => {
+                setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+            });
+        }
+    }, []);
+
+    console.log(location);
+
+    function getLocationInfo(latitude: number, longitude: number) {
+        const url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude},${longitude}&key=1d6b54ce8f0047e1ac3f3688f3e28b7d`;
+        fetch(url)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                if (data.status.code === 200) {
+                    console.log("results:", data.results);
+                    setLocation(data.results[0].formatted);
+                } else {
+                    console.log("Reverse geolocation request failed.");
+                }
+            })
+            .catch((error) => console.error(error));
+    }
+
+    if (location) {
+        console.log(getLocationInfo(location.latitude, location.longitude));
+    }
+
+    return (
+        <>
+            <Header />
+            <Hero />
+            <Discount />
+            <Login />
+        </>
+    );
+}
+
+export default App;
