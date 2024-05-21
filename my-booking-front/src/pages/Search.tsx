@@ -11,10 +11,10 @@ const SearchPage = () => {
                 title={"Знайдіть ідеальне помешкання для відпустки"}
                 subtitle={"Знайдіть помешкання для відпустки, які вам сподобаються найбільше"}
                 isButton={false}
-                img={"../../public/searchHero.jpg"}
+                img={"bg-hero-search"}
             />
 
-            <AccommodationBlock title={"Гості люблять ці приватні помешкання"}>
+            <AccommodationBlock id="swiper4" title={"Гості люблять ці приватні помешкання"}>
                 {Array.from({ length: 20 }).map((_, index) => (
                     <SwiperSlide key={index}>
                         <AccommodationSearchCard
@@ -30,6 +30,7 @@ const SearchPage = () => {
             </AccommodationBlock>
 
             <AccommodationBlock
+                id="swiper5"
                 title={"Додаткові послуги"}
                 subtitle={"Стійка реєстрації заїзду, прибирання тощо"}
             >
@@ -48,6 +49,7 @@ const SearchPage = () => {
             </AccommodationBlock>
 
             <AccommodationBlock
+                id="swiper6"
                 title={"Весь простір лише для вас"}
                 subtitle={"Окремі приватні помешкання й житло цілком"}
             >
@@ -66,6 +68,7 @@ const SearchPage = () => {
             </AccommodationBlock>
 
             <AccommodationBlock
+                id="swiper7"
                 title={"Для вашої поїздки з друзями"}
                 subtitle={"Хороша оцінка від груп мандрівників"}
             >
@@ -84,6 +87,7 @@ const SearchPage = () => {
             </AccommodationBlock>
 
             <AccommodationBlock
+                id="swiper8"
                 title={"Для поїздки на будь-який строк"}
                 subtitle={"Приватні помешкання, де є все необхідне"}
             >

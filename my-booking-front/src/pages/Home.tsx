@@ -14,7 +14,7 @@ const HomePage = () => {
                 subtitle={"Розслабтеся в будинку для відпочинку"}
                 isButton={true}
                 path={"/search-accommodation"}
-                img={"../../public/homeHero.jpeg"}
+                img="bg-hero-home"
             />
             <Discount />
             <QuickTripPlanner />

@@ -5,7 +5,12 @@ export default {
         container: {
             padding: "5rem",
         },
-        extend: {},
+        extend: {
+            backgroundImage: {
+                "hero-home": "url('/assets/homeHero.jpeg')",
+                "hero-search": "url('/assets/searchHero.jpg')",
+            },
+        },
         colors: {
             blue: "#003b95",
             red: "#A30000",
