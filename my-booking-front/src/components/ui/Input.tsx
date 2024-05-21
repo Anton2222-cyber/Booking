@@ -4,11 +4,12 @@ import { classNames } from "utils/classNames.ts";
 import * as React from "react";
 
 const inputVariants = cva(
-    "text-sm w-full placeholder:text-lightgray font-bold h-full rounded-md ps-10 outline-none border border-white hover:border-yellow",
+    "text-sm w-full placeholder:text-lightgray font-bold h-full rounded-md  outline-none border ",
     {
         variants: {
             variant: {
-                default: "",
+                default: "w-full p-3 border border-gray-300 rounded font-normal",
+                withIcon: "ps-10 border-white hover:border-yellow",
             },
         },
         defaultVariants: {

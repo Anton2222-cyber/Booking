@@ -17,7 +17,7 @@ const Swiper: React.FC<ISwiperProps> = (props) => {
     const { slidesPerView, children } = props;
 
     return (
-        <div className="swiper-container relative container mx-auto m-0 p-0">
+        <div className="swiper-container relative container mx-auto p-0">
             <SwiperReact
                 modules={[Navigation]}
                 loop={true}
@@ -27,7 +27,7 @@ const Swiper: React.FC<ISwiperProps> = (props) => {
                 }}
                 spaceBetween={15}
                 slidesPerView={slidesPerView}
-                className="swiper-wrapper"
+                className="swiper-wrapper bg-transparent pb-4"
             >
                 {children}
             </SwiperReact>

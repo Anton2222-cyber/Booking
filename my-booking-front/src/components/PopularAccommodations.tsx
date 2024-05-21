@@ -1,5 +1,5 @@
 import Swiper from "components/Swiper.tsx";
-import AccommodationCard from "components/ui/AccomodationCard.tsx";
+import AccommodationCard from "components/cards/AccomodationCard.tsx";
 import Label from "components/ui/Label.tsx";
 import { SwiperSlide } from "swiper/react";
 

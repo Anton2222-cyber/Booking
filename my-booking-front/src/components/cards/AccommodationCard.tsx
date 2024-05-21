@@ -1,15 +1,14 @@
+import { getRatingDescription } from "utils/getRating.ts";
 
-import React from 'react';
+import React from "react";
 
-const getRatingDescription = (rating: number): string => {
-    if (rating >= 9.5) return 'Відмінно';
-    if (rating >= 9.0) return 'Чудово';
-    if (rating < 9.0) return 'Блискуче';
-
-    return 'Задовільно';
-};
-
-const AccommodationCard: React.FC<IAccommodationCardProps> = ({ imageSrc, name, location, rating, numberOfReviews }) => {
+const AccommodationCard: React.FC<IAccommodationCardProps> = ({
+    imageSrc,
+    name,
+    location,
+    rating,
+    numberOfReviews,
+}) => {
     const ratingDescription = getRatingDescription(rating);
 
     return (

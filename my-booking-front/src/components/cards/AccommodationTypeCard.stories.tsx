@@ -1,5 +1,5 @@
 import { Meta } from "@storybook/react";
-import AccommodationTypeCard from "components/ui/AccommodationTypeCard.tsx";
+import AccommodationTypeCard from "components/cards/AccommodationTypeCard.tsx";
 
 const meta: Meta<typeof AccommodationTypeCard> = {
     component: AccommodationTypeCard,

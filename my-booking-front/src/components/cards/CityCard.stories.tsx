@@ -1,5 +1,5 @@
 import { Meta } from "@storybook/react";
-import CityCard from "components/ui/CityCard.tsx";
+import CityCard from "components/cards/CityCard.tsx";
 
 const meta: Meta<typeof CityCard> = {
     component: CityCard,

@@ -2,15 +2,16 @@ import { IconBed, IconHelp, IconPlane } from "@tabler/icons-react";
 import bookingLogo from "assets/booking.svg";
 import ukraineFlag from "assets/ukraine-flag.svg";
 import { Button } from "components/ui/Button.tsx";
+import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
         <div className="bg-blue py-4">
             <div className="container mx-auto">
                 <div className="flex items-center justify-between">
-                    <a href="/">
+                    <Link to="/">
                         <img src={bookingLogo} className="w-36" alt="Booking logo" />
-                    </a>
+                    </Link>
                     <div className="flex items-center gap-2">
                         <Button variant="transparent">UAH</Button>
 
@@ -28,9 +29,11 @@ const Header = () => {
                             Зареєструватися
                         </Button>
 
-                        <Button variant="secondary" size="sm">
-                            Увійти
-                        </Button>
+                        <Link to={"auth/login"}>
+                            <Button variant="secondary" size="sm">
+                                Увійти
+                            </Button>
+                        </Link>
                     </div>
                 </div>
 

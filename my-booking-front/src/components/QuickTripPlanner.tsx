@@ -1,7 +1,7 @@
 import { IconHeart } from "@tabler/icons-react";
 import Swiper from "components/Swiper.tsx";
+import CityCard from "components/cards/CityCard.tsx";
 import { Button } from "components/ui/Button.tsx";
-import CityCard from "components/ui/CityCard.tsx";
 import Label from "components/ui/Label.tsx";
 import { SwiperSlide } from "swiper/react";
 
