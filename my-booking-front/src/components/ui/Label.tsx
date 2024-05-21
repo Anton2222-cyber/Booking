@@ -7,6 +7,7 @@ const labelVariants = cva("flex font-main", {
     variants: {
         variant: {
             default: "",
+            extra: "text-black font-bold text-3xl",
             title: "text-black font-bold text-2xl",
             subtitle: "text-lightgray text-md",
         },

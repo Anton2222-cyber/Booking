@@ -4,29 +4,40 @@ import { Button } from "components/ui/Button.tsx";
 import { Input } from "components/ui/Input.tsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Link } from "react-router-dom";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
-const Hero = () => {
+interface IHeroProps {
+    title: string;
+    subtitle: string;
+    isButton: boolean;
+    path?: string;
+    img: string;
+}
+
+const Hero: React.FC<IHeroProps> = (props) => {
+    const { title, subtitle, isButton, img, path } = props;
+
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
 
     return (
-        <div className="h-96 bg-[url('assets/hero.jpeg')] bg-cover">
+        <div className={`h-96 bg-[url('${img}')] bg-cover`}>
             <div className=" h-full container mx-auto">
                 <div className="relative h-full grid grid-cols-2 pt-12 pb-24">
                     <div className="text-white col-span-1 flex flex-col justify-between">
-                        <h1 className="text-5xl font-bold">Візьміть із собою всю коробку з іграшками</h1>
-
-                        <h3 className="col-span-1 text-white text-3xl">
-                            Розслабтеся в будинку для відпочинку
-                        </h3>
-
                         <div>
-                            <Button variant="primary" size="lg">
-                                Шукати помешкання для відпустки
-                            </Button>
+                            <h1 className="text-5xl font-bold mb-4">{title}</h1>
+                            <h3 className="col-span-1 text-white text-3xl">{subtitle}</h3>
                         </div>
+                        {isButton && (
+                            <Link to={path || "/"}>
+                                <Button variant="primary" size="lg">
+                                    Шукати помешкання для відпустки
+                                </Button>
+                            </Link>
+                        )}
                     </div>
 
                     <div className="absolute -bottom-6 left-0 right-0 bg-yellow p-1 rounded-md flex gap-1">

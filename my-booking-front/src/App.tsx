@@ -1,28 +1,16 @@
-import BannerLoginAdvantages from "components/BannerLoginAdvantages.tsx";
-import BottomNavigation from "components/BottomNavigation.tsx";
-import Discount from "components/Discount.tsx";
-import Footer from "components/Footer.tsx";
-import Header from "components/Header.tsx";
-import Hero from "components/Hero.tsx";
-import HousingTypeSearch from "components/HousingTypeSearch.tsx";
-import NextTripSearchBanner from "components/NextTripSearchBanner.tsx";
-import PopularAccommodations from "components/PopularAccommodations.tsx";
-import QuickTripPlanner from "components/QuickTripPlanner.tsx";
+import Layout from "components/layout/Layout.tsx";
+import HomePage from "pages/Home.tsx";
+import SearchPage from "pages/Search.tsx";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
     return (
-        <>
-            <Header />
-            <Hero />
-            <Discount />
-            <QuickTripPlanner />
-            <HousingTypeSearch />
-            <PopularAccommodations />
-            <NextTripSearchBanner />
-            <BannerLoginAdvantages />
-            <BottomNavigation />
-            <Footer />
-        </>
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                <Route index element={<HomePage />} />
+                <Route path="search-accommodation" element={<SearchPage />} />
+            </Route>
+        </Routes>
     );
 }
 
