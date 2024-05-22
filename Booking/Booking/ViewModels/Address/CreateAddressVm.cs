@@ -1,11 +1,9 @@
-﻿namespace Booking.ViewModels.Address
-{
-    public class CreateAddressVm
-    {
-        public string Street { get; set; } = null!;
+﻿namespace Booking.ViewModels.Address;
 
-        public string HouseNumber { get; set; } = null!;
+public class CreateAddressVm {
+	public string Street { get; set; } = null!;
 
-        public long CityId { get; set; }
-    }
+	public string HouseNumber { get; set; } = null!;
+
+	public long CityId { get; set; }
 }

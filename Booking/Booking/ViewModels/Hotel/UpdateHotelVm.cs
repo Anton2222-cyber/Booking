@@ -1,22 +1,17 @@
 ﻿using Booking.ViewModels.Address;
-using Booking.ViewModels.HotelPhoto;
 
-namespace Booking.ViewModels.Hotel
-{
-    public class UpdateHotelVm
-    {
-        public long Id { get; set; }
+namespace Booking.ViewModels.Hotel;
 
-        public string Name { get; set; } = null!;
+public class UpdateHotelVm {
+	public long Id { get; set; }
 
-        public string Description { get; set; } = null!;
+	public string Name { get; set; } = null!;
 
-        public double Rating { get; set; }
+	public string Description { get; set; } = null!;
 
-        public string Street { get; set; } = null!;
+	public double Rating { get; set; }
 
-        public string HouseNumber { get; set; } = null!;
+	public UpdateAddressVm Address { get; set; } = null!;
 
-        public long CityId { get; set; }
-    }
+	public IEnumerable<IFormFile> Photos { get; set; } = null!;
 }

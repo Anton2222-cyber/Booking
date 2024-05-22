@@ -1,9 +1,7 @@
 ﻿using Booking.ViewModels.Country;
-using Model.Entities;
 
-namespace Booking.ViewModels.City
-{
-    public class CityVm
+namespace Booking.ViewModels.City {
+	public class CityVm
     {
         public long Id { get; set; }
 
