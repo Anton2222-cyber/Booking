@@ -16,3 +16,13 @@ interface IAccommodationCardProps {
     rating: number;
     numberOfReviews: number;
 }
+
+interface IHotelCardProps {
+    hotelName: string;
+    description: string;
+    location: string;
+    distanceFromCenter: number;
+    imageUrl: string;
+    rating: number;
+    reviewCount: number;
+}
