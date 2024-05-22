@@ -5,5 +5,7 @@
         public IFormFile Image { get; set; } = null!;
 
         public int Priority { get; set; }
+
+        public long HotelId { get; set; }
     }
 }
