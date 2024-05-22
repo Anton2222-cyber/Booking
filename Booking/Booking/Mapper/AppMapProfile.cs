@@ -4,7 +4,6 @@ using Booking.ViewModels.Address;
 using Booking.ViewModels.City;
 using Booking.ViewModels.Country;
 using Booking.ViewModels.Hotel;
-using Booking.ViewModels.HotelPhoto;
 using Model.Entities;
 using Model.Entities.Identity;
 
@@ -24,17 +23,16 @@ public class AppMapProfile : Profile {
 
 		CreateMap<Address, AddressVm>();
 		CreateMap<CreateAddressVm, Address>();
+		CreateMap<UpdateAddressVm, Address>();
 
 		CreateMap<HotelPhoto, HotelPhotoVm>();
-		CreateMap<CreateHotelPhotoVm, HotelPhoto>()
-			.ForMember(c => c.Name, opt => opt.Ignore());
 
 		CreateMap<Hotel, HotelVm>();
-		CreateMap<CreateHotelVm, Hotel>();
+		CreateMap<CreateHotelVm, Hotel>()
+			.ForMember(h => h.Photos, opt => opt.Ignore());
+
 		CreateMap<UpdateHotelVm, Hotel>();
 
 		CreateMap<HotelPhoto, HotelPhotoVm>();
-		CreateMap<CreateHotelPhotoVm, HotelPhoto>()
-            .ForMember(c => c.Name, opt => opt.Ignore());
-    }
+	}
 }
