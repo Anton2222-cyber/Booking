@@ -16,7 +16,7 @@ public class ImageValidator : IImageValidator {
 		}
 	}
 
-	public async Task<bool> IsValidImagesAsync(ICollection<IFormFile> images, CancellationToken cancellationToken) {
+	public async Task<bool> IsValidImagesAsync(IEnumerable<IFormFile> images, CancellationToken cancellationToken) {
 		var tasts = images.Select(i => IsValidImageAsync(i, cancellationToken));
 
 		var results = await Task.WhenAll(tasts);
