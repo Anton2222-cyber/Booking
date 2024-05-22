@@ -20,11 +20,16 @@ interface IHeroProps {
 const Hero: React.FC<IHeroProps> = (props) => {
     const { title, subtitle, isButton, img, path } = props;
 
-    const [destination, setDestination] = useState<string>("");
     const [isFocused, setIsFocused] = useState<boolean>(false);
+
+    const [destination, setDestination] = useState<string>("");
 
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
+
+    const [adults, setAdults] = useState<number>(1);
+    const [rooms, setRooms] = useState<number>(1);
+    const [children, setChildren] = useState<number>(0);
 
     return (
         <div className={`h-96 bg-cover ${img}`}>
@@ -108,7 +113,14 @@ const Hero: React.FC<IHeroProps> = (props) => {
                             <div className="absolute h-full top-0 left-0 flex items-center justify-center px-2">
                                 <IconUserFilled className="text-lightgray z-50" />
                             </div>
-                            <SelectPerson />
+                            <SelectPerson
+                                adults={adults}
+                                children={children}
+                                rooms={rooms}
+                                setAdults={setAdults}
+                                setChildren={setChildren}
+                                setRooms={setRooms}
+                            />
                         </div>
                         <Button variant="primary" size="xl">
                             Шукати
