@@ -33,7 +33,8 @@
       "services/*": ["services/*"],
       "store/*": ["store/*"],
       "types/*": ["types/*"],
-      "utils/*": ["utils/*"]
+      "utils/*": ["utils/*"],
+      "interfaces/*": ["interfaces/*"]
     }
   },
   "include": ["src"],

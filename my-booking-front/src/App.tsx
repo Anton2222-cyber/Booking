@@ -5,8 +5,27 @@ import LoginPage from "pages/Login.tsx";
 import SearchPage from "pages/Search.tsx";
 import SearchWithParamsPage from "pages/SearchWithParams.tsx";
 import { Route, Routes } from "react-router-dom";
+import { useAppDispatch } from "store/index.ts";
+import { setLocation } from "store/slice/userSlice.ts";
+
+import { useEffect } from "react";
 
 function App() {
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (!navigator.geolocation) {
+        } else {
+            navigator.geolocation.getCurrentPosition((position) => {
+                dispatch(
+                    setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
+                );
+            });
+        }
+    }, []);
+
+    console.log(location);
+
     return (
         <Routes>
             <Route path="/" element={<Layout />}>
