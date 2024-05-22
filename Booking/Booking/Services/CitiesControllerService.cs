@@ -44,7 +44,7 @@ public class CitiesControllerService(
 
 			imageService.DeleteImageIfExists(oldImage);
 		}
-		catch (Exception) {
+		catch {
 			imageService.DeleteImageIfExists(city.Image);
 			throw;
 		}

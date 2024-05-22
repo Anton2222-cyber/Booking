@@ -120,10 +120,10 @@ builder.Services.AddTransient<IPaginationService<HotelVm, HotelFilterVm>, HotelP
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) {
-	app.UseSwagger();
-	app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment()) {
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 
 string imagesDirPath = app.Services.GetRequiredService<IImageService>().ImagesDir;
 

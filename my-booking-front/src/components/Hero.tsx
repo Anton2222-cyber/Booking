@@ -1,4 +1,5 @@
 import { IconBed, IconCalendarWeek, IconMinus, IconUserFilled } from "@tabler/icons-react";
+import SearchCityAutocomplete from "components/SearchCityAutocomplete.tsx";
 import SelectPerson from "components/SelectPerson.tsx";
 import { Button } from "components/ui/Button.tsx";
 import { Input } from "components/ui/Input.tsx";
@@ -18,6 +19,9 @@ interface IHeroProps {
 
 const Hero: React.FC<IHeroProps> = (props) => {
     const { title, subtitle, isButton, img, path } = props;
+
+    const [destination, setDestination] = useState<string>("");
+    const [isFocused, setIsFocused] = useState<boolean>(false);
 
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
@@ -41,14 +45,31 @@ const Hero: React.FC<IHeroProps> = (props) => {
                     </div>
 
                     <div className="absolute -bottom-6 left-0 right-0 bg-yellow p-1 rounded-md flex gap-1">
-                        <div className="relative flex-grow">
+                        <div
+                            onMouseDown={() => setIsFocused(true)}
+                            onBlur={() => setIsFocused(false)}
+                            className="relative flex-grow"
+                        >
                             <label
                                 htmlFor="destination"
                                 className="absolute h-full top-0 left-0 flex items-center justify-center px-2"
                             >
                                 <IconBed className="text-lightgray" />
                             </label>
-                            <Input variant="withIcon" id="destination" placeholder="Куди ви вирушаєте?" />
+                            <Input
+                                value={destination}
+                                variant="withIcon"
+                                id="destination"
+                                placeholder="Куди ви вирушаєте?"
+                                onChange={(e) => setDestination(e.target.value)}
+                            />
+                            {isFocused && (
+                                <SearchCityAutocomplete
+                                    setIsFocused={setIsFocused}
+                                    destination={destination}
+                                    setDestination={setDestination}
+                                />
+                            )}
                         </div>
 
                         <div className="  flex bg-white rounded-md  border border-white hover:border-yellow">

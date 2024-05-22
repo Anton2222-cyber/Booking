@@ -1,21 +1,17 @@
 ﻿using Booking.ViewModels.Address;
-using Booking.ViewModels.HotelPhoto;
-using Model.Entities;
 
-namespace Booking.ViewModels.Hotel
-{
-    public class HotelVm
-    {
-        public long Id { get; set; }
+namespace Booking.ViewModels.Hotel;
 
-        public string Name { get; set; } = null!;
+public class HotelVm {
+	public long Id { get; set; }
 
-        public string Description { get; set; } = null!;
+	public string Name { get; set; } = null!;
 
-        public double Rating { get; set; }
+	public string Description { get; set; } = null!;
 
-        public AddressVm Address { get; set; } = null!;
+	public double Rating { get; set; }
 
-        public IEnumerable<HotelPhotoVm> Photos { get; set; } = null!;
-    }
+	public AddressVm Address { get; set; } = null!;
+
+	public IEnumerable<HotelPhotoVm> Photos { get; set; } = null!;
 }

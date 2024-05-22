@@ -16,7 +16,7 @@ public class ImageService(
 		return fileName;
 	}
 
-	public async Task<List<string>> SaveImagesAsync(ICollection<IFormFile> images) {
+	public async Task<List<string>> SaveImagesAsync(IEnumerable<IFormFile> images) {
 		List<string> result = [];
 
 		try {
@@ -77,7 +77,7 @@ public class ImageService(
 		}
 	}
 
-	public async Task<List<string>> SaveImagesAsync(ICollection<byte[]> bytesArray) {
+	public async Task<List<string>> SaveImagesAsync(IEnumerable<byte[]> bytesArray) {
 		List<string> result = [];
 
 		try {
@@ -109,7 +109,7 @@ public class ImageService(
 		}
 	}
 
-	public void DeleteImages(ICollection<string> images) {
+	public void DeleteImages(IEnumerable<string> images) {
 		foreach (var image in images)
 			DeleteImage(image);
 	}
@@ -122,7 +122,7 @@ public class ImageService(
 		}
 	}
 
-	public void DeleteImagesIfExists(ICollection<string> images) {
+	public void DeleteImagesIfExists(IEnumerable<string> images) {
 		foreach (var image in images)
 			DeleteImageIfExists(image);
 	}

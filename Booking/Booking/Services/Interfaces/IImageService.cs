@@ -6,12 +6,12 @@ public interface IImageService
 
     void DeleteImage(string nameWithFormat);
     void DeleteImageIfExists(string nameWithFormat);
-    void DeleteImages(ICollection<string> images);
-    void DeleteImagesIfExists(ICollection<string> images);
+    void DeleteImages(IEnumerable<string> images);
+    void DeleteImagesIfExists(IEnumerable<string> images);
     Task<byte[]> LoadBytesAsync(string name);
     Task<string> SaveImageAsync(byte[] bytes);
     Task<string> SaveImageAsync(IFormFile image);
     Task<string> SaveImageAsync(string base64);
-    Task<List<string>> SaveImagesAsync(ICollection<byte[]> bytesArray);
-    Task<List<string>> SaveImagesAsync(ICollection<IFormFile> images);
+    Task<List<string>> SaveImagesAsync(IEnumerable<byte[]> bytesArray);
+    Task<List<string>> SaveImagesAsync(IEnumerable<IFormFile> images);
 }
