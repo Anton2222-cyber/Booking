@@ -17,6 +17,7 @@ export default defineConfig({
             store: "/src/store",
             types: "/src/types",
             utils: "/src/utils",
+            interfaces: "/src/interfaces",
         },
     },
 });
