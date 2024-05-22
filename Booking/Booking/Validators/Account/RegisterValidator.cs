@@ -42,12 +42,6 @@ public class RegisterValidator : AbstractValidator<RegisterVm> {
 			.MaximumLength(100)
 				.WithMessage("LastName is too long");
 
-		RuleFor(r => r.Age)
-			.GreaterThanOrEqualTo(0)
-				.WithMessage("Invalid age")
-			.LessThanOrEqualTo(100)
-				.WithMessage("Too old");
-
 		RuleFor(r => r.Image)
 			.NotNull()
 				.WithMessage("Image is not selected")
