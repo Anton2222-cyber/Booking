@@ -5,11 +5,11 @@ import CityCard from "components/cards/CityCard.tsx";
 import CityCardSkeleton from "components/cards/CityCardSkeleton.tsx";
 import { Button } from "components/ui/Button.tsx";
 import Label from "components/ui/Label.tsx";
-import { useGetAllCitiesQuery } from "services/city.ts";
+import { useGetPageCitiesQuery } from "services/city.ts";
 import { SwiperSlide } from "swiper/react";
 
 const QuickTripPlanner = () => {
-    const { data, isSuccess } = useGetAllCitiesQuery();
+    const { data, isSuccess } = useGetPageCitiesQuery({ pageSize: 10, isRandomItems: true });
 
     return (
         <div className="flex flex-col container mx-auto mt-5 gap-2">
@@ -33,7 +33,7 @@ const QuickTripPlanner = () => {
                 </FakeSwiper>
             ) : (
                 <Swiper id="swiper1" slidesPerView={5}>
-                    {data?.map((city) => (
+                    {data.data?.map((city) => (
                         <SwiperSlide key={city.id}>
                             <CityCard {...city} />
                         </SwiperSlide>

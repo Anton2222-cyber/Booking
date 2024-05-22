@@ -1,12 +1,21 @@
 import { City } from "interfaces/city";
+import { useAppSelector } from "store/index.ts";
+import { getUserLocation } from "store/slice/userSlice.ts";
 import { API_URL } from "utils/getEnvData.ts";
+import { haversineDistance } from "utils/haversineDistance.ts";
 
 import React from "react";
 
 const CityCard: React.FC<City> = (props) => {
-    const { name, image, longitude, latitude } = props;
+    const { name, image, latitude, longitude } = props;
+    const location = useAppSelector(getUserLocation);
 
-    console.log(longitude, latitude);
+    const distance = haversineDistance(
+        latitude,
+        longitude,
+        location?.latitude || 0,
+        location?.longitude || 0,
+    );
 
     return (
         <div className=" w-full max-w-xs mx-auto">
@@ -22,7 +31,7 @@ const CityCard: React.FC<City> = (props) => {
                     <div className="text-black font-main font-bold">{name}</div>
                 </div>
                 <div className="py-0.5">
-                    <div className="text-gray text-sm font-main">за {11} км</div>
+                    <div className="text-gray text-sm font-main">за {Math.ceil(distance)} км</div>
                 </div>
             </div>
         </div>
