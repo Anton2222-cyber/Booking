@@ -1,13 +1,41 @@
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import GoogleLogo from "assets/googleFlag.png";
 import { Button } from "components/ui/Button.tsx";
 import { Input } from "components/ui/Input.tsx";
+import { User } from "interfaces/user";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useGoogleLoginMutation } from "services/user.ts";
+import { useAppDispatch } from "store/index.ts";
+import { setCredentials } from "store/slice/userSlice.ts";
+import { jwtParser } from "utils/jwtParser.ts";
 
 import React from "react";
 
 const LoginPage: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const dispatch = useAppDispatch();
+    const [googleLogin] = useGoogleLoginMutation();
+
     const authSuccess = async (credentialResponse: CredentialResponse) => {
-        console.log(credentialResponse);
+        const res = await googleLogin({
+            credential: credentialResponse.credential || "",
+        });
+
+        if (res && "data" in res && res.data) {
+            localStorage.setItem("authToken", res.data.token);
+            console.log(res.data.token);
+
+            dispatch(
+                setCredentials({
+                    user: jwtParser(res.data.token) as User,
+                    token: res.data.token,
+                }),
+            );
+            const { from } = location.state || { from: { pathname: "/" } };
+            navigate(from);
+        } else {
+            console.log("Error login. Check login data!");
+        }
     };
 
     const authError = () => {
@@ -40,14 +68,20 @@ const LoginPage: React.FC = () => {
                 </div>
 
                 <div className="flex justify-center items-center">
-                    <Button
-                        variant="transparent"
-                        className="w-16 h-16 bg-white border border-gray/20 rounded flex items-center justify-center hover:bg-white hover:border-sky duration-500"
-                    >
-                        <img src={GoogleLogo} alt="Google" className="w-6 h-6" />
-                    </Button>
+                    {/*<Button*/}
+                    {/*    variant="transparent"*/}
+                    {/*    className="w-16 h-16 bg-white border border-gray/20 rounded flex items-center justify-center hover:bg-white hover:border-sky duration-500"*/}
+                    {/*>*/}
+                    {/*    <img src={GoogleLogo} alt="Google" className="w-6 h-6" />*/}
+                    {/*</Button>*/}
 
-                    <GoogleLogin onSuccess={authSuccess} onError={authError} />
+                    <GoogleLogin
+                        useOneTap
+                        locale="uk"
+                        size="large"
+                        onSuccess={authSuccess}
+                        onError={authError}
+                    />
                 </div>
 
                 <div className="border-t text-gray/20 mt-8"></div>
