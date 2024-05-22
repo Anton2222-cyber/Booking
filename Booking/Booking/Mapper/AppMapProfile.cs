@@ -32,5 +32,9 @@ public class AppMapProfile : Profile {
 		CreateMap<Hotel, HotelVm>();
 		CreateMap<CreateHotelVm, Hotel>();
 		CreateMap<UpdateHotelVm, Hotel>();
-	}
+
+		CreateMap<HotelPhoto, HotelPhotoVm>();
+		CreateMap<CreateHotelPhotoVm, HotelPhoto>()
+            .ForMember(c => c.Name, opt => opt.Ignore());
+    }
 }

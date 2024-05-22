@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Booking.Services.Interfaces;
+using Booking.Validators.HotelPhoto;
 using Booking.ViewModels.City;
-using Booking.ViewModels.Hotel;
+using Booking.ViewModels.HotelPhoto;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,28 +13,27 @@ namespace Booking.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class HotelsController(
+    public class HotelPhotosController(
         DataContext context,
         IMapper mapper,
-        IValidator<CreateHotelVm> createValidator,
-        IValidator<UpdateHotelVm> updateValidator,
-        IHotelControllerService service,
-        IPaginationService<HotelVm, HotelFilterVm> pagination
-        ) : ControllerBase
-    {
+        IValidator<CreateHotelPhotoVm> createValidator,
+        IValidator<UpdateHotelPhotoVm> updateValidator,
+        IHotelPhotoControllerService service,
+        IPaginationService<HotelPhotoVm, HotelPhotoFilterVm> pagination
+        ) : ControllerBase {
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var hotels = await context.Hotels
-                .ProjectTo <HotelVm>(mapper.ConfigurationProvider)
+            var photos = await context.HotelPhotos
+                .ProjectTo<HotelPhotoVm>(mapper.ConfigurationProvider)
                 .ToArrayAsync();
 
-            return Ok(hotels);
+            return Ok(photos);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPage([FromQuery] HotelFilterVm vm)
+        public async Task<IActionResult> GetPage([FromQuery] HotelPhotoFilterVm vm)
         {
             try
             {
@@ -48,18 +48,18 @@ namespace Booking.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
-            var countries = await context.Hotels
-                .ProjectTo<HotelVm>(mapper.ConfigurationProvider)
+            var photos = await context.HotelPhotos
+                .ProjectTo<HotelPhotoVm>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
-            if (countries is null)
+            if (photos is null)
                 return NotFound();
 
-            return Ok(countries);
+            return Ok(photos);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateHotelVm vm)
+        public async Task<IActionResult> Create([FromForm] CreateHotelPhotoVm vm)
         {
             var validationResult = await createValidator.ValidateAsync(vm);
 
@@ -72,19 +72,19 @@ namespace Booking.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromForm] UpdateHotelVm vm)
+        public async Task<IActionResult> Update([FromForm] UpdateHotelPhotoVm vm)
         {
-            var validationResult = await updateValidator.ValidateAsync(vm);
+            var validatoinResult = await updateValidator.ValidateAsync(vm);
 
-            if (!validationResult.IsValid)
-                return BadRequest(validationResult.Errors);
+            if (!validatoinResult.IsValid)
+                return BadRequest(validatoinResult.Errors);
 
             await service.UpdateAsync(vm);
 
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
             await service.DeleteIfExistsAsync(id);
