@@ -36,17 +36,47 @@ public class HotelPaginationService(
 		if (vm.MaxRating is not null)
 			query = query.Where(h => h.Reviews.Average(r => r.Score).GetValueOrDefault(0) <= vm.MaxRating);
 
-		if (vm.Address?.Id is not null)
-			query = query.Where(h => h.Address.Id == vm.Address.Id);
+		if (vm.Address is not null) {
+			HotelAddressFilterVm address = vm.Address;
 
-		if (vm.Address?.Street is not null)
-			query = query.Where(h => h.Address.Street.ToLower().Contains(vm.Address.Street));
+			if (address.Id is not null)
+				query = query.Where(h => h.AddressId == address.Id);
 
-		if (vm.Address?.HouseNumber is not null)
-			query = query.Where(h => h.Address.HouseNumber.ToLower().Contains(vm.Address.HouseNumber));
+			if (address.Street is not null)
+				query = query.Where(h => h.Address.Street.ToLower().Contains(address.Street));
 
-		if (vm.Address?.CityId is not null)
-			query = query.Where(h => h.Address.CityId == vm.Address.CityId);
+			if (address.HouseNumber is not null)
+				query = query.Where(h => h.Address.HouseNumber.ToLower().Contains(address.HouseNumber));
+
+			if (address.City is not null) {
+				HotelAddressCityFilterVm city = address.City;
+
+				if (city.Id is not null)
+					query = query.Where(h => h.Address.CityId == city.Id);
+
+				if (city.Name is not null)
+					query = query.Where(h => h.Address.City.Name.ToLower().Contains(city.Name.ToLower()));
+
+				if (city.Longitude is not null)
+					query = query.Where(h => h.Address.City.Longitude == city.Longitude);
+
+				if (city.Latitude is not null)
+					query = query.Where(h => h.Address.City.Latitude == city.Latitude);
+
+				if (city.MinLongitude is not null)
+					query = query.Where(h => h.Address.City.Longitude >= city.MinLongitude);
+				if (city.MaxLongitude is not null)
+					query = query.Where(h => h.Address.City.Longitude <= city.MaxLongitude);
+
+				if (city.MinLatitude is not null)
+					query = query.Where(h => h.Address.City.Latitude >= city.MinLatitude);
+				if (city.MaxLatitude is not null)
+					query = query.Where(h => h.Address.City.Latitude <= city.MaxLatitude);
+
+				if (city.CountryId is not null)
+					query = query.Where(h => h.Address.City.CountryId == city.CountryId);
+			}
+		}
 
 		return query;
 	}

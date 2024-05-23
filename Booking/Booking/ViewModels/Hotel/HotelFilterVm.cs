@@ -1,5 +1,4 @@
-﻿using Booking.ViewModels.Address;
-using Booking.ViewModels.Pagination;
+﻿using Booking.ViewModels.Pagination;
 
 namespace Booking.ViewModels.Hotel;
 
@@ -13,7 +12,7 @@ public class HotelFilterVm : PaginationVm {
 	public double? MinRating { get; set; }
 	public double? MaxRating { get; set; }
 
-	public AddressFilterVm? Address { get; set; }
+	public HotelAddressFilterVm? Address { get; set; }
 
 	public bool? IsRandomItems { get; set; }
 }
