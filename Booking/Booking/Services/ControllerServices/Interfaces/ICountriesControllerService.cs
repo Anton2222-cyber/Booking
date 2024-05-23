@@ -1,7 +1,6 @@
 ﻿using Booking.ViewModels.Country;
-using Model.Entities;
 
-namespace Booking.Services.Interfaces;
+namespace Booking.Services.ControllerServices.Interfaces;
 
 public interface ICountriesControllerService {
 	Task CreateAsync(CreateCountryVm vm);

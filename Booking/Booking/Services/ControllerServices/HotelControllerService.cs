@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
 using Booking.ViewModels.Hotel;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
 using Model.Entities;
 
-namespace Booking.Services;
+namespace Booking.Services.ControllerServices;
 
 public class HotelControllerService(
 	DataContext context,

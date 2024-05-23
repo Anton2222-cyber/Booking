@@ -1,12 +1,15 @@
 using Booking.Extensions;
 using Booking.Mapper;
 using Booking.Services;
+using Booking.Services.ControllerServices;
+using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
 using Booking.Services.PaginationServices;
 using Booking.Validators.Country;
 using Booking.ViewModels.City;
 using Booking.ViewModels.Country;
 using Booking.ViewModels.Hotel;
+using Booking.ViewModels.HotelReview;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -108,13 +111,20 @@ builder.Services.AddTransient<IIdentitySeeder, IdentitySeeder>();
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();
+builder.Services.AddTransient<IIdentityService, IdentityService>();
+builder.Services.AddTransient<IExistingEntityCheckerService, ExistingEntityCheckerService>();
+
 builder.Services.AddTransient<ICountriesControllerService, CountriesControllerService>();
 builder.Services.AddTransient<IPaginationService<CountryVm, CountryFilterVm>, CountryPaginationService>();
+
 builder.Services.AddTransient<ICitiesControllerService, CitiesControllerService>();
 builder.Services.AddTransient<IPaginationService<CityVm, CityFilterVm>, CityPaginationService>();
+
 builder.Services.AddTransient<IHotelControllerService, HotelControllerService>();
 builder.Services.AddTransient<IPaginationService<HotelVm, HotelFilterVm>, HotelPaginationService>();
 
+builder.Services.AddTransient<IHotelReviewsControllerService, HotelReviewsControllerService>();
+builder.Services.AddTransient<IPaginationService<HotelReviewVm, HotelReviewsFilterVm>, HotelReviewsPaginationService>();
 
 
 var app = builder.Build();
