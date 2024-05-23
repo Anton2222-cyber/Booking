@@ -11,6 +11,7 @@ namespace Booking.ViewModels.Hotel
         public double? Rating { get; set; }
 
         public double? MinRating { get; set; }
+
         public double? MaxRating { get; set; }
 
         public long? AddressId { get; set; }

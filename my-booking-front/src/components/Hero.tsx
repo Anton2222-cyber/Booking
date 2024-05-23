@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button.tsx";
 import { Input } from "components/ui/Input.tsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import React, { useState } from "react";
 
@@ -19,6 +19,7 @@ interface IHeroProps {
 
 const Hero: React.FC<IHeroProps> = (props) => {
     const { title, subtitle, isButton, img, path } = props;
+    const navigate = useNavigate();
 
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -30,6 +31,19 @@ const Hero: React.FC<IHeroProps> = (props) => {
     const [adults, setAdults] = useState<number>(1);
     const [rooms, setRooms] = useState<number>(1);
     const [children, setChildren] = useState<number>(0);
+
+    const handleSearch = () => {
+        const queryParams = new URLSearchParams({
+            destination,
+            startDate: startDate ? startDate.toISOString() : "",
+            endDate: endDate ? endDate.toISOString() : "",
+            adults: adults.toString(),
+            rooms: rooms.toString(),
+            children: children.toString(),
+        });
+
+        navigate(`/search-results?${queryParams.toString()}`);
+    };
 
     return (
         <div className={`h-96 bg-cover ${img}`}>
@@ -77,7 +91,7 @@ const Hero: React.FC<IHeroProps> = (props) => {
                             )}
                         </div>
 
-                        <div className="  flex bg-white rounded-md  border border-white hover:border-yellow">
+                        <div className="z-50   flex bg-white rounded-md  border border-white hover:border-yellow">
                             <div className="relative flex items-center">
                                 <div className="absolute h-full top-0 left-0 flex items-center justify-center px-2">
                                     <IconCalendarWeek className="text-lightgray z-50" />
@@ -122,7 +136,7 @@ const Hero: React.FC<IHeroProps> = (props) => {
                                 setRooms={setRooms}
                             />
                         </div>
-                        <Button variant="primary" size="xl">
+                        <Button variant="primary" size="xl" onClick={handleSearch}>
                             Шукати
                         </Button>
                     </div>

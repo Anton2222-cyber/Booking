@@ -1,7 +1,7 @@
 import AccommodationBlock from "components/AccommodationBlock.tsx";
 import Hero from "components/Hero.tsx";
+import HowDoesItWork from "components/HowDoesItWork.tsx";
 import AccommodationSearchCard from "components/cards/AccommodationSearchCard.tsx";
-import HowDoesItWork from "components/ui/HowDoesItWork.tsx";
 import { SwiperSlide } from "swiper/react";
 
 const SearchPage = () => {
