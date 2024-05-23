@@ -2,6 +2,7 @@ import AccountLayout from "components/layout/AccountLayout.tsx";
 import Layout from "components/layout/Layout.tsx";
 import HomePage from "pages/Home.tsx";
 import LoginPage from "pages/Login.tsx";
+import Map from "pages/Map.tsx";
 import SearchPage from "pages/Search.tsx";
 import SearchWithParamsPage from "pages/SearchWithParams.tsx";
 import { Route, Routes } from "react-router-dom";
@@ -30,6 +31,8 @@ function App() {
                 <Route index element={<HomePage />} />
                 <Route path="search-accommodation" element={<SearchPage />} />
                 <Route path="search-results" element={<SearchWithParamsPage />} />
+
+                <Route path="map" element={<Map />} />
             </Route>
 
             <Route path="/auth/" element={<AccountLayout />}>
