@@ -1,18 +1,25 @@
 import { Popover, PopoverButton, PopoverPanel, Transition } from "@headlessui/react";
 import Counter from "components/ui/Counter.tsx";
 
-import { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 
-const SelectPerson = () => {
-    const [adults, setAdults] = useState<number>(1);
-    const [rooms, setRooms] = useState<number>(1);
-    const [children, setChildren] = useState<number>(0);
+interface ISelectPersonProps {
+    adults: number;
+    children: number;
+    rooms: number;
+    setAdults: (value: number) => void;
+    setChildren: (value: number) => void;
+    setRooms: (value: number) => void;
+}
+
+const SelectPerson: React.FC<ISelectPersonProps> = (props) => {
+    const { adults, children, rooms, setAdults, setChildren, setRooms } = props;
 
     return (
         <Popover className="relative h-full">
             <PopoverButton className="outline-none  h-full">
                 <div className="pe-2 bg-white outline-none text-sm w-full placeholder:text-lightgray font-bold rounded-md ps-10">
-                    1 дорослий · 0 дітей · 1 номер
+                    {`${adults} дорослий · ${children} дітей · ${rooms} номер`}
                 </div>
             </PopoverButton>
 
