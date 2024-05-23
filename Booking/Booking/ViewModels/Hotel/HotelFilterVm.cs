@@ -1,20 +1,18 @@
 ﻿using Booking.ViewModels.Pagination;
 
-namespace Booking.ViewModels.Hotel
-{
-    public class HotelFilterVm : PaginationVm
-    {
-        public string? Name { get; set; }
+namespace Booking.ViewModels.Hotel;
 
-        public string? Description { get; set; }
+public class HotelFilterVm : PaginationVm {
+	public string? Name { get; set; }
 
-        public double? Rating { get; set; }
+	public string? Description { get; set; }
 
-        public double? MinRating { get; set; }
-        public double? MaxRating { get; set; }
+	public double? Rating { get; set; }
 
-        public long? AddressId { get; set; }
+	public double? MinRating { get; set; }
+	public double? MaxRating { get; set; }
 
-        public bool? IsRandomItems { get; set; }
-    }
+	public HotelAddressFilterVm? Address { get; set; }
+
+	public bool? IsRandomItems { get; set; }
 }
