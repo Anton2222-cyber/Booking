@@ -17,15 +17,32 @@ export interface Hotel {
     photos: Photo[];
 }
 
+export interface HotelAddressCity {
+    id?: number;
+    name?: string;
+    longitude?: number;
+    latitude?: number;
+    minLongitude?: number;
+    maxLongitude?: number;
+    minLatitude?: number;
+    maxLatitude?: number;
+    countryId?: number;
+}
+
+export interface HotelAddress {
+    id?: number;
+    street?: string;
+    houseNumber?: string;
+    city?: HotelAddressCity;
+}
+
 export interface GetHotelPageRequest {
     name?: string;
-    cityName?: string;
-    description?: number;
+    description?: string;
     rating?: number;
     minRating?: number;
     maxRating?: number;
-    addressId?: number;
-    cityId?: number;
+    address?: HotelAddress;
     isRandomItems?: boolean;
     pageIndex?: number;
     pageSize: number;

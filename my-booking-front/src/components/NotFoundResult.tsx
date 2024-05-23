@@ -1,3 +1,4 @@
+import NotFoundImage from "assets/data-not-found.webp";
 import { Link } from "react-router-dom";
 
 const NotFoundResult = () => {
@@ -7,6 +8,11 @@ const NotFoundResult = () => {
                 <h1 className=" text-2xl text-center text-black font-bold  ">
                     Вибачте, не знайдено результатів за вашими критеріями!
                 </h1>
+
+                <div className="flex items-center justify-center">
+                    <img className="h-56 w-56" src={NotFoundImage} alt="Not Found Image" />
+                </div>
+
                 <Link to="/">
                     <p className="text-center text-blue text-sm cursor-pointer hover:underline font-bold">
                         Повернутися до головної

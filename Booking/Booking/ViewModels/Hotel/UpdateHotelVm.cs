@@ -9,8 +9,6 @@ public class UpdateHotelVm {
 
 	public string Description { get; set; } = null!;
 
-	public double Rating { get; set; }
-
 	public UpdateAddressVm Address { get; set; } = null!;
 
 	public IEnumerable<IFormFile> Photos { get; set; } = null!;

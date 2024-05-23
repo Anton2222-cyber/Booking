@@ -1,12 +1,11 @@
 import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
+import NotFoundImage from "assets/icon-image-not-found-free-vector.jpg";
 import { Button } from "components/ui/Button.tsx";
 import { Hotel } from "interfaces/hotel";
 import { API_URL } from "utils/getEnvData.ts";
 import { getRatingDescription } from "utils/getRating.ts";
 
 import React, { useState } from "react";
-
-// Переконайтеся, що ви встановили цю бібліотеку
 
 const HotelCard: React.FC<Hotel> = (props) => {
     const { name, rating, description, photos, address } = props;
@@ -22,10 +21,11 @@ const HotelCard: React.FC<Hotel> = (props) => {
         <div className="relative flex border border-lightgray/20 rounded-lg p-4 ">
             <div className="relative flex-none w-60">
                 <img
-                    src={`${API_URL}/images/800_${photos[0].name}`}
+                    src={photos.length > 0 ? `${API_URL}/images/800_${photos[0].name}` : NotFoundImage}
                     alt={name}
                     className="w-full h-60 object-cover rounded-lg"
                 />
+
                 <div
                     onClick={handleFavoriteClick}
                     className="absolute top-2 right-2 bg-white rounded-full p-2 cursor-pointer w-9 h-9 flex items-center justify-center"
@@ -62,7 +62,7 @@ const HotelCard: React.FC<Hotel> = (props) => {
                     </div>
                     <div className="flex items-center ml-2">
                         <div className="bg-blue text-white text-sm font-main font-bold rounded-md rounded-bl-none w-8 h-8 flex items-center justify-center">
-                            {rating}
+                            {rating.toFixed(1)}
                         </div>
                     </div>
                 </div>

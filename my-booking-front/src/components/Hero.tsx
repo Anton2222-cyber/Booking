@@ -32,7 +32,16 @@ const Hero: React.FC<IHeroProps> = (props) => {
     const [rooms, setRooms] = useState<number>(1);
     const [children, setChildren] = useState<number>(0);
 
+    // const [errorMessage, setErrorMessage] = useState<string>("");
+
     const handleSearch = () => {
+        if (destination.length < 3) {
+            // setErrorMessage("Запит повинен бути не менше 3 символів.");
+            return;
+        }
+
+        // setErrorMessage("");
+
         const queryParams = new URLSearchParams({
             destination,
             startDate: startDate ? startDate.toISOString() : "",
@@ -89,6 +98,11 @@ const Hero: React.FC<IHeroProps> = (props) => {
                                     setDestination={setDestination}
                                 />
                             )}
+                            {/*{errorMessage && (*/}
+                            {/*    <div className="z-50 absolute mt-2 mb-2 top-full overflow-hidden rounded-md bg-white text-sm shadow w-full text-red-500">*/}
+                            {/*        {errorMessage}*/}
+                            {/*    </div>*/}
+                            {/*)}*/}
                         </div>
 
                         <div className="z-50   flex bg-white rounded-md  border border-white hover:border-yellow">

@@ -22,9 +22,9 @@ const SearchWithParamsPage = () => {
     // const rooms = query.get("rooms") || "1";
     // const children = query.get("children") || "0";
 
-    const { data, isSuccess, isLoading, isError } = useGetPageHotelsQuery({
-        cityName: destination,
+    const { data, isLoading, isError } = useGetPageHotelsQuery({
         pageSize: 10,
+        address: { city: { name: destination } },
     });
 
     return (
@@ -93,9 +93,12 @@ const SearchWithParamsPage = () => {
             <div className="col-span-3 flex flex-col gap-5">
                 <Discount isFullWidth={true} />
 
-                {isSuccess && (
+                {data && data.data.length > 0 && (
                     <>
-                        <h1 className=" text-2xl text-black font-bold">{`${destination.toUpperCase()}: знайдено 100 помешкань`}</h1>
+                        <h1 className=" text-2xl text-black font-bold flex items-center">
+                            <IconSearch />
+                            {`${destination.toUpperCase()}: знайдено 100 помешкань`}
+                        </h1>
                         <div className="flex mt-4 flex-col gap-4">
                             {data.data?.map((hotel) => <HotelCard key={hotel.id} {...hotel} />)}
                         </div>
@@ -110,7 +113,7 @@ const SearchWithParamsPage = () => {
                     </div>
                 )}
 
-                {isError && <NotFoundResult />}
+                {(isError || (data && data.data.length === 0)) && <NotFoundResult />}
             </div>
         </div>
     );

@@ -16,6 +16,9 @@ export const hotelApi = createApi({
         getPageHotels: builder.query<GetHotelPageResponse, GetHotelPageRequest>({
             query: (params) => {
                 const queryString = createQueryString(params as Record<string, any>);
+
+                console.log(queryString);
+
                 return `getPage?${queryString}`;
             },
         }),
