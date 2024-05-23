@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
 using Booking.ViewModels.City;
 using FluentValidation;

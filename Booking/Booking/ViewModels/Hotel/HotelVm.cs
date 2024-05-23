@@ -11,6 +11,8 @@ public class HotelVm {
 
 	public double Rating { get; set; }
 
+	public int Reviews { get; set; }
+
 	public AddressVm Address { get; set; } = null!;
 
 	public IEnumerable<HotelPhotoVm> Photos { get; set; } = null!;
