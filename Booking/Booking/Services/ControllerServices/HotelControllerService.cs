@@ -45,6 +45,8 @@ public class HotelControllerService(
 		hotel.Description = vm.Description;
 		hotel.Address.Street = vm.Address.Street;
 		hotel.Address.HouseNumber = vm.Address.HouseNumber;
+		hotel.Address.Longitude = vm.Address.Longitude;
+		hotel.Address.Latitude = vm.Address.Latitude;
 		hotel.Address.CityId = vm.Address.CityId;
 		hotel.Photos.Clear();
 		foreach (var photo in await SaveAndPrioritizePhotosAsync(vm.Photos, hotel))
