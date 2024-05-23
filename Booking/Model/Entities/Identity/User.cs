@@ -10,4 +10,6 @@ public class User : IdentityUser<long> {
 	public string Photo { get; set; } = null!;
 
 	public virtual ICollection<UserRole> UserRoles { get; set; } = null!;
+
+	public ICollection<HotelReview> HotelReviews { get; set; } = null!;
 }

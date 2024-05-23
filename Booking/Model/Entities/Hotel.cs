@@ -13,4 +13,6 @@ public class Hotel {
 	public Address Address { get; set; } = null!;
 
 	public ICollection<HotelPhoto> Photos { get; set; } = null!;
+
+	public ICollection<HotelReview> Reviews { get; set; } = null!;
 }
