@@ -29,10 +29,6 @@ public class UpdateHotelValidator : AbstractValidator<UpdateHotelVm> {
 			.MaximumLength(4000)
 				.WithMessage("Description is too long (4000)");
 
-		RuleFor(c => c.Rating)
-			.InclusiveBetween(0, 5)
-				.WithMessage("Rating must be between 0 and 5 degrees");
-
 		RuleFor(h => h.Address)
 			.SetValidator(new UpdateAddressValidator(context));
 

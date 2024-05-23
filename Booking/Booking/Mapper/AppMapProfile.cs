@@ -27,7 +27,15 @@ public class AppMapProfile : Profile {
 
 		CreateMap<HotelPhoto, HotelPhotoVm>();
 
-		CreateMap<Hotel, HotelVm>();
+		CreateMap<Hotel, HotelVm>()
+			.ForMember(
+				h => h.Rating,
+				opt => opt.MapFrom(
+					h => h.Reviews
+						.Average(r => r.Score)
+						.GetValueOrDefault(0)
+				)
+			);
 		CreateMap<CreateHotelVm, Hotel>()
 			.ForMember(h => h.Photos, opt => opt.Ignore());
 

@@ -42,7 +42,6 @@ public class HotelControllerService(
 
 		hotel.Name = vm.Name;
 		hotel.Description = vm.Description;
-		hotel.Rating = vm.Rating;
 		hotel.Address.Street = vm.Address.Street;
 		hotel.Address.HouseNumber = vm.Address.HouseNumber;
 		hotel.Address.CityId = vm.Address.CityId;

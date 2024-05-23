@@ -29,12 +29,12 @@ public class HotelPaginationService(
 			query = query.Where(h => h.Name.ToLower().Contains(vm.Description.ToLower()));
 
 		if (vm.Rating is not null)
-			query = query.Where(h => h.Rating == vm.Rating);
+			query = query.Where(h => h.Reviews.Average(r => r.Score).GetValueOrDefault(0) == vm.Rating);
 
 		if (vm.MinRating is not null)
-			query = query.Where(h => h.Rating >= vm.Rating);
+			query = query.Where(h => h.Reviews.Average(r => r.Score).GetValueOrDefault(0) >= vm.MinRating);
 		if (vm.MaxRating is not null)
-			query = query.Where(h => h.Rating <= vm.Rating);
+			query = query.Where(h => h.Reviews.Average(r => r.Score).GetValueOrDefault(0) <= vm.MaxRating);
 
 		if (vm.Address?.Id is not null)
 			query = query.Where(h => h.Address.Id == vm.Address.Id);

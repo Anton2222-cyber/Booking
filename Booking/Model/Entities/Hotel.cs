@@ -7,8 +7,6 @@ public class Hotel {
 
 	public string Description { get; set; } = null!;
 
-	public double Rating { get; set; }
-
 	public long AddressId { get; set; }
 	public Address Address { get; set; } = null!;
 
