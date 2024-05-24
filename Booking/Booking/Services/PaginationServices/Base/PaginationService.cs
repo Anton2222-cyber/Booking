@@ -22,19 +22,20 @@ public abstract class PaginationService<EntityType, EntityVmType, PaginationVmTy
 
 		query = FilterQuery(query, vm);
 
-		int pagesAvailable = (int)Math.Ceiling((double)query.Count() / vm.PageSize);
+		int count = await query.CountAsync();
 
-		query = query.Skip(vm.PageIndex * vm.PageSize);
-
-		query = query.Take(vm.PageSize);
+		int pagesAvailable = (int)Math.Ceiling((double)count / vm.PageSize);
 
 		var data = await query
+			.Skip(vm.PageIndex * vm.PageSize)
+			.Take(vm.PageSize)
 			.ProjectTo<EntityVmType>(mapper.ConfigurationProvider)
 			.ToArrayAsync();
 
 		return new PageVm<EntityVmType> {
 			Data = data,
-			PagesAvailable = pagesAvailable
+			PagesAvailable = pagesAvailable,
+			ItemsAvailable = count
 		};
 	}
 
