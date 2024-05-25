@@ -54,4 +54,5 @@ export interface GetHotelPageRequest {
 export interface GetHotelPageResponse {
     data: Hotel[];
     pagesAvailable: number;
+    itemsAvailable: number;
 }

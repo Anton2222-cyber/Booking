@@ -71,7 +71,7 @@ const SearchWithParamsPage = () => {
                 <div className="flex items-center justify-between">
                     <h1 className=" text-2xl text-black font-bold flex items-center">
                         <IconSearch />
-                        {`${destination.toUpperCase()}: знайдено ${hotels.length} помешкань`}
+                        {`${destination.toUpperCase()}: знайдено ${data?.itemsAvailable} помешкань`}
                     </h1>
                     <div className="bg-map-bg w-36 h-16 rounded flex items-center justify-center">
                         <Button onClick={handleShowOnMap} size="md" className="text-xs">
@@ -88,10 +88,10 @@ const SearchWithParamsPage = () => {
                     </div>
                 )}
 
-                {hotels.length > 0 && (
+                {hotels.length > 0 && data && (
                     <InfiniteScroll
-                        dataLength={hotels.length}
-                        scrollThreshold={0.6}
+                        dataLength={data.itemsAvailable}
+                        scrollThreshold={0.5}
                         next={fetchMoreData}
                         hasMore={hasMore}
                         loader={

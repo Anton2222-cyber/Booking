@@ -1,0 +1,10 @@
+services:
+  booking:
+    image: booking-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5559:8080"
+    volumes:
+      - /data/website/booking:/app/data/images
