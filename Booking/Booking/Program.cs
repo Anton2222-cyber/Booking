@@ -108,6 +108,7 @@ builder.Services.AddAutoMapper(typeof(AppMapProfile));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCountryValidator>();
 
 builder.Services.AddTransient<IIdentitySeeder, IdentitySeeder>();
+builder.Services.AddTransient<IDataSeeder, DataSeeder>();
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();
@@ -161,6 +162,7 @@ app.MapControllers();
 await app.MigrateAsync();
 using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateAsyncScope()) {
 	await scope.ServiceProvider.GetRequiredService<IIdentitySeeder>().SeedAsync();
+	await scope.ServiceProvider.GetRequiredService<IDataSeeder>().SeedAsync();
 }
 
 app.Run();
