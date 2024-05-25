@@ -1,4 +1,3 @@
-using Booking.Extensions;
 using Booking.Mapper;
 using Booking.Services;
 using Booking.Services.ControllerServices;
@@ -7,6 +6,7 @@ using Booking.Services.Interfaces;
 using Booking.Services.PaginationServices;
 using Booking.Validators.Country;
 using Booking.ViewModels.City;
+using Booking.ViewModels.Convenience;
 using Booking.ViewModels.Country;
 using Booking.ViewModels.Hotel;
 using Booking.ViewModels.HotelReview;
@@ -20,7 +20,6 @@ using Microsoft.OpenApi.Models;
 using Model.Context;
 using Model.Entities.Identity;
 using System.Text;
-using Booking.ViewModels.Convenience;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +31,7 @@ builder.Services.AddDbContext<DataContext>(
 			builder.Configuration.GetConnectionString("Npgsql"),
 			npgsqlOptions => npgsqlOptions.MigrationsAssembly(assemblyName)
 		);
-		
+
 		if (builder.Environment.IsDevelopment()) {
 			options.EnableSensitiveDataLogging();
 		}
@@ -42,7 +41,7 @@ builder.Services.AddDbContext<DataContext>(
 builder.Services
 	.AddIdentity<User, Role>(options => {
 		options.Stores.MaxLengthForKeys = 128;
-		
+
 		options.Password.RequiredLength = 8;
 		options.Password.RequireDigit = false;
 		options.Password.RequireNonAlphanumeric = false;
@@ -107,8 +106,9 @@ builder.Services.AddSwaggerGen(options => {
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCountryValidator>();
 
-builder.Services.AddTransient<IIdentitySeeder, IdentitySeeder>();
-builder.Services.AddTransient<IDataSeeder, DataSeeder>();
+builder.Services.AddScoped<IMigrationService, MigrationService>();
+builder.Services.AddScoped<IIdentitySeeder, IdentitySeeder>();
+builder.Services.AddScoped<IDataSeeder, DataSeeder>();
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();
@@ -129,6 +129,7 @@ builder.Services.AddTransient<IPaginationService<HotelReviewVm, HotelReviewsFilt
 
 builder.Services.AddTransient<IConveniencesControllerService, ConveniencesControllerService>();
 builder.Services.AddTransient<IPaginationService<ConvenienceVm, ConvenienceFilterVm>, ConveniencePaginationService>();
+
 
 var app = builder.Build();
 
@@ -161,8 +162,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await app.MigrateAsync();
 using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateAsyncScope()) {
+	await scope.ServiceProvider.GetRequiredService<IMigrationService>().MigrateLatestAsync();
 	await scope.ServiceProvider.GetRequiredService<IIdentitySeeder>().SeedAsync();
 	await scope.ServiceProvider.GetRequiredService<IDataSeeder>().SeedAsync();
 }
