@@ -115,6 +115,8 @@ builder.Services.AddTransient<IImageValidator, ImageValidator>();
 builder.Services.AddTransient<IIdentityService, IdentityService>();
 builder.Services.AddTransient<IExistingEntityCheckerService, ExistingEntityCheckerService>();
 
+builder.Services.AddTransient<IAccountsControllerService, AccountsControllerService>();
+
 builder.Services.AddTransient<ICountriesControllerService, CountriesControllerService>();
 builder.Services.AddTransient<IPaginationService<CountryVm, CountryFilterVm>, CountryPaginationService>();
 
