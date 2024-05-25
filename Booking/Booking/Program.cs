@@ -20,6 +20,7 @@ using Microsoft.OpenApi.Models;
 using Model.Context;
 using Model.Entities.Identity;
 using System.Text;
+using Booking.ViewModels.Convenience;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +32,7 @@ builder.Services.AddDbContext<DataContext>(
 			builder.Configuration.GetConnectionString("Npgsql"),
 			npgsqlOptions => npgsqlOptions.MigrationsAssembly(assemblyName)
 		);
-
+		
 		if (builder.Environment.IsDevelopment()) {
 			options.EnableSensitiveDataLogging();
 		}
@@ -41,7 +42,7 @@ builder.Services.AddDbContext<DataContext>(
 builder.Services
 	.AddIdentity<User, Role>(options => {
 		options.Stores.MaxLengthForKeys = 128;
-
+		
 		options.Password.RequiredLength = 8;
 		options.Password.RequireDigit = false;
 		options.Password.RequireNonAlphanumeric = false;
@@ -54,7 +55,7 @@ builder.Services
 var singinKey = new SymmetricSecurityKey(
 	Encoding.UTF8.GetBytes(
 		builder.Configuration["Authentication:Jwt:SecretKey"]
-			?? throw new NullReferenceException("Authentication:Jwt:SecretKey")
+		?? throw new NullReferenceException("Authentication:Jwt:SecretKey")
 	)
 );
 
@@ -103,7 +104,6 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 
-
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCountryValidator>();
 
@@ -127,6 +127,8 @@ builder.Services.AddTransient<IPaginationService<HotelVm, HotelFilterVm>, HotelP
 builder.Services.AddTransient<IHotelReviewsControllerService, HotelReviewsControllerService>();
 builder.Services.AddTransient<IPaginationService<HotelReviewVm, HotelReviewsFilterVm>, HotelReviewsPaginationService>();
 
+builder.Services.AddTransient<IConveniencesControllerService, ConveniencesControllerService>();
+builder.Services.AddTransient<IPaginationService<ConvenienceVm, ConvenienceFilterVm>, ConveniencePaginationService>();
 
 var app = builder.Build();
 
