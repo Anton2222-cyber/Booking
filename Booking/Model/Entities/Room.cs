@@ -11,5 +11,10 @@ public class Room {
 
 	public int ChildrenPlaces { get; set; }
 
+	public long HotelId { get; set; }
+	public Hotel Hotel { get; set; } = null!;
+
+	public ICollection<RoomPhoto> Photos { get; set; } = null!;
+
 	public ICollection<RoomConvenience> Conveniences { get; set; } = null!;
 }
