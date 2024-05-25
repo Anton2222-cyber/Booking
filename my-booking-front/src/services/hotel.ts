@@ -9,6 +9,10 @@ export const hotelApi = createApi({
     tagTypes: ["Hotels"],
 
     endpoints: (builder) => ({
+        getHotel: builder.query<Hotel, string>({
+            query: (id) => `getById/${id}`,
+        }),
+
         getAllHotels: builder.query<Hotel[], void>({
             query: () => "getAll",
         }),
@@ -16,13 +20,10 @@ export const hotelApi = createApi({
         getPageHotels: builder.query<GetHotelPageResponse, GetHotelPageRequest>({
             query: (params) => {
                 const queryString = createQueryString(params as Record<string, any>);
-
-                console.log(queryString);
-
                 return `getPage?${queryString}`;
             },
         }),
     }),
 });
 
-export const { useGetAllHotelsQuery, useGetPageHotelsQuery } = hotelApi;
+export const { useGetAllHotelsQuery, useGetHotelQuery, useGetPageHotelsQuery } = hotelApi;

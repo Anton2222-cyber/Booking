@@ -1,4 +1,5 @@
 import { City } from "interfaces/city";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "store/index.ts";
 import { getUserLocation } from "store/slice/userSlice.ts";
 import { API_URL } from "utils/getEnvData.ts";
@@ -7,8 +8,9 @@ import { haversineDistance } from "utils/haversineDistance.ts";
 import React from "react";
 
 const CityCard: React.FC<City> = (props) => {
-    const { name, image, latitude, longitude } = props;
+    const { id, name, image, latitude, longitude } = props;
     const location = useAppSelector(getUserLocation);
+    const navigate = useNavigate();
 
     const distance = haversineDistance(
         latitude,
@@ -17,8 +19,17 @@ const CityCard: React.FC<City> = (props) => {
         location?.longitude || 0,
     );
 
+    const handleClick = () => {
+        const queryParams = new URLSearchParams({
+            cityId: id.toString(),
+            destination: name,
+        });
+
+        navigate(`/search-results?${queryParams.toString()}`);
+    };
+
     return (
-        <div className=" w-full max-w-xs mx-auto">
+        <div onClick={handleClick} className="cursor-pointer w-full max-w-xs mx-auto">
             <div className="rounded overflow-hidden ">
                 <div className="mb-2">
                     <img
