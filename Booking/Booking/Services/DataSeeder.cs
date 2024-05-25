@@ -1,17 +1,11 @@
 ﻿using Booking.Services.Interfaces;
-using Booking.Validators.HotelPhoto;
-using Booking.ViewModels.Address;
-using Booking.ViewModels.City;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
 using Model.Entities;
-using Model.Entities.Identity;
 
-namespace Booking.Services
-{
+namespace Booking.Services {
 
-    public class DataSeeder(
+	public class DataSeeder(
         DataContext context,
         IImageService imageService
         ) : IDataSeeder {
@@ -90,7 +84,6 @@ namespace Booking.Services
                 HouseNumber = "33 а",
             };
             address1.CityId = (await context.Cities.Where(x => x.Name == "Kyiv").FirstAsync()).Id;
-            address1.City = (await context.Cities.Where(x => x.Name == "Kyiv").FirstAsync()).Name;
 
             var address2 = new Address
             {
@@ -98,7 +91,6 @@ namespace Booking.Services
                 HouseNumber = "3"
             };
             address2.CityId = (await context.Cities.Where(x => x.Name == "Lutsk").FirstAsync()).Id;
-            address2.City = (await context.Cities.Where(x => x.Name == "Lutsk").FirstAsync()).Name;
 
             context.Addresses.Add(address1);
             context.Addresses.Add(address2);
@@ -107,7 +99,6 @@ namespace Booking.Services
             {
                 Name = "Golden Gate Inn",
                 Description = "Located just a 10-minute walk from Saint Sophia Cathedral, Golden Gate Inn features air conditioning, free WiFi and a fully equipped kitchenette. Kreschatyk Street is a 20-minute walk away.\r\n\r\nThe classic-style apartments feature a seating area with sofa and flat-screen TV with satellite channels. The bathroom is equipped with a hairdryer, slippers and free toiletries.\r\n\r\nGolden Gate Inn is 800 metres from Zoloti Vorota Metro Station and 2 km from Independence Square. Kiev-Passazhirskiy Train Station is 3 km away and Boryspil Airport is 37 km away.\r\n\r\nCouples particularly like the location — they rated it 9.3 for a two-person trip",
-                Rating = 5
             };
             hotel1.Address = address1;
 
@@ -115,7 +106,6 @@ namespace Booking.Services
             {
                 Name = "Ribas Rooms Lutsk",
                 Description = "Ribas Rooms Lutsk features accommodation in Luts'k. Among the facilities at this property are a 24-hour front desk and room service, along with free WiFithroughout the property. Guests can enjoy garden views.\r\n\r\nAt the hotel, rooms include a desk, a flat-screen TV, a private bathroom, bed linen and towels. The rooms at Ribas Rooms Lutsk have air conditioning and a wardrobe.\r\n\r\nGuests at the accommodation can enjoy an à la carte breakfast.\r\n\r\nThe nearest airport is Lviv International Airport, 156 km from Ribas Rooms Lutsk.\r\n\r\nCouples particularly like the location — they rated it 9.5 for a two-person trip.",
-                Rating = 3
             };
             hotel2.Address = address2;
 
