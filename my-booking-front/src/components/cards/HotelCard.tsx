@@ -4,11 +4,12 @@ import { Button } from "components/ui/Button.tsx";
 import { Hotel } from "interfaces/hotel";
 import { API_URL } from "utils/getEnvData.ts";
 import { getRatingDescription } from "utils/getRating.ts";
+import { haversineDistance } from "utils/haversineDistance.ts";
 
 import React, { useState } from "react";
 
 const HotelCard: React.FC<Hotel> = (props) => {
-    const { name, rating, description, photos, address } = props;
+    const { name, rating, reviews, description, photos, address } = props;
     const [isFavorite, setIsFavorite] = useState(false);
 
     const handleFavoriteClick = () => {
@@ -50,7 +51,15 @@ const HotelCard: React.FC<Hotel> = (props) => {
                         Показати на карті
                     </a>
                     <span className="mx-1 text-gray/20">&bull;</span>
-                    <span className="mx-1">{100} км від центру</span>
+                    <span className="mx-1">
+                        {haversineDistance(
+                            address.latitude,
+                            address.longitude,
+                            address.city.latitude,
+                            address.city.longitude,
+                        ).toFixed(2)}{" "}
+                        км від центру
+                    </span>
                 </div>
                 <div className="flex items-center mt-2 text-xs">{description}</div>
             </div>
@@ -58,7 +67,7 @@ const HotelCard: React.FC<Hotel> = (props) => {
                 <div className="flex items-center justify-end">
                     <div>
                         <span className="text-base font-semibold">{ratingText}</span>
-                        <p className="text-gray text-xs -mt-1">{77} відгуків</p>
+                        <p className="text-gray text-xs -mt-1">{reviews} відгуків</p>
                     </div>
                     <div className="flex items-center ml-2">
                         <div className="bg-blue text-white text-sm font-main font-bold rounded-md rounded-bl-none w-8 h-8 flex items-center justify-center">

@@ -9,6 +9,7 @@ export default {
             backgroundImage: {
                 "hero-home": "url('/assets/homeHero.jpeg')",
                 "hero-search": "url('/assets/searchHero.jpg')",
+                "map-bg": "url('/assets/mapbg.png')",
             },
         },
         colors: {

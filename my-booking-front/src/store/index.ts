@@ -3,6 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { cityApi } from "services/city.ts";
 import { hotelApi } from "services/hotel.ts";
+import { reviewApi } from "services/review.ts";
 import { userApi } from "services/user.ts";
 import userReducer from "store/slice/userSlice.ts";
 
@@ -12,9 +13,15 @@ export const store = configureStore({
         [cityApi.reducerPath]: cityApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [hotelApi.reducerPath]: hotelApi.reducer,
+        [reviewApi.reducerPath]: reviewApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(cityApi.middleware, userApi.middleware, hotelApi.middleware),
+        getDefaultMiddleware().concat(
+            cityApi.middleware,
+            userApi.middleware,
+            hotelApi.middleware,
+            reviewApi.middleware,
+        ),
 });
 
 setupListeners(store.dispatch);

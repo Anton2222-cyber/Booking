@@ -1,8 +1,9 @@
 import AccountLayout from "components/layout/AccountLayout.tsx";
 import Layout from "components/layout/Layout.tsx";
+import CityHotelsMapPage from "pages/CityHotelsMap.tsx";
 import HomePage from "pages/Home.tsx";
+import HotelPage from "pages/HotelPage.tsx";
 import LoginPage from "pages/Login.tsx";
-import Map from "pages/Map.tsx";
 import SearchPage from "pages/Search.tsx";
 import SearchWithParamsPage from "pages/SearchWithParams.tsx";
 import { Route, Routes } from "react-router-dom";
@@ -31,8 +32,8 @@ function App() {
                 <Route index element={<HomePage />} />
                 <Route path="search-accommodation" element={<SearchPage />} />
                 <Route path="search-results" element={<SearchWithParamsPage />} />
-
-                <Route path="map" element={<Map />} />
+                <Route path="search-map" element={<CityHotelsMapPage />} />
+                <Route path="hotel/:id" element={<HotelPage />} />
             </Route>
 
             <Route path="/auth/" element={<AccountLayout />}>

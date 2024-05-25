@@ -5,7 +5,6 @@ import HousingTypeSearch from "components/HousingTypeSearch.tsx";
 import NextTripSearchBanner from "components/NextTripSearchBanner.tsx";
 import PopularAccommodations from "components/PopularAccommodations.tsx";
 import QuickTripPlanner from "components/QuickTripPlanner.tsx";
-import HotelCard from "components/cards/HotelCard.tsx";
 
 const HomePage = () => {
     return (
@@ -23,7 +22,6 @@ const HomePage = () => {
             <PopularAccommodations />
             <NextTripSearchBanner />
             <BannerLoginAdvantages />
-
         </>
     );
 };

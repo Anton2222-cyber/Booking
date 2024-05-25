@@ -1,9 +1,15 @@
 import Swiper from "components/Swiper.tsx";
 import AccommodationCard from "components/cards/AccomodationCard.tsx";
 import Label from "components/ui/Label.tsx";
+import { useGetPageHotelsQuery } from "services/hotel.ts";
 import { SwiperSlide } from "swiper/react";
 
 const PopularAccommodations = () => {
+    const { data } = useGetPageHotelsQuery({
+        pageSize: 20,
+        isRandomItems: true,
+    });
+
     return (
         <div className="flex flex-col container mx-auto mt-5 gap-2">
             <div>
@@ -11,16 +17,9 @@ const PopularAccommodations = () => {
                 <Label variant="subtitle">Від замків і вілл до ботелів та іглу – у нас є все</Label>
             </div>
             <Swiper id="swiper3" slidesPerView={4}>
-                {Array.from({ length: 20 }).map((_, index) => (
-                    <SwiperSlide key={index}>
-                        <AccommodationCard
-                            rating={9.5}
-                            numberOfReviews={100}
-                            name="Hilton"
-                            location="Київ"
-                            imageSrc="https://picsum.photos/600/800"
-                            key={index}
-                        />
+                {data?.data.map((hotel) => (
+                    <SwiperSlide key={hotel.id}>
+                        <AccommodationCard {...hotel} />
                     </SwiperSlide>
                 ))}
             </Swiper>
