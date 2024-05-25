@@ -11,10 +11,9 @@ using Model.Entities.Identity;
 using System;
 using System.Net.Http;
 
-namespace Booking.Services
-{
+namespace Booking.Services {
 
-    public class DataSeeder(
+	public class DataSeeder(
         DataContext context,
         IImageService imageService
         ) : IDataSeeder
