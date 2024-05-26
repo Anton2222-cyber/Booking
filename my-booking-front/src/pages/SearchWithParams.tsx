@@ -37,6 +37,8 @@ const SearchWithParamsPage = () => {
 
     useEffect(() => {
         if (data) {
+            console.log(data);
+
             if (data.data.length === 0) {
                 setHasMore(false);
             } else {
@@ -46,6 +48,8 @@ const SearchWithParamsPage = () => {
     }, [data]);
 
     const fetchMoreData = () => {
+        console.log("fetch more data");
+
         setPage((prevPage) => prevPage + 1);
     };
 
@@ -88,9 +92,9 @@ const SearchWithParamsPage = () => {
                     </div>
                 )}
 
-                {hotels.length > 0 && data && (
+                {hotels.length > 0 && (
                     <InfiniteScroll
-                        dataLength={data.itemsAvailable}
+                        dataLength={hotels.length}
                         scrollThreshold={0.5}
                         next={fetchMoreData}
                         hasMore={hasMore}
