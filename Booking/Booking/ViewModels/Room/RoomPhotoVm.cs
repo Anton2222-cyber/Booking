@@ -1,6 +1,6 @@
-﻿namespace Booking.ViewModels.Hotel;
+﻿namespace Booking.ViewModels.Room;
 
-public class HotelPhotoVm {
+public class RoomPhotoVm {
 	public string Name { get; set; } = null!;
 
 	public int Priority { get; set; }
