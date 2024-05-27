@@ -1,10 +1,10 @@
 import { IconMapPinFilled, IconSearch } from "@tabler/icons-react";
 import Discount from "components/Discount.tsx";
 import NotFoundResult from "components/NotFoundResult.tsx";
+import SideSearchMenu from "components/SideSearchMenu.tsx";
 import HotelCard from "components/cards/HotelCard.tsx";
 import HotelCardSkeleton from "components/cards/HotelCardSkeleton.tsx";
 import { Button } from "components/ui/Button.tsx";
-import SideSearchMenu from "components/ui/SideSearchMenu.tsx";
 import { Hotel } from "interfaces/hotel";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useLocation, useNavigate } from "react-router-dom";

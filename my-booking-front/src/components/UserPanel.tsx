@@ -14,22 +14,20 @@ const UserPanel: React.FC<User> = (props) => {
 
     return (
         <Popover className="relative">
-            <PopoverButton className="outline-none">
-                <Button variant="transparent">
-                    <div className="flex gap-2">
-                        <img
-                            className="h-8 w-8 rounded-full"
-                            src={`${API_URL}/images/200_${photo}`}
-                            alt="avatar"
-                        />
-                        <div className="flex flex-col">
-                            <span className="text-start text-white text-sm">
-                                {firstName} {lastName}
-                            </span>
-                            <span className="text-start text-yellow text-xs">Genius 1-го рівня</span>
-                        </div>
+            <PopoverButton className="h-12 px-3 py-2 outline-none bg-transparent text-white hover:bg-lightblue font-bold rounded-md gap-1">
+                <div className="flex gap-2">
+                    <img
+                        className="h-8 w-8 rounded-full"
+                        src={`${API_URL}/images/200_${photo}`}
+                        alt="avatar"
+                    />
+                    <div className="flex flex-col">
+                        <span className="text-start text-white text-sm">
+                            {firstName} {lastName}
+                        </span>
+                        <span className="text-start text-yellow text-xs">Genius 1-го рівня</span>
                     </div>
-                </Button>
+                </div>
             </PopoverButton>
 
             <Transition

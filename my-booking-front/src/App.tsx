@@ -4,6 +4,7 @@ import CityHotelsMapPage from "pages/CityHotelsMap.tsx";
 import HomePage from "pages/Home.tsx";
 import HotelPage from "pages/HotelPage.tsx";
 import LoginPage from "pages/Login.tsx";
+import RegisterPage from "pages/RegisterPage.tsx";
 import SearchPage from "pages/Search.tsx";
 import SearchWithParamsPage from "pages/SearchWithParams.tsx";
 import { Route, Routes } from "react-router-dom";
@@ -38,6 +39,7 @@ function App() {
 
             <Route path="/auth/" element={<AccountLayout />}>
                 <Route path="login" element={<LoginPage />} />
+                <Route path="register" element={<RegisterPage />} />
             </Route>
         </Routes>
     );

@@ -34,9 +34,11 @@ const Header = () => {
                             <UserPanel {...user} />
                         ) : (
                             <>
-                                <Button variant="secondary" size="sm">
-                                    Зареєструватися
-                                </Button>
+                                <Link to={"auth/register"}>
+                                    <Button variant="secondary" size="sm">
+                                        Зареєструватися
+                                    </Button>
+                                </Link>
 
                                 <Link to={"auth/login"}>
                                     <Button variant="secondary" size="sm">
