@@ -13,4 +13,6 @@ public class Hotel {
 	public ICollection<HotelPhoto> Photos { get; set; } = null!;
 
 	public ICollection<HotelReview> Reviews { get; set; } = null!;
+
+	public ICollection<Room> Rooms { get; set; } = null!;
 }

@@ -1,4 +1,3 @@
-using Booking.Extensions;
 using Booking.Mapper;
 using Booking.Services;
 using Booking.Services.ControllerServices;
@@ -7,9 +6,11 @@ using Booking.Services.Interfaces;
 using Booking.Services.PaginationServices;
 using Booking.Validators.Country;
 using Booking.ViewModels.City;
+using Booking.ViewModels.Convenience;
 using Booking.ViewModels.Country;
 using Booking.ViewModels.Hotel;
 using Booking.ViewModels.HotelReview;
+using Booking.ViewModels.Room;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -54,7 +55,7 @@ builder.Services
 var singinKey = new SymmetricSecurityKey(
 	Encoding.UTF8.GetBytes(
 		builder.Configuration["Authentication:Jwt:SecretKey"]
-			?? throw new NullReferenceException("Authentication:Jwt:SecretKey")
+		?? throw new NullReferenceException("Authentication:Jwt:SecretKey")
 	)
 );
 
@@ -103,17 +104,19 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 
-
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCountryValidator>();
 
-builder.Services.AddTransient<IIdentitySeeder, IdentitySeeder>();
-builder.Services.AddTransient<IDataSeeder, DataSeeder>();
+builder.Services.AddScoped<IMigrationService, MigrationService>();
+builder.Services.AddScoped<IIdentitySeeder, IdentitySeeder>();
+builder.Services.AddScoped<IDataSeeder, DataSeeder>();
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();
 builder.Services.AddTransient<IIdentityService, IdentityService>();
 builder.Services.AddTransient<IExistingEntityCheckerService, ExistingEntityCheckerService>();
+
+builder.Services.AddTransient<IAccountsControllerService, AccountsControllerService>();
 
 builder.Services.AddTransient<ICountriesControllerService, CountriesControllerService>();
 builder.Services.AddTransient<IPaginationService<CountryVm, CountryFilterVm>, CountryPaginationService>();
@@ -126,6 +129,12 @@ builder.Services.AddTransient<IPaginationService<HotelVm, HotelFilterVm>, HotelP
 
 builder.Services.AddTransient<IHotelReviewsControllerService, HotelReviewsControllerService>();
 builder.Services.AddTransient<IPaginationService<HotelReviewVm, HotelReviewsFilterVm>, HotelReviewsPaginationService>();
+
+builder.Services.AddTransient<IConveniencesControllerService, ConveniencesControllerService>();
+builder.Services.AddTransient<IPaginationService<ConvenienceVm, ConvenienceFilterVm>, ConveniencePaginationService>();
+
+builder.Services.AddTransient<IRoomsControllerService, RoomsControllerService>();
+builder.Services.AddTransient<IPaginationService<RoomVm, RoomFilterVm>, RoomsPaginationService>();
 
 
 var app = builder.Build();
@@ -159,8 +168,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await app.MigrateAsync();
 using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateAsyncScope()) {
+	await scope.ServiceProvider.GetRequiredService<IMigrationService>().MigrateLatestAsync();
 	await scope.ServiceProvider.GetRequiredService<IIdentitySeeder>().SeedAsync();
 	await scope.ServiceProvider.GetRequiredService<IDataSeeder>().SeedAsync();
 }
