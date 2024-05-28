@@ -111,25 +111,25 @@ const HotelCreatePage = () => {
                     <div>
                         <label className="text-white text-xl font-main" htmlFor="name">Name</label>
                         <Input {...register("name")} id="name" placeholder="Name..." className="w-full" />
-                        {errors?.name && <FormError errorMessage={errors?.name?.message as string} />}
+                        {errors?.name && <FormError className="text-red" errorMessage={errors?.name?.message as string} />}
                     </div>
 
                     <div>
                         <label className="text-white text-xl font-main" htmlFor="description">Description</label>
                         <Input {...register("description")} id="description" placeholder="Description..." className="w-full" />
-                        {errors?.description && <FormError errorMessage={errors?.description?.message as string} />}
+                        {errors?.description && <FormError className="text-red" errorMessage={errors?.description?.message as string} />}
                     </div>
 
                     <div>
                         <label className="text-white text-xl font-main" htmlFor="street">Street</label>
                         <Input {...register("address.street")} id="address.street" placeholder="Street..." className="w-full" />
-                        {errors?.address && <FormError errorMessage={errors?.address.street?.message as string} />}
+                        {errors?.address && <FormError className="text-red" errorMessage={errors?.address.street?.message as string} />}
                     </div>
 
                     <div>
                         <label className="text-white text-xl font-main" htmlFor="houseNumber">House Number</label>
                         <Input {...register("address.houseNumber")} id="address.houseNumber" placeholder="House Number..." className="w-full" />
-                        {errors?.address && <FormError errorMessage={errors?.address.houseNumber?.message as string} />}
+                        {errors?.address && <FormError className="text-red" errorMessage={errors?.address.houseNumber?.message as string} />}
                     </div>
 
                     <div>
@@ -137,17 +137,17 @@ const HotelCreatePage = () => {
                         <select
                             {...register("address.cityId", { required: "City is required" })}
                             id="cityId"
-                            defaultValue={0}
+                            defaultValue=""
                             className="w-full text-md border px-3 py-1 rounded-sm"
                         >
-                            <option disabled value={0}>Select city</option>
+                            <option disabled value="">Select city</option>
                             {cities?.map((city) => (
                                 <option key={city.id} value={city.id}>
                                     {city.name}
                                 </option>
                             ))}
                         </select>
-                        {errors?.address && <FormError errorMessage={errors?.address.cityId?.message as string} />}
+                        {errors?.address && <FormError className="text-red" errorMessage={errors?.address.cityId?.message as string} />}
                     </div>
 
                     <div>
@@ -156,13 +156,12 @@ const HotelCreatePage = () => {
                             {...register("address.longitude")}
                             id="longitude"
                             type="number"
-                            defaultValue={10.00}
                             min={0.01}
                             step={0.01}
                             placeholder="Longitude..."
                             className="w-full"
                         />
-                        {errors?.address && <FormError errorMessage={errors?.address.longitude?.message as string} />}
+                        {errors?.address && <FormError className="text-red" errorMessage={errors?.address.longitude?.message as string} />}
                     </div>
 
                     <div>
@@ -171,13 +170,12 @@ const HotelCreatePage = () => {
                             {...register("address.latitude")}
                             id="latitude"
                             type="number"
-                            defaultValue={10.00}
                             min={0.01}
                             step={0.01}
                             placeholder="Latitude..."
                             className="w-full"
                         />
-                        {errors?.address && <FormError errorMessage={errors?.address.latitude?.message as string} />}
+                        {errors?.address && <FormError className="text-red" errorMessage={errors?.address.latitude?.message as string} />}
                     </div>
 
                     <div>
@@ -193,7 +191,7 @@ const HotelCreatePage = () => {
                                 className="w-full"
                             />
                         </ImageUploadMulti>
-                        {errors?.photos && <FormError errorMessage={errors?.photos?.message as string} />}
+                        {errors?.photos && <FormError className="text-red" errorMessage={errors?.photos?.message as string} />}
                     </div>
 
                     <div  className=" text-white flex w-full items-center justify-center gap-5">
