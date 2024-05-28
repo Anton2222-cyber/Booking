@@ -12,6 +12,7 @@ import { setLocation } from "store/slice/userSlice.ts";
 
 import { useEffect } from "react";
 import HotelCreatePage from "pages/HotelCreatePage.tsx";
+import SubscribeForm from "components/SubscribeForm.tsx";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -41,7 +42,7 @@ function App() {
         //         <Route path="login" element={<LoginPage />} />
         //     </Route>
         // </Routes>
-        <HotelCreatePage />
+        <SubscribeForm />
     );
 }
 
