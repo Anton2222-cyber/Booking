@@ -16,11 +16,9 @@ export const AddressSchema = z.object({
          }, { message: "latitude must be between -90 and 90" }),
     cityId: z
         .string()
-        .refine((val) => !isNaN(parseFloat(val)), {
-            message: "City ID is required",
+        .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) !== 0, {
+            message: "City is required",
         })
-        .transform((val) => parseInt(val))
-        .refine((val) => val > 0, { message: "City ID must be a positive integer" }),
 });
 
 export const HotelCreateSchema = z.object({
