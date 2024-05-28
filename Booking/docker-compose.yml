@@ -7,4 +7,5 @@ services:
     ports:
       - "5559:8080"
     volumes:
-      - /data/website/booking:/app/data/images
+      #- c:/data/website/booking:/app/Data/Images
+      - /data/website/images:/app/Data/Images

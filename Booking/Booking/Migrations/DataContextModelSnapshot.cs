@@ -148,6 +148,35 @@ namespace Booking.Migrations
                     b.ToTable("Addresses", (string)null);
                 });
 
+            modelBuilder.Entity("Model.Entities.Booking", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("From")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("RoomId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("To")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bookings", (string)null);
+                });
+
             modelBuilder.Entity("Model.Entities.City", b =>
                 {
                     b.Property<long>("Id")
@@ -180,6 +209,24 @@ namespace Booking.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Cities", (string)null);
+                });
+
+            modelBuilder.Entity("Model.Entities.Convenience", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Conveniences", (string)null);
                 });
 
             modelBuilder.Entity("Model.Entities.Country", b =>
@@ -442,6 +489,79 @@ namespace Booking.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
+            modelBuilder.Entity("Model.Entities.Room", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("AdultPlaces")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChildrenPlaces")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("HotelId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("Rooms", (string)null);
+                });
+
+            modelBuilder.Entity("Model.Entities.RoomConvenience", b =>
+                {
+                    b.Property<long>("RoomId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ConvenienceId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("RoomId", "ConvenienceId");
+
+                    b.HasIndex("ConvenienceId");
+
+                    b.ToTable("RoomConveniences", (string)null);
+                });
+
+            modelBuilder.Entity("Model.Entities.RoomPhoto", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.Property<long>("RoomId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("RoomPhotos", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.HasOne("Model.Entities.Identity.Role", null)
@@ -487,6 +607,25 @@ namespace Booking.Migrations
                         .IsRequired();
 
                     b.Navigation("City");
+                });
+
+            modelBuilder.Entity("Model.Entities.Booking", b =>
+                {
+                    b.HasOne("Model.Entities.Room", "Room")
+                        .WithMany("Bookings")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Entities.Identity.User", "User")
+                        .WithMany("Bookings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Model.Entities.City", b =>
@@ -571,9 +710,55 @@ namespace Booking.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Model.Entities.Room", b =>
+                {
+                    b.HasOne("Model.Entities.Hotel", "Hotel")
+                        .WithMany("Rooms")
+                        .HasForeignKey("HotelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hotel");
+                });
+
+            modelBuilder.Entity("Model.Entities.RoomConvenience", b =>
+                {
+                    b.HasOne("Model.Entities.Convenience", "Convenience")
+                        .WithMany("Rooms")
+                        .HasForeignKey("ConvenienceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Entities.Room", "Room")
+                        .WithMany("Conveniences")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Convenience");
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Model.Entities.RoomPhoto", b =>
+                {
+                    b.HasOne("Model.Entities.Room", "Room")
+                        .WithMany("Photos")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+                });
+
             modelBuilder.Entity("Model.Entities.City", b =>
                 {
                     b.Navigation("Addresses");
+                });
+
+            modelBuilder.Entity("Model.Entities.Convenience", b =>
+                {
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("Model.Entities.Country", b =>
@@ -586,6 +771,8 @@ namespace Booking.Migrations
                     b.Navigation("Photos");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("Model.Entities.HotelReview", b =>
@@ -600,9 +787,20 @@ namespace Booking.Migrations
 
             modelBuilder.Entity("Model.Entities.Identity.User", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("HotelReviews");
 
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("Model.Entities.Room", b =>
+                {
+                    b.Navigation("Bookings");
+
+                    b.Navigation("Conveniences");
+
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }
