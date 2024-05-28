@@ -104,95 +104,111 @@ const HotelCreatePage = () => {
     };
 
     return (
-       <>
+        <div className="flex justify-center p-5">
+            <div className="w-full max-w-3xl border rounded-md bg-sky p-5">
+                <h1 className="pb-5 text-2xl font-semibold text-center text-white font-main font-bold">Add New Hotel</h1>
+                <form className="flex flex-col gap-5" onSubmit={onSubmit}>
+                    <div>
+                        <label className="text-white text-xl font-main" htmlFor="name">Name</label>
+                        <Input {...register("name")} id="name" placeholder="Name..." className="w-full" />
+                        {errors?.name && <FormError errorMessage={errors?.name?.message as string} />}
+                    </div>
 
-            <h1 className="pb-5">Add new Hotel</h1>
-            <form className="flex flex-col gap-5" onSubmit={onSubmit}>
-                <label htmlFor="name">Name</label>
-                <Input {...register("name")} id="name" placeholder="Name..." />
-                {errors?.name && <FormError errorMessage={errors?.name?.message as string} />}
+                    <div>
+                        <label className="text-white text-xl font-main" htmlFor="description">Description</label>
+                        <Input {...register("description")} id="description" placeholder="Description..." className="w-full" />
+                        {errors?.description && <FormError errorMessage={errors?.description?.message as string} />}
+                    </div>
 
-                <label htmlFor="description">Description</label>
-                <Input {...register("description")} id="description" placeholder="Description..." />
-                {errors?.description && <FormError errorMessage={errors?.description?.message as string} />}
+                    <div>
+                        <label className="text-white text-xl font-main" htmlFor="street">Street</label>
+                        <Input {...register("address.street")} id="address.street" placeholder="Street..." className="w-full" />
+                        {errors?.address && <FormError errorMessage={errors?.address.street?.message as string} />}
+                    </div>
 
-                <label htmlFor="street">Street</label>
-                <Input {...register("address.street")} id="address.street" placeholder="Street..." />
-                {errors?.address && <FormError errorMessage={errors?.address.street?.message as string} />}
+                    <div>
+                        <label className="text-white text-xl font-main" htmlFor="houseNumber">House Number</label>
+                        <Input {...register("address.houseNumber")} id="address.houseNumber" placeholder="House Number..." className="w-full" />
+                        {errors?.address && <FormError errorMessage={errors?.address.houseNumber?.message as string} />}
+                    </div>
 
-                <label htmlFor="houseNumber">HouseNumber</label>
-                <Input {...register("address.houseNumber")} id="address.houseNumber" placeholder="Street..." />
-                {errors?.address && <FormError errorMessage={errors?.address.houseNumber?.message as string} />}
+                    <div>
+                        <label className="text-white text-xl font-main" htmlFor="cityId">City</label>
+                        <select
+                            {...register("address.cityId", { required: "City is required" })}
+                            id="cityId"
+                            defaultValue={0}
+                            className="w-full text-md border px-3 py-1 rounded-sm"
+                        >
+                            <option disabled value={0}>Select city</option>
+                            {cities?.map((city) => (
+                                <option key={city.id} value={city.id}>
+                                    {city.name}
+                                </option>
+                            ))}
+                        </select>
+                        {errors?.address && <FormError errorMessage={errors?.address.cityId?.message as string} />}
+                    </div>
 
-                <label htmlFor="cityId">City</label>
-                <select
-                    {...register("address.cityId" , { required: "Category is required" })}
-                    id="cityId"
-                    defaultValue={0}
-                    className="flex text-md disabled:cursor-not-allowed disabled:opacity-50 border px-3 py-1 rounded-sm w-full p-2.5"
-                >
-                    <option disabled value={0}>
-                        Select city
-                    </option>
+                    <div>
+                        <label className="text-white text-xl font-main" htmlFor="longitude">Longitude</label>
+                        <Input
+                            {...register("address.longitude")}
+                            id="longitude"
+                            type="number"
+                            defaultValue={10.00}
+                            min={0.01}
+                            step={0.01}
+                            placeholder="Longitude..."
+                            className="w-full"
+                        />
+                        {errors?.address && <FormError errorMessage={errors?.address.longitude?.message as string} />}
+                    </div>
 
-                    {cities?.map((city) => (
-                        <option key={city.id} value={city.id}>
-                            {city.name}
-                        </option>
-                    ))}
-                </select>
-                {errors?.address && <FormError errorMessage={errors?.address.cityId?.message as string} />}
+                    <div>
+                        <label className="text-white text-xl font-main" htmlFor="latitude">Latitude</label>
+                        <Input
+                            {...register("address.latitude")}
+                            id="latitude"
+                            type="number"
+                            defaultValue={10.00}
+                            min={0.01}
+                            step={0.01}
+                            placeholder="Latitude..."
+                            className="w-full"
+                        />
+                        {errors?.address && <FormError errorMessage={errors?.address.latitude?.message as string} />}
+                    </div>
 
-                <label htmlFor="longitude">Longitude</label>
-                <Input
-                    {...register("address.longitude")}
-                    id="longitude"
-                    type="number"
-                    defaultValue={100.00}
-                    min={0.01}
-                    step={0.01}
-                    placeholder="longitude..."
-                />
-                {errors?.address && <FormError errorMessage={errors?.address.longitude?.message as string} />}
+                    <div>
+                        <label className="text-white text-xl font-main" htmlFor="photos">Images</label>
+                        <ImageUploadMulti   setFiles={setFiles} remove={removeImage} files={files}>
+                            <Input
+                                {...register("photos")}
+                                onChange={handleFileChange}
+                                multiple
+                                ref={inputRef}
+                                id="photos"
+                                type="file"
+                                className="w-full"
+                            />
+                        </ImageUploadMulti>
+                        {errors?.photos && <FormError errorMessage={errors?.photos?.message as string} />}
+                    </div>
 
-                <label htmlFor="latitude">Latitude</label>
-                <Input
-                    {...register("address.latitude")}
-                    id="latitude"
-                    type="number"
-                    defaultValue={100.00}
-                    min={0.01}
-                    step={0.01}
-                    placeholder="latitude..."
-                />
-                {errors?.address && <FormError errorMessage={errors?.address.latitude?.message as string} />}
-
-                <label htmlFor="photos">Images</label>
-                <ImageUploadMulti setFiles={setFiles} remove={removeImage} files={files}>
-                    <Input
-                        {...register("photos")}
-                        onChange={handleFileChange}
-                        multiple
-                        ref={inputRef}
-                        id="photos"
-
-                        type="file"
-                    />
-                </ImageUploadMulti>
-                {errors?.photos && <FormError errorMessage={errors?.photos?.message as string} />}
-
-                <div className="flex w-full items-center justify-center gap-5">
-                    <Button  size="lg" type="submit">
-                        <IconCirclePlus />
-                        Create
-                    </Button>
-                    <Button size="lg" type="button"  onClick={onReset}>
-                        <IconCircleX />
-                        Reset
-                    </Button>
-                </div>
-            </form>
-       </>
+                    <div  className=" text-white flex w-full items-center justify-center gap-5">
+                        <Button size="lg" type="submit" className="flex items-center gap-2 bg-yellow">
+                            <IconCirclePlus />
+                            Create
+                        </Button>
+                        <Button size="lg" type="button" onClick={onReset} className="flex items-center gap-2 bg-red">
+                            <IconCircleX />
+                            Reset
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 };
 
