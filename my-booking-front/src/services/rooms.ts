@@ -1,20 +1,19 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { City, GetCityPageRequest } from "interfaces/city";
 import { GetPageResponse } from "interfaces/index.ts";
+import { GetRoomPageRequest, Room } from "interfaces/room";
 import { createQueryString } from "utils/createQueryString.ts";
 import { API_URL } from "utils/getEnvData.ts";
 
-export const cityApi = createApi({
-    reducerPath: "cityApi",
-    baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}/api/cities/` }),
-    tagTypes: ["Cities"],
+export const roomApi = createApi({
+    reducerPath: "roomApi",
+    baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}/api/rooms/` }),
+    tagTypes: ["Room"],
 
     endpoints: (builder) => ({
-        getAllCities: builder.query<City[], void>({
+        getAllRooms: builder.query<Room[], void>({
             query: () => "getAll",
         }),
-
-        getPageCities: builder.query<GetPageResponse<City>, GetCityPageRequest>({
+        getPageRooms: builder.query<GetPageResponse<Room>, GetRoomPageRequest>({
             query: (params) => {
                 const queryString = createQueryString(params as Record<string, any>);
                 return `getPage?${queryString}`;
@@ -23,4 +22,4 @@ export const cityApi = createApi({
     }),
 });
 
-export const { useGetAllCitiesQuery, useGetPageCitiesQuery } = cityApi;
+export const { useGetAllRoomsQuery, useGetPageRoomsQuery } = roomApi;

@@ -4,6 +4,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { cityApi } from "services/city.ts";
 import { hotelApi } from "services/hotel.ts";
 import { reviewApi } from "services/review.ts";
+import { roomApi } from "services/rooms.ts";
 import { userApi } from "services/user.ts";
 import userReducer from "store/slice/userSlice.ts";
 
@@ -11,6 +12,7 @@ export const store = configureStore({
     reducer: {
         user: userReducer,
         [cityApi.reducerPath]: cityApi.reducer,
+        [roomApi.reducerPath]: roomApi.reducer,
         [userApi.reducerPath]: userApi.reducer,
         [hotelApi.reducerPath]: hotelApi.reducer,
         [reviewApi.reducerPath]: reviewApi.reducer,
@@ -21,6 +23,7 @@ export const store = configureStore({
             userApi.middleware,
             hotelApi.middleware,
             reviewApi.middleware,
+            roomApi.middleware,
         ),
 });
 

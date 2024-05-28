@@ -33,7 +33,7 @@ const SideSearchMenu = () => {
     };
 
     return (
-        <div className="bg-yellow rounded-md p-4">
+        <div className="bg-yellow rounded-md p-4 ">
             <Label variant="subtitle" className="text-black text-xl">
                 Шукати
             </Label>

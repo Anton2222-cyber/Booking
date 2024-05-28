@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { GetHotelPageRequest, GetHotelPageResponse, Hotel } from "interfaces/hotel";
+import { GetHotelPageRequest, Hotel } from "interfaces/hotel";
+import { GetPageResponse } from "interfaces/index.ts";
 import { createQueryString } from "utils/createQueryString.ts";
 import { API_URL } from "utils/getEnvData.ts";
 
@@ -17,7 +18,7 @@ export const hotelApi = createApi({
             query: () => "getAll",
         }),
 
-        getPageHotels: builder.query<GetHotelPageResponse, GetHotelPageRequest>({
+        getPageHotels: builder.query<GetPageResponse<Hotel>, GetHotelPageRequest>({
             query: (params) => {
                 const queryString = createQueryString(params as Record<string, any>);
                 return `getPage?${queryString}`;

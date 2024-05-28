@@ -16,7 +16,7 @@ const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 };
 
-const SearchWithParamsPage = () => {
+const ParameterisedSearchPage = () => {
     const query = useQuery();
     const destination = query.get("destination") || "";
     const cityId = Number(query.get("cityId")) || undefined;
@@ -72,52 +72,59 @@ const SearchWithParamsPage = () => {
             <div className="col-span-3 flex flex-col gap-5">
                 <Discount isFullWidth={true} />
 
-                <div className="flex items-center justify-between">
-                    <h1 className=" text-2xl text-black font-bold flex items-center">
-                        <IconSearch />
-                        {`${destination.toUpperCase()}: знайдено ${data?.itemsAvailable} помешкань`}
-                    </h1>
-                    <div className="bg-map-bg w-36 h-16 rounded flex items-center justify-center">
-                        <Button onClick={handleShowOnMap} size="md" className="text-xs">
-                            Показати на карті
-                        </Button>
-                    </div>
-                </div>
-
                 {isLoading && (
-                    <div className="flex flex-col gap-4">
-                        {Array.from({ length: 5 }).map((_, index) => (
-                            <HotelCardSkeleton key={index} />
-                        ))}
-                    </div>
+                    <>
+                        <div className="flex items-center justify-between animate-pulse">
+                            <h1 className="text-2xl bg-gray/20 rounded w-2/3 h-6"></h1>
+                            <div className="bg-gray/20 w-36 h-16 rounded"></div>
+                        </div>
+                        <div className="flex flex-col gap-4 mt-4">
+                            {Array.from({ length: 5 }).map((_, index) => (
+                                <HotelCardSkeleton key={index} />
+                            ))}
+                        </div>
+                    </>
                 )}
 
                 {hotels.length > 0 && (
-                    <InfiniteScroll
-                        dataLength={hotels.length}
-                        scrollThreshold={0.5}
-                        next={fetchMoreData}
-                        hasMore={hasMore}
-                        loader={
-                            <div className="flex items-center justify-center space-x-2">
-                                <div className="w-10 h-10 bg-gray/50 rounded-full animate-pulse"></div>
-                                <div className="w-10 h-10 bg-gray/50 rounded-full animate-pulse delay-200"></div>
-                                <div className="w-10 h-10 bg-gray/50 rounded-full animate-pulse delay-400"></div>
+                    <>
+                        <div className="flex items-center justify-between">
+                            <h1 className=" text-2xl text-black font-bold flex items-center">
+                                <IconSearch />
+                                {`${destination.toUpperCase()}: знайдено ${data?.itemsAvailable} помешкань`}
+                            </h1>
+                            <div className="bg-map-bg w-36 h-16 rounded flex items-center justify-center">
+                                <Button onClick={handleShowOnMap} size="md" className="text-xs">
+                                    Показати на карті
+                                </Button>
                             </div>
-                        }
-                    >
-                        <div className="flex my-4 flex-col gap-4">
-                            {hotels.map((hotel) => (
-                                <HotelCard key={hotel.id} {...hotel} />
-                            ))}
                         </div>
-                    </InfiniteScroll>
+                        <InfiniteScroll
+                            dataLength={hotels.length}
+                            scrollThreshold={0.5}
+                            next={fetchMoreData}
+                            hasMore={hasMore}
+                            loader={
+                                <div className="flex items-center justify-center space-x-2">
+                                    <div className="w-10 h-10 bg-gray/50 rounded-full animate-pulse"></div>
+                                    <div className="w-10 h-10 bg-gray/50 rounded-full animate-pulse delay-200"></div>
+                                    <div className="w-10 h-10 bg-gray/50 rounded-full animate-pulse delay-400"></div>
+                                </div>
+                            }
+                        >
+                            <div className="flex my-4 flex-col gap-4">
+                                {hotels.map((hotel) => (
+                                    <HotelCard key={hotel.id} {...hotel} />
+                                ))}
+                            </div>
+                        </InfiniteScroll>
+                    </>
                 )}
 
-                {isError && <NotFoundResult />}
+                {(isError || data?.data.length === 0) && <NotFoundResult />}
             </div>
         </div>
     );
 };
 
-export default SearchWithParamsPage;
+export default ParameterisedSearchPage;

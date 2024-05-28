@@ -4,7 +4,7 @@ import ukraineFlag from "assets/ukraine-flag.svg";
 import { Button } from "components/ui/Button.tsx";
 import { Link } from "react-router-dom";
 
-const AccountHeader = () => {
+const AuthHeader = () => {
     return (
         <div className="bg-blue py-4">
             <div className="container mx-auto">
@@ -27,4 +27,4 @@ const AccountHeader = () => {
     );
 };
 
-export default AccountHeader;
+export default AuthHeader;

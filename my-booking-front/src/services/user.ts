@@ -27,7 +27,7 @@ export const userApi = createApi({
                 const formData = new FormData();
                 formData.append("FirstName", data.firstName);
                 formData.append("LastName", data.lastName);
-                formData.append("Image", data.image);
+                if (data.image) formData.append("Image", data.image);
                 formData.append("Email", data.email);
                 formData.append("UserName", data.username);
                 formData.append("Password", data.password);
