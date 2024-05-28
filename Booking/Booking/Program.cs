@@ -115,7 +115,6 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();
 builder.Services.AddTransient<IIdentityService, IdentityService>();
 builder.Services.AddTransient<IExistingEntityCheckerService, ExistingEntityCheckerService>();
-builder.Services.AddTransient<IDateNormalizer, PostgreSqlDateNormalizer>();
 
 builder.Services.AddTransient<IAccountsControllerService, AccountsControllerService>();
 
