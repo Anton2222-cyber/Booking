@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Booking.ViewModels.Account;
 using Booking.ViewModels.Address;
+using Booking.ViewModels.Booking;
 using Booking.ViewModels.City;
 using Booking.ViewModels.Convenience;
 using Booking.ViewModels.Country;
@@ -72,5 +73,7 @@ public class AppMapProfile : Profile {
 						.Select(id => new RoomConvenience { Room = dest, ConvenienceId = id })
 				)
 			);
+
+		CreateMap<CreateBookingVm, Model.Entities.Booking>();
 	}
 }

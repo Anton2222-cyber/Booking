@@ -17,4 +17,6 @@ public class Room {
 	public ICollection<RoomPhoto> Photos { get; set; } = null!;
 
 	public ICollection<RoomConvenience> Conveniences { get; set; } = null!;
+
+	public ICollection<Booking> Bookings { get; set; } = null!;
 }

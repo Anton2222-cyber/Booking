@@ -136,6 +136,8 @@ builder.Services.AddTransient<IPaginationService<ConvenienceVm, ConvenienceFilte
 builder.Services.AddTransient<IRoomsControllerService, RoomsControllerService>();
 builder.Services.AddTransient<IPaginationService<RoomVm, RoomFilterVm>, RoomsPaginationService>();
 
+builder.Services.AddTransient<IBookingControllerService, BookingsControllerService>();
+
 
 var app = builder.Build();
 

@@ -1,26 +1,28 @@
 ﻿using AutoMapper;
 using Booking.Services.ControllerServices.Interfaces;
-using Booking.ViewModels.Convenience;
+using Booking.ViewModels.Booking;
+using Booking.ViewModels.City;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
-using Model.Entities;
 
 namespace Booking.Services.ControllerServices;
 
-public class ConveniencesControllerService(
+public class BookingsControllerService(
 	DataContext context,
 	IMapper mapper
-) : IConveniencesControllerService {
+) : IBookingControllerService {
 
-	public async Task CreateAsync(CreateConvenienceVm vm) {
-		var entity = mapper.Map<Convenience>(vm);
+	public async Task CreateAsync(CreateBookingVm vm, long userId) {
+		var entity = mapper.Map<Model.Entities.Booking>(vm);
 
-		await context.Conveniences.AddAsync(entity);
+		entity.UserId = userId;
+
+		await context.Bookings.AddAsync(entity);
 
 		await context.SaveChangesAsync();
 	}
 
-	public async Task UpdateAsync(UpdateConvenienceVm vm) {
+	public async Task UpdateAsync(UpdateCityVm vm) {
 		var entity = await context.Conveniences.FirstAsync(c => c.Id == vm.Id);
 
 		entity.Name = vm.Name;
