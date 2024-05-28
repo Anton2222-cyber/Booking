@@ -5,6 +5,7 @@ using Booking.Services.Interfaces;
 using Booking.ViewModels.Booking;
 using Booking.ViewModels.Convenience;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
@@ -32,6 +33,7 @@ public class BookingsController(
 	}
 
 	[HttpPost]
+	[Authorize(Roles = "Admin,User")]
 	public async Task<IActionResult> Create([FromForm] CreateBookingVm vm) {
 		var validationResult = await createValidator.ValidateAsync(vm);
 
@@ -46,6 +48,7 @@ public class BookingsController(
 	}
 
 	//[HttpPut]
+	//[Authorize(Roles = "Admin,User")]
 	//public async Task<IActionResult> Update([FromForm] UpdateConvenienceVm vm) {
 	//	var validationResult = await updateValidator.ValidateAsync(vm);
 
@@ -58,8 +61,18 @@ public class BookingsController(
 	//}
 
 	[HttpDelete("{id}")]
+	[Authorize(Roles = "Admin,User")]
 	public async Task<IActionResult> Delete(long id) {
-		await service.DeleteIfExistsAsync(id);
+		var entity = await context.Bookings.FirstOrDefaultAsync(b => b.Id == id);
+
+		if (entity is not null) {
+			var user = await identityService.GetCurrentUserAsync(this);
+
+			if (entity.UserId != user.Id)
+				return Forbid("The booking is not own");
+
+			await service.DeleteIfExistsAsync(id);
+		}
 
 		return Ok();
 	}
