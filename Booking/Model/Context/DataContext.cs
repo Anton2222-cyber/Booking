@@ -23,6 +23,7 @@ public class DataContext(DbContextOptions<DataContext> options)
 	public DbSet<RoomPhoto> RoomPhotos { get; set; }
 	public DbSet<Convenience> Conveniences { get; set; }
 	public DbSet<RoomConvenience> RoomConveniences { get; set; }
+	public DbSet<Booking> Bookings { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder) {
 		base.OnModelCreating(modelBuilder);
@@ -41,5 +42,6 @@ public class DataContext(DbContextOptions<DataContext> options)
 		new RoomPhotoEntityTypeConfiguration().Configure(modelBuilder.Entity<RoomPhoto>());
 		new ConvenienceEntityTypeConfiguration().Configure(modelBuilder.Entity<Convenience>());
 		new RoomConvenienceEntityTypeConfiguration().Configure(modelBuilder.Entity<RoomConvenience>());
+		new BookingEntityTypeConfiguration().Configure(modelBuilder.Entity<Booking>());
 	}
 }
