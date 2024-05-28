@@ -1,9 +1,12 @@
-﻿using Booking.Services.ControllerServices.Interfaces;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
 using Booking.ViewModels.Booking;
 using Booking.ViewModels.Convenience;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Model.Context;
 
 namespace Booking.Controllers;
@@ -12,11 +15,21 @@ namespace Booking.Controllers;
 [ApiController]
 public class BookingsController(
 	DataContext context,
+	IMapper mapper,
 	IValidator<CreateBookingVm> createValidator,
 	IValidator<UpdateConvenienceVm> updateValidator,
 	IBookingControllerService service,
 	IIdentityService identityService
 ) : ControllerBase {
+
+	[HttpGet]
+	public async Task<IActionResult> GetAll() {
+		var entities = await context.Bookings
+			.ProjectTo<BookingVm>(mapper.ConfigurationProvider)
+			.ToArrayAsync();
+
+		return Ok(entities);
+	}
 
 	[HttpPost]
 	public async Task<IActionResult> Create([FromForm] CreateBookingVm vm) {

@@ -74,6 +74,7 @@ public class AppMapProfile : Profile {
 				)
 			);
 
+		CreateMap<Model.Entities.Booking, BookingVm>();
 		CreateMap<CreateBookingVm, Model.Entities.Booking>();
 	}
 }
