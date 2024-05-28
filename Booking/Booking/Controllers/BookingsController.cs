@@ -18,7 +18,7 @@ public class BookingsController(
 	DataContext context,
 	IMapper mapper,
 	IValidator<CreateBookingVm> createValidator,
-	IValidator<UpdateConvenienceVm> updateValidator,
+	IValidator<UpdateBookingVm> updateValidator,
 	IBookingControllerService service,
 	IIdentityService identityService
 ) : ControllerBase {
@@ -47,18 +47,23 @@ public class BookingsController(
 		return Ok();
 	}
 
-	//[HttpPut]
-	//[Authorize(Roles = "Admin,User")]
-	//public async Task<IActionResult> Update([FromForm] UpdateConvenienceVm vm) {
-	//	var validationResult = await updateValidator.ValidateAsync(vm);
+	[HttpPut]
+	[Authorize(Roles = "Admin,User")]
+	public async Task<IActionResult> Update([FromForm] UpdateBookingVm vm) {
+		var validationResult = await updateValidator.ValidateAsync(vm);
 
-	//	if (!validationResult.IsValid)
-	//		return BadRequest(validationResult.Errors);
+		if (!validationResult.IsValid)
+			return BadRequest(validationResult.Errors);
 
-	//	await service.UpdateAsync(vm);
+		var booking = await context.Bookings.FirstAsync(b => b.Id == vm.Id);
+		var user = await identityService.GetCurrentUserAsync(this);
+		if (booking.UserId != user.Id)
+			return Forbid("The booking is not own");
 
-	//	return Ok();
-	//}
+		await service.UpdateAsync(vm);
+
+		return Ok();
+	}
 
 	[HttpDelete("{id}")]
 	[Authorize(Roles = "Admin,User")]
