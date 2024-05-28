@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Booking.Services.ControllerServices.Interfaces;
+﻿using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
-using Booking.Validators.Booking;
 using Booking.ViewModels.Booking;
 using Booking.ViewModels.Convenience;
 using FluentValidation;

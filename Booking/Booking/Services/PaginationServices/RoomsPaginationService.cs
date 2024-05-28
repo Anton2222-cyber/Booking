@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Booking.Services.PaginationServices.Base;
-using Booking.ViewModels.Hotel;
 using Booking.ViewModels.Room;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
@@ -58,6 +57,17 @@ public class RoomsPaginationService(
 					cId => r.Conveniences.Any(c => c.ConvenienceId == cId)
 				)
 			);
+
+		if (vm.FreeTime is not null) {
+			if (vm.FreeTime.From > vm.FreeTime.To)
+				throw new Exception("Invalid time span");
+
+			query = query.Where(
+				r => r.Bookings.All(b =>
+					(b.From < vm.FreeTime.From && b.To <= vm.FreeTime.From)
+					|| (b.From >= vm.FreeTime.To && b.To > vm.FreeTime.To))
+			);
+		}
 
 		return query;
 	}
