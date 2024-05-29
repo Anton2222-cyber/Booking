@@ -20,7 +20,6 @@ const HotelCreatePage = () => {
         handleSubmit,
         reset,
         setValue,
-        setError,
         formState: { errors },
     } = useForm<HotelCreateSchemaType>({ resolver: zodResolver(HotelCreateSchema) });
 
@@ -66,23 +65,23 @@ const HotelCreatePage = () => {
     };
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log("begin validation photo");
-        if (!data.photos?.length) {
-            setError("photos", {
-                type: "required",
-                message: "Hotel images is required!",
-            });
-            return;
-        }
-        try {
-            // await createProduct({ ...data }).unwrap();
-            // showToast(`Category ${data.name} successful created!`, "success");
-            // close();
-        } catch (err) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            showToast(`Error created ${data.name} category! ${err.error}`, "error");
-        }
+        console.log(data);
+        // if (!data.photos?.length) {
+        //     setError("photos", {
+        //         type: "required",
+        //         message: "Hotel images is required!",
+        //     });
+        //     return;
+        // }
+        // try {
+        //     // await createProduct({ ...data }).unwrap();
+        //     // showToast(`Category ${data.name} successful created!`, "success");
+        //     // close();
+        // } catch (err) {
+        //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //     // @ts-expect-error
+        //     showToast(`Error created ${data.name} category! ${err.error}`, "error");
+        // }
     });
 
     const onReset = () => {
@@ -90,18 +89,18 @@ const HotelCreatePage = () => {
     };
 
     return (
-        <div className="flex justify-center p-5">
-            <div className="w-full max-w-3xl border rounded-md bg-sky p-5">
-                <h1 className="pb-5 text-2xl font-semibold text-center text-white font-main font-bold">
-                    Add New Hotel
-                </h1>
+        <div className="container mx-auto bg-blue flex justify-center mt-5">
+            <div className="w-full p-5">
+                <h1 className="pb-5 text-2xl text-center text-white font-main font-bold">Add New Hotel</h1>
                 <form className="flex flex-col gap-5" onSubmit={onSubmit}>
                     <div>
                         <label className="text-white text-xl font-main" htmlFor="name">
                             Name
                         </label>
                         <Input {...register("name")} id="name" placeholder="Name..." className="w-full" />
-                        {errors?.name && <FormError errorMessage={errors?.name?.message as string} />}
+                        {errors?.name && (
+                            <FormError className="text-red" errorMessage={errors?.name?.message as string} />
+                        )}
                     </div>
 
                     <div>
@@ -115,7 +114,10 @@ const HotelCreatePage = () => {
                             className="w-full"
                         />
                         {errors?.description && (
-                            <FormError errorMessage={errors?.description?.message as string} />
+                            <FormError
+                                className="text-red"
+                                errorMessage={errors?.description?.message as string}
+                            />
                         )}
                     </div>
 
@@ -130,7 +132,10 @@ const HotelCreatePage = () => {
                             className="w-full"
                         />
                         {errors?.address && (
-                            <FormError errorMessage={errors?.address.street?.message as string} />
+                            <FormError
+                                className="text-red"
+                                errorMessage={errors?.address.street?.message as string}
+                            />
                         )}
                     </div>
 
@@ -145,7 +150,10 @@ const HotelCreatePage = () => {
                             className="w-full"
                         />
                         {errors?.address && (
-                            <FormError errorMessage={errors?.address.houseNumber?.message as string} />
+                            <FormError
+                                className="text-red"
+                                errorMessage={errors?.address.houseNumber?.message as string}
+                            />
                         )}
                     </div>
 
@@ -156,10 +164,10 @@ const HotelCreatePage = () => {
                         <select
                             {...register("address.cityId", { required: "City is required" })}
                             id="cityId"
-                            defaultValue={0}
+                            defaultValue=""
                             className="w-full text-md border px-3 py-1 rounded-sm"
                         >
-                            <option disabled value={0}>
+                            <option disabled value="">
                                 Select city
                             </option>
                             {cities?.map((city) => (
@@ -169,7 +177,10 @@ const HotelCreatePage = () => {
                             ))}
                         </select>
                         {errors?.address && (
-                            <FormError errorMessage={errors?.address.cityId?.message as string} />
+                            <FormError
+                                className="text-red"
+                                errorMessage={errors?.address.cityId?.message as string}
+                            />
                         )}
                     </div>
 
@@ -181,14 +192,16 @@ const HotelCreatePage = () => {
                             {...register("address.longitude")}
                             id="longitude"
                             type="number"
-                            defaultValue={10.0}
                             min={0.01}
                             step={0.01}
                             placeholder="Longitude..."
                             className="w-full"
                         />
                         {errors?.address && (
-                            <FormError errorMessage={errors?.address.longitude?.message as string} />
+                            <FormError
+                                className="text-red"
+                                errorMessage={errors?.address.longitude?.message as string}
+                            />
                         )}
                     </div>
 
@@ -200,14 +213,16 @@ const HotelCreatePage = () => {
                             {...register("address.latitude")}
                             id="latitude"
                             type="number"
-                            defaultValue={10.0}
                             min={0.01}
                             step={0.01}
                             placeholder="Latitude..."
                             className="w-full"
                         />
                         {errors?.address && (
-                            <FormError errorMessage={errors?.address.latitude?.message as string} />
+                            <FormError
+                                className="text-red"
+                                errorMessage={errors?.address.latitude?.message as string}
+                            />
                         )}
                     </div>
 
@@ -226,7 +241,12 @@ const HotelCreatePage = () => {
                                 className="w-full"
                             />
                         </ImageUploadMulti>
-                        {errors?.photos && <FormError errorMessage={errors?.photos?.message as string} />}
+                        {errors?.photos && (
+                            <FormError
+                                className="text-red"
+                                errorMessage={errors?.photos?.message as string}
+                            />
+                        )}
                     </div>
 
                     <div className=" text-white flex w-full items-center justify-center gap-5">
