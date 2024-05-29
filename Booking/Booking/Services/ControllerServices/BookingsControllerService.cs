@@ -22,21 +22,23 @@ public class BookingsControllerService(
 		await context.SaveChangesAsync();
 	}
 
-	public async Task UpdateAsync(UpdateCityVm vm) {
-		var entity = await context.Conveniences.FirstAsync(c => c.Id == vm.Id);
+	public async Task UpdateAsync(UpdateBookingVm vm) {
+		var entity = await context.Bookings.FirstAsync(b => b.Id == vm.Id);
 
-		entity.Name = vm.Name;
+		entity.From = vm.From;
+		entity.To = vm.To;
+		entity.RoomId = vm.RoomId;
 
 		await context.SaveChangesAsync();
 	}
 
 	public async Task DeleteIfExistsAsync(long id) {
-		var entity = await context.Conveniences.FirstOrDefaultAsync(c => c.Id == id);
+		var entity = await context.Bookings.FirstOrDefaultAsync(b => b.Id == id);
 
 		if (entity is null)
 			return;
 
-		context.Conveniences.Remove(entity);
+		context.Bookings.Remove(entity);
 		await context.SaveChangesAsync();
 	}
 }

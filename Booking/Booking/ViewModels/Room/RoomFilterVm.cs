@@ -1,4 +1,5 @@
-﻿using Booking.ViewModels.Pagination;
+﻿using Booking.ViewModels.Other;
+using Booking.ViewModels.Pagination;
 
 namespace Booking.ViewModels.Room;
 
@@ -20,6 +21,8 @@ public class RoomFilterVm : PaginationVm {
 	public long? HotelId { get; set; }
 
 	public IEnumerable<long>? ConvenienceIds { get; set; }
+
+	public TimeSpanVm? FreeTime { get; set; }
 
 	public bool? IsRandomItems { get; set; }
 }

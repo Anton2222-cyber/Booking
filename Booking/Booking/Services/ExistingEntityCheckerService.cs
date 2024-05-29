@@ -1,5 +1,4 @@
-﻿using Bogus.DataSets;
-using Booking.Services.Interfaces;
+﻿using Booking.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
 
@@ -32,4 +31,7 @@ public class ExistingEntityCheckerService(
 
 	public async Task<bool> IsCorrectRoomId(long id, CancellationToken cancellationToken) =>
 		await context.Rooms.AnyAsync(r => r.Id == id, cancellationToken);
+
+	public async Task<bool> IsCorrectBookingId(long id, CancellationToken cancellationToken) =>
+		await context.Bookings.AnyAsync(b => b.Id == id, cancellationToken);
 }

@@ -6,4 +6,5 @@ public interface IExistingEntityCheckerService {
 	Task<bool> IsCorrectConvenienceId(long id, CancellationToken cancellationToken);
 	Task<bool> IsCorrectConvenienceIds(IEnumerable<long>? ids, CancellationToken cancellationToken);
 	Task<bool> IsCorrectRoomId(long id, CancellationToken cancellationToken);
+	Task<bool> IsCorrectBookingId(long id, CancellationToken cancellationToken);
 }

@@ -6,11 +6,15 @@ using Model.Context;
 
 namespace Booking.Validators.Booking;
 
-public class CreateBookingValidator : AbstractValidator<CreateBookingVm> {
+public class UpdateBookingValidator : AbstractValidator<UpdateBookingVm> {
 	private readonly DataContext _context;
 
-	public CreateBookingValidator(DataContext context, IExistingEntityCheckerService existingEntityCheckerService) {
+	public UpdateBookingValidator(DataContext context, IExistingEntityCheckerService existingEntityCheckerService) {
 		_context = context;
+
+		RuleFor(b => b.Id)
+			.MustAsync(existingEntityCheckerService.IsCorrectBookingId)
+				.WithMessage("Booking with this id is not exists");
 
 		RuleFor(b => b.From)
 			.GreaterThan(DateTime.Now)
@@ -29,8 +33,9 @@ public class CreateBookingValidator : AbstractValidator<CreateBookingVm> {
 				.WithMessage("There is already a booking that overlaps with this time slot");
 	}
 
-	private async Task<bool> ThereAreNoTimeCrossings(CreateBookingVm vm, CancellationToken cancellationToken) {
+	private async Task<bool> ThereAreNoTimeCrossings(UpdateBookingVm vm, CancellationToken cancellationToken) {
 		return await _context.Bookings
+			.Where(b => b.Id != vm.Id)
 			.Where(b => b.RoomId == vm.RoomId)
 			.AllAsync(
 				b => (b.From < vm.From && b.To <= vm.From)
