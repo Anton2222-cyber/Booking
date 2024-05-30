@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { CreateBooking } from "interfaces/booking";
+import { roomApi } from "services/rooms.ts";
 import { API_URL } from "utils/getEnvData.ts";
 
 export const bookingApi = createApi({
@@ -30,7 +31,10 @@ export const bookingApi = createApi({
                     body: bookingFormData,
                 };
             },
-            invalidatesTags: ["Booking"],
+            async onQueryStarted(_, { dispatch, queryFulfilled }) {
+                await queryFulfilled;
+                dispatch(roomApi.util.invalidateTags(["Room"]));
+            },
         }),
     }),
 });

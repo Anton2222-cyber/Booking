@@ -6,14 +6,17 @@ import ImageUploadMulti from "components/ui/ImageUploadMulti.tsx";
 import { Input } from "components/ui/Input.tsx";
 import { HotelCreateSchema, HotelCreateSchemaType } from "interfaces/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { useGetAllCitiesQuery } from "services/city.ts";
+import { useAddHotelMutation } from "services/hotel.ts";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 const HotelCreatePage = () => {
     const { data: cities } = useGetAllCitiesQuery();
     const [files, setFiles] = useState<File[]>([]);
-    // const [createProduct, { isLoading }] = useAddProductMutation();
+    const [create] = useAddHotelMutation();
+    const navigate = useNavigate();
 
     const {
         register,
@@ -72,16 +75,14 @@ const HotelCreatePage = () => {
         //         message: "Hotel images is required!",
         //     });
         //     return;
-        // }
-        // try {
-        //     // await createProduct({ ...data }).unwrap();
-        //     // showToast(`Category ${data.name} successful created!`, "success");
-        //     // close();
-        // } catch (err) {
-        //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //     // @ts-expect-error
-        //     showToast(`Error created ${data.name} category! ${err.error}`, "error");
-        // }
+        // // }
+        try {
+            await create({ ...data, photos: files, cityId: Number(data.address.cityId) }).unwrap();
+
+            navigate(`/search-results?cityId=${data.address.cityId}`);
+        } catch (err) {
+            console.log("Error created hotel: ", err);
+        }
     });
 
     const onReset = () => {
@@ -89,9 +90,9 @@ const HotelCreatePage = () => {
     };
 
     return (
-        <div className="container mx-auto bg-blue flex justify-center mt-5">
+        <div className="container mx-auto flex justify-center mt-5">
             <div className="w-full p-5">
-                <h1 className="pb-5 text-2xl text-center text-white font-main font-bold">Add New Hotel</h1>
+                <h1 className="pb-5 text-2xl text-center text-black font-main font-bold">Add New Hotel</h1>
                 <form className="flex flex-col gap-5" onSubmit={onSubmit}>
                     <div>
                         <label className="text-white text-xl font-main" htmlFor="name">
@@ -250,16 +251,11 @@ const HotelCreatePage = () => {
                     </div>
 
                     <div className=" text-white flex w-full items-center justify-center gap-5">
-                        <Button size="lg" type="submit" className="flex items-center gap-2 bg-yellow">
+                        <Button size="lg" type="submit" className="hover:bg-sky/70">
                             <IconCirclePlus />
                             Create
                         </Button>
-                        <Button
-                            size="lg"
-                            type="button"
-                            onClick={onReset}
-                            className="flex items-center gap-2 bg-red"
-                        >
+                        <Button size="lg" type="button" onClick={onReset} className="hover:bg-sky/70">
                             <IconCircleX />
                             Reset
                         </Button>

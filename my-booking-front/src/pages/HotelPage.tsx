@@ -94,10 +94,6 @@ const HotelPage = () => {
             roomsRef.current.scrollIntoView({ behavior: "smooth" });
         }
     };
-    const handleSearch = () => {
-        console.log(startDate);
-        console.log(endDate);
-    };
 
     return (
         <div className="container mx-auto mt-5 grid grid-cols-4 gap-5">
@@ -236,7 +232,7 @@ const HotelPage = () => {
                             setChildren={setChildren}
                         />
                     </div>
-                    <Button variant="primary" onClick={handleSearch}>
+                    <Button variant="primary" onClick={scrollToRooms}>
                         Вказати дані
                     </Button>
                 </div>

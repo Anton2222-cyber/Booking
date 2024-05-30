@@ -28,7 +28,9 @@ const Header = () => {
                             <IconHelp className="text-white h-6 w-6" />
                         </Button>
 
-                        <Button variant="transparent">Зареєструвати своє помешкання</Button>
+                        <Link to={"hotel/create"}>
+                            <Button variant="transparent">Зареєструвати своє помешкання</Button>
+                        </Link>
 
                         {user ? (
                             <UserPanel {...user} />

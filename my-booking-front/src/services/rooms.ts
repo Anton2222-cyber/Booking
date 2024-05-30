@@ -18,6 +18,8 @@ export const roomApi = createApi({
                 const queryString = createQueryString(params as Record<string, any>);
                 return `getPage?${queryString}`;
             },
+            providesTags: ["Room"],
+            // providesTags: (_result, _error, arg) => [{ type: "Room", id: arg.hotelId }],
         }),
     }),
 });

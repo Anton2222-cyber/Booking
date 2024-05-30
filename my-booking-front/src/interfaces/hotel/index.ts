@@ -37,6 +37,8 @@ export interface HotelAddress {
     street?: string;
     houseNumber?: string;
     city?: HotelAddressCity;
+    latitude?: string;
+    longitude?: string;
 }
 
 export interface GetHotelPageRequest {
@@ -55,4 +57,12 @@ export interface GetHotelPageResponse {
     data: Hotel[];
     pagesAvailable: number;
     itemsAvailable: number;
+}
+
+export interface CreateHotel {
+    name: string;
+    cityId: number;
+    description: string;
+    address: HotelAddress;
+    photos: File[];
 }
