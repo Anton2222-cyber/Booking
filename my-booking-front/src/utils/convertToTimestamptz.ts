@@ -13,3 +13,13 @@ export const convertToTimestamptz = (date: Date): string => {
 export const convertFromTimestamptz = (timestamptz: string): Date => {
     return new Date(timestamptz);
 };
+
+export const handleStartDateChange = (date: Date) => {
+    date.setUTCHours(12, 0, 0, 0);
+    return date;
+};
+
+export const handleEndDateChange = (date: Date) => {
+    date.setUTCHours(11, 59, 59, 999);
+    return date;
+};

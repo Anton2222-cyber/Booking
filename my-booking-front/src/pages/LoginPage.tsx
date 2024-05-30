@@ -36,6 +36,7 @@ const LoginPage: React.FC = () => {
         });
 
         if (res && "data" in res && res.data) {
+            console.log(res.data.token);
             setUser(res.data.token);
         } else {
             console.log("Error login. Check login data!");

@@ -5,6 +5,11 @@ export interface Convenience {
     name: string;
 }
 
+export interface FreeTime {
+    from: string;
+    to: string;
+}
+
 export interface Room {
     id: number;
     name: string;
@@ -32,4 +37,5 @@ export interface GetRoomPageRequest {
     isRandomItems?: boolean;
     pageIndex?: number;
     pageSize?: number;
+    freeTime?: FreeTime;
 }

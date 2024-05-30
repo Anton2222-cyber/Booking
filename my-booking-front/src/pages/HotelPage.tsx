@@ -6,13 +6,13 @@ import {
     IconMinus,
     IconUserFilled,
 } from "@tabler/icons-react";
+import RoomsTable from "components/RoomsTable.tsx";
 import SelectPerson from "components/SelectPerson.tsx";
 import SideSearchMenu from "components/SideSearchMenu.tsx";
 import Swiper from "components/Swiper.tsx";
 import ReviewCard from "components/cards/ReviewCard.tsx";
 import { Button } from "components/ui/Button.tsx";
 import Label from "components/ui/Label.tsx";
-import RoomsTable from "components/ui/RoomsTable.tsx";
 import { Convenience } from "interfaces/room";
 import DatePicker from "react-datepicker";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,7 +20,12 @@ import { useGetHotelQuery } from "services/hotel.ts";
 import { useGetPageReviewsQuery } from "services/review.ts";
 import { useGetPageRoomsQuery } from "services/rooms.ts";
 import { SwiperSlide } from "swiper/react";
-import { convertFromTimestamptz, convertToTimestamptz } from "utils/convertToTimestamptz.ts";
+import {
+    convertFromTimestamptz,
+    convertToTimestamptz,
+    handleEndDateChange,
+    handleStartDateChange,
+} from "utils/convertToTimestamptz.ts";
 import { API_URL } from "utils/getEnvData.ts";
 import { getRatingDescription } from "utils/getRating.ts";
 
@@ -33,8 +38,12 @@ const HotelPage = () => {
     const [adults, setAdults] = useState<number>(1);
     const [room, setRooms] = useState<number>(1);
     const [children, setChildren] = useState<number>(0);
-    const [startDate, setStartDate] = useState<string>(convertToTimestamptz(new Date()));
-    const [endDate, setEndDate] = useState<string>(convertToTimestamptz(new Date()));
+    const [startDate, setStartDate] = useState<string>(
+        convertToTimestamptz(handleStartDateChange(new Date())),
+    );
+    const [endDate, setEndDate] = useState<string>(
+        convertToTimestamptz(handleStartDateChange(new Date(new Date().setDate(new Date().getDate() + 1)))),
+    );
 
     const { data } = useGetHotelQuery(id || "0");
     const roomsRef = useRef<HTMLLabelElement>(null);
@@ -46,6 +55,12 @@ const HotelPage = () => {
     const { data: rooms } = useGetPageRoomsQuery({
         hotelId: Number(id) || 0,
         pageSize: 20,
+        minAdultPlaces: adults,
+        minChildrenPlaces: children,
+        freeTime: {
+            from: startDate,
+            to: endDate,
+        },
     });
 
     const { data: reviews } = useGetPageReviewsQuery({
@@ -79,7 +94,6 @@ const HotelPage = () => {
             roomsRef.current.scrollIntoView({ behavior: "smooth" });
         }
     };
-
     const handleSearch = () => {
         console.log(startDate);
         console.log(endDate);
@@ -179,9 +193,13 @@ const HotelPage = () => {
                                 className="placeholder:text-lightgray font-bold w-44 outline-none ps-10 text-sm"
                                 selected={convertFromTimestamptz(startDate)}
                                 minDate={new Date()}
-                                maxDate={convertFromTimestamptz(endDate)}
+                                maxDate={((d) => new Date(d.setDate(d.getDate() - 1)))(
+                                    new Date(convertFromTimestamptz(endDate)),
+                                )}
                                 placeholderText="Заїзд"
-                                onChange={(date: Date) => setStartDate(convertToTimestamptz(date))}
+                                onChange={(date: Date) =>
+                                    setStartDate(convertToTimestamptz(handleStartDateChange(date)))
+                                }
                                 dateFormat="MMMM d, yyyy"
                             />
                         </div>
@@ -194,8 +212,12 @@ const HotelPage = () => {
                                 className="placeholder:text-lightgray font-bold w-44 outline-none text-sm ps-10"
                                 placeholderText="Виїзд"
                                 selected={convertFromTimestamptz(endDate)}
-                                minDate={convertFromTimestamptz(startDate) || new Date()}
-                                onChange={(date: Date) => setEndDate(convertToTimestamptz(date))}
+                                minDate={((d) => new Date(d.setDate(d.getDate() + 1)))(
+                                    new Date(convertFromTimestamptz(startDate)),
+                                )}
+                                onChange={(date: Date) =>
+                                    setEndDate(convertToTimestamptz(handleEndDateChange(date)))
+                                }
                                 dateFormat="MMMM d, yyyy"
                             />
                         </div>
@@ -219,7 +241,7 @@ const HotelPage = () => {
                     </Button>
                 </div>
 
-                <RoomsTable rooms={rooms?.data || []} />
+                <RoomsTable from={startDate} to={endDate} rooms={rooms?.data || []} />
             </div>
         </div>
     );

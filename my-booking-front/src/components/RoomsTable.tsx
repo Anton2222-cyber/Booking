@@ -1,14 +1,23 @@
 import { IconCaretRightFilled, IconUserFilled } from "@tabler/icons-react";
 import { Button } from "components/ui/Button.tsx";
 import { Room } from "interfaces/room";
+import { useCreateBookingMutation } from "services/booking.ts";
 
 import React from "react";
 
 interface RoomsTableProps {
+    from: string;
+    to: string;
     rooms: Room[];
 }
 const RoomsTable: React.FC<RoomsTableProps> = (props) => {
-    const { rooms } = props;
+    const { rooms, to, from } = props;
+
+    const [createBooking] = useCreateBookingMutation();
+
+    const handleCreateBooking = (roomId: number) => {
+        createBooking({ roomId: roomId, from: from, to: to });
+    };
 
     return (
         <table className="table-auto w-full ">
@@ -43,7 +52,11 @@ const RoomsTable: React.FC<RoomsTableProps> = (props) => {
 
                         <td className="p-2">{room.price} ₴</td>
                         <td className="p-2">
-                            <Button size="sm" className="text-xs w-full">
+                            <Button
+                                size="sm"
+                                onClick={() => handleCreateBooking(room.id)}
+                                className="text-xs w-full"
+                            >
                                 Забронювати
                             </Button>
                         </td>

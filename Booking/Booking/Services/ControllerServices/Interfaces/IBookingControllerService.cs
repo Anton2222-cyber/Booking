@@ -5,6 +5,6 @@ namespace Booking.Services.ControllerServices.Interfaces;
 
 public interface IBookingControllerService {
 	Task CreateAsync(CreateBookingVm vm, long userId);
-	Task UpdateAsync(UpdateCityVm vm);
+	Task UpdateAsync(UpdateBookingVm vm);
 	Task DeleteIfExistsAsync(long id);
 }
