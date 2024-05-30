@@ -5,6 +5,7 @@ using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
 using Booking.Services.PaginationServices;
 using Booking.Validators.Country;
+using Booking.ViewModels.Booking;
 using Booking.ViewModels.City;
 using Booking.ViewModels.Convenience;
 using Booking.ViewModels.Country;
@@ -115,6 +116,7 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();
 builder.Services.AddTransient<IIdentityService, IdentityService>();
 builder.Services.AddTransient<IExistingEntityCheckerService, ExistingEntityCheckerService>();
+builder.Services.AddScoped<IScopedIdentityService, ScopedIdentityService>();
 
 builder.Services.AddTransient<IAccountsControllerService, AccountsControllerService>();
 
@@ -137,6 +139,7 @@ builder.Services.AddTransient<IRoomsControllerService, RoomsControllerService>()
 builder.Services.AddTransient<IPaginationService<RoomVm, RoomFilterVm>, RoomsPaginationService>();
 
 builder.Services.AddTransient<IBookingControllerService, BookingsControllerService>();
+builder.Services.AddScoped<IPaginationService<BookingVm, BookingFilterVm>, BookingPaginationService>();
 
 
 var app = builder.Build();

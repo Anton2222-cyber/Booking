@@ -7,7 +7,5 @@ public class BookingVm {
 
 	public DateTime To { get; set; }
 
-	public long RoomId { get; set; }
-
-	public long UserId { get; set; }
+	public BookingRoomVm Room { get; set; } = null!;
 }
