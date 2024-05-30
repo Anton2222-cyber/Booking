@@ -56,7 +56,7 @@ builder.Services
 var singinKey = new SymmetricSecurityKey(
 	Encoding.UTF8.GetBytes(
 		builder.Configuration["Authentication:Jwt:SecretKey"]
-		?? throw new NullReferenceException("Authentication:Jwt:SecretKey")
+			?? throw new NullReferenceException("Authentication:Jwt:SecretKey")
 	)
 );
 
@@ -111,12 +111,13 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateCountryValidator>();
 builder.Services.AddScoped<IMigrationService, MigrationService>();
 builder.Services.AddScoped<IIdentitySeeder, IdentitySeeder>();
 builder.Services.AddScoped<IDataSeeder, DataSeeder>();
+
 builder.Services.AddTransient<IImageService, ImageService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();
 builder.Services.AddTransient<IIdentityService, IdentityService>();
-builder.Services.AddTransient<IExistingEntityCheckerService, ExistingEntityCheckerService>();
 builder.Services.AddScoped<IScopedIdentityService, ScopedIdentityService>();
+builder.Services.AddTransient<IExistingEntityCheckerService, ExistingEntityCheckerService>();
 
 builder.Services.AddTransient<IAccountsControllerService, AccountsControllerService>();
 
@@ -139,7 +140,7 @@ builder.Services.AddTransient<IRoomsControllerService, RoomsControllerService>()
 builder.Services.AddTransient<IPaginationService<RoomVm, RoomFilterVm>, RoomsPaginationService>();
 
 builder.Services.AddTransient<IBookingControllerService, BookingsControllerService>();
-builder.Services.AddScoped<IPaginationService<BookingVm, BookingFilterVm>, BookingPaginationService>();
+builder.Services.AddTransient<IPaginationService<BookingVm, BookingFilterVm>, BookingPaginationService>();
 
 
 var app = builder.Build();
@@ -173,7 +174,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateAsyncScope()) {
+await using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateAsyncScope()) {
 	await scope.ServiceProvider.GetRequiredService<IMigrationService>().MigrateLatestAsync();
 	await scope.ServiceProvider.GetRequiredService<IIdentitySeeder>().SeedAsync();
 	await scope.ServiceProvider.GetRequiredService<IDataSeeder>().SeedAsync();
