@@ -16,6 +16,21 @@ const Header = () => {
                 <div className="flex items-center justify-between">
                     <Link to="/">
                         <img src={bookingLogo} className="w-36" alt="Booking logo" />
+
+                        {/*<motion.img*/}
+                        {/*    src={bookingLogo}*/}
+                        {/*    className="w-36"*/}
+                        {/*    alt="Booking logo"*/}
+                        {/*    animate={{ rotate: 360 }}*/}
+                        {/*    transition={{*/}
+                        {/*        duration: 2,*/}
+                        {/*        repeat: Infinity,*/}
+                        {/*        repeatDelay: 1,*/}
+                        {/*        repeatType: "reverse",*/}
+                        {/*        type: "tween",*/}
+                        {/*        ease: "easeInOut",*/}
+                        {/*    }}*/}
+                        {/*/>*/}
                     </Link>
                     <div className="flex items-center gap-2">
                         <Button variant="transparent">UAH</Button>
