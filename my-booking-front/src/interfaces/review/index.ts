@@ -10,10 +10,6 @@ export interface Review {
     photos?: Photo;
 }
 
-export interface GetReviewPageResponse {
-    data: Review[];
-    pagesAvailable: number;
-}
 export interface GetReviewPageRequest {
     description?: string;
     score?: number;

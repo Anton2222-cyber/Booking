@@ -1,18 +1,18 @@
 import AccountLayout from "components/layout/AccountLayout.tsx";
 import Layout from "components/layout/Layout.tsx";
 import CityHotelsMapPage from "pages/CityHotelsMap.tsx";
-import HomePage from "pages/Home.tsx";
+import HomePage from "pages/HomePage.tsx";
+import HotelCreatePage from "pages/HotelCreatePage.tsx";
 import HotelPage from "pages/HotelPage.tsx";
-import LoginPage from "pages/Login.tsx";
-import SearchPage from "pages/Search.tsx";
-import SearchWithParamsPage from "pages/SearchWithParams.tsx";
+import LoginPage from "pages/LoginPage.tsx";
+import ParameterisedSearchPage from "pages/ParameterisedSearchPage.tsx";
+import QuickSearchPage from "pages/QuickSearchPage.tsx";
+import RegisterPage from "pages/RegisterPage.tsx";
 import { Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "store/index.ts";
 import { setLocation } from "store/slice/userSlice.ts";
 
 import { useEffect } from "react";
-import HotelCreatePage from "pages/HotelCreatePage.tsx";
-import SubscribeForm from "components/SubscribeForm.tsx";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -29,20 +29,21 @@ function App() {
     }, []);
 
     return (
-        // <Routes>
-        //     <Route path="/" element={<Layout />}>
-        //         <Route index element={<HomePage />} />
-        //         <Route path="search-accommodation" element={<SearchPage />} />
-        //         <Route path="search-results" element={<SearchWithParamsPage />} />
-        //         <Route path="search-map" element={<CityHotelsMapPage />} />
-        //         <Route path="hotel/:id" element={<HotelPage />} />
-        //     </Route>
-        //
-        //     <Route path="/auth/" element={<AccountLayout />}>
-        //         <Route path="login" element={<LoginPage />} />
-        //     </Route>
-        // </Routes>
-        <SubscribeForm />
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                <Route index element={<HomePage />} />
+                <Route path="search-accommodation" element={<QuickSearchPage />} />
+                <Route path="search-results" element={<ParameterisedSearchPage />} />
+                <Route path="search-map" element={<CityHotelsMapPage />} />
+                <Route path="hotel/:id" element={<HotelPage />} />
+                <Route path="hotel/create" element={<HotelCreatePage />} />
+            </Route>
+
+            <Route path="/auth/" element={<AccountLayout />}>
+                <Route path="login" element={<LoginPage />} />
+                <Route path="register" element={<RegisterPage />} />
+            </Route>
+        </Routes>
     );
 }
 

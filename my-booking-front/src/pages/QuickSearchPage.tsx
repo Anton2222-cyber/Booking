@@ -4,7 +4,7 @@ import HowDoesItWork from "components/HowDoesItWork.tsx";
 import AccommodationSearchCard from "components/cards/AccommodationSearchCard.tsx";
 import { SwiperSlide } from "swiper/react";
 
-const SearchPage = () => {
+const QuickSearchPage = () => {
     return (
         <>
             <Hero
@@ -110,4 +110,4 @@ const SearchPage = () => {
     );
 };
 
-export default SearchPage;
+export default QuickSearchPage;

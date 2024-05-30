@@ -19,3 +19,12 @@ export interface UserState {
 export interface LoginResponse {
     token: string;
 }
+
+export interface RegisterUser {
+    firstName: string;
+    lastName: string;
+    image: File | null;
+    email: string;
+    username: string;
+    password: string;
+}

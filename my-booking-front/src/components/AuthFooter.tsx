@@ -1,4 +1,4 @@
-const AccountFooter = () => {
+const AuthFooter = () => {
     return (
         <div className="mx-auto max-w-md px-8">
             <p className="mt-6 text-center text-xs">
@@ -18,4 +18,4 @@ const AccountFooter = () => {
     );
 };
 
-export default AccountFooter;
+export default AuthFooter;
