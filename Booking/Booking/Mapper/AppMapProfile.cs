@@ -75,6 +75,13 @@ public class AppMapProfile : Profile {
 			);
 
 		CreateMap<Model.Entities.Booking, BookingVm>();
+		CreateMap<Room, BookingRoomVm>()
+			.ForMember(
+				br => br.Conveniences,
+				opt => opt.MapFrom(
+					r => r.Conveniences.Select(c => c.Convenience)
+				)
+			);
 		CreateMap<CreateBookingVm, Model.Entities.Booking>();
 	}
 }

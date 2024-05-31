@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Booking.Services;
 using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
+using Booking.Services.PaginationServices;
 using Booking.ViewModels.Booking;
+using Booking.ViewModels.City;
 using Booking.ViewModels.Convenience;
+using Booking.ViewModels.Pagination;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +24,9 @@ public class BookingsController(
 	IValidator<CreateBookingVm> createValidator,
 	IValidator<UpdateBookingVm> updateValidator,
 	IBookingControllerService service,
-	IIdentityService identityService
+	IIdentityService identityService,
+	IPaginationService<BookingVm, BookingFilterVm> pagination,
+	IScopedIdentityService scopedIdentityService
 ) : ControllerBase {
 
 	[HttpGet]
@@ -30,6 +36,19 @@ public class BookingsController(
 			.ToArrayAsync();
 
 		return Ok(entities);
+	}
+
+	[HttpGet]
+	[Authorize(Roles = "Admin,User")]
+	public async Task<IActionResult> GetPage([FromQuery] BookingFilterVm vm) {
+		await scopedIdentityService.InitCurrentUserAsync(this);
+
+		try {
+			return Ok(await pagination.GetPageAsync(vm));
+		}
+		catch (Exception ex) {
+			return BadRequest(ex.Message);
+		}
 	}
 
 	[HttpPost]
