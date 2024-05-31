@@ -13,6 +13,7 @@ import { useAppDispatch } from "store/index.ts";
 import { setLocation } from "store/slice/userSlice.ts";
 
 import { useEffect } from "react";
+import BookingCancellation from "pages/BookingCancellation.tsx";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -37,6 +38,7 @@ function App() {
                 <Route path="search-map" element={<CityHotelsMapPage />} />
                 <Route path="hotel/:id" element={<HotelPage />} />
                 <Route path="hotel/create" element={<HotelCreatePage />} />
+                <Route path="hotel/cancellation" element={<BookingCancellation />} />
             </Route>
 
             <Route path="/auth/" element={<AccountLayout />}>

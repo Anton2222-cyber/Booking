@@ -192,7 +192,9 @@ const HotelCreatePage = () => {
                         <Input
                             {...register("address.longitude")}
                             id="longitude"
-                            type="text"
+                            type="number"
+                            min={0.00000001}
+                            step={0.00000001}
                             placeholder="Longitude..."
                             className="w-full"
                         />
@@ -211,7 +213,9 @@ const HotelCreatePage = () => {
                         <Input
                             {...register("address.latitude")}
                             id="latitude"
-                            type="text"
+                            type="number"
+                            min={0.00000001}
+                            step={0.00000001}
                             placeholder="Latitude..."
                             className="w-full"
                         />
