@@ -3,11 +3,8 @@ using AutoMapper.QueryableExtensions;
 using Booking.Services;
 using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
-using Booking.Services.PaginationServices;
 using Booking.ViewModels.Booking;
 using Booking.ViewModels.City;
-using Booking.ViewModels.Convenience;
-using Booking.ViewModels.Pagination;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +46,22 @@ public class BookingsController(
 		catch (Exception ex) {
 			return BadRequest(ex.Message);
 		}
+	}
+
+	[HttpGet("{id}")]
+	[Authorize(Roles = "Admin,User")]
+	public async Task<IActionResult> GetById(long id) {
+		var user = await identityService.GetCurrentUserAsync(this);
+
+		var entity = await context.Bookings
+			.Where(b => b.UserId == user.Id)
+			.ProjectTo<BookingVm>(mapper.ConfigurationProvider)
+			.FirstOrDefaultAsync(b => b.Id == id);
+
+		if (entity is null)
+			return NotFound();
+
+		return Ok(entity);
 	}
 
 	[HttpPost]
