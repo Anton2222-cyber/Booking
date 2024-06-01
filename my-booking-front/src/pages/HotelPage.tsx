@@ -25,7 +25,7 @@ import {
     convertToTimestamptz,
     handleEndDateChange,
     handleStartDateChange,
-} from "utils/convertToTimestamptz.ts";
+} from "utils/dateFormat.ts";
 import { API_URL } from "utils/getEnvData.ts";
 import { getRatingDescription } from "utils/getRating.ts";
 
@@ -42,7 +42,7 @@ const HotelPage = () => {
         convertToTimestamptz(handleStartDateChange(new Date())),
     );
     const [endDate, setEndDate] = useState<string>(
-        convertToTimestamptz(handleStartDateChange(new Date(new Date().setDate(new Date().getDate() + 1)))),
+        convertToTimestamptz(handleEndDateChange(new Date(new Date().setDate(new Date().getDate() + 1)))),
     );
 
     const { data } = useGetHotelQuery(id || "0");

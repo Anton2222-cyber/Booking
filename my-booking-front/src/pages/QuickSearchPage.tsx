@@ -1,10 +1,16 @@
-import AccommodationBlock from "components/AccommodationBlock.tsx";
-import Hero from "components/Hero.tsx";
-import HowDoesItWork from "components/HowDoesItWork.tsx";
-import AccommodationSearchCard from "components/cards/AccommodationSearchCard.tsx";
+import AccommodationsContainer from "components/blocks/AccommodationsContainer.tsx";
+import Hero from "components/blocks/Hero.tsx";
+import HowDoesItWork from "components/blocks/HowDoesItWork.tsx";
+import HotelSearchCard from "components/cards/HotelSearchCard.tsx";
+import { useGetPageHotelsQuery } from "services/hotel.ts";
 import { SwiperSlide } from "swiper/react";
 
 const QuickSearchPage = () => {
+    const { data } = useGetPageHotelsQuery({
+        pageSize: 10,
+        isRandomItems: true,
+    });
+
     return (
         <>
             <Hero
@@ -14,96 +20,61 @@ const QuickSearchPage = () => {
                 img={"bg-hero-search"}
             />
 
-            <AccommodationBlock id="swiper4" title={"Гості люблять ці приватні помешкання"}>
-                {Array.from({ length: 20 }).map((_, index) => (
+            <AccommodationsContainer id="swiper4" title={"Гості люблять ці приватні помешкання"}>
+                {data?.data.map((hotel, index) => (
                     <SwiperSlide key={index}>
-                        <AccommodationSearchCard
-                            location="Київ, Україна"
-                            rating={10}
-                            name="Cracow Best Location Apartment"
-                            imageSrc="https://picsum.photos/500/800"
-                            key={index}
-                            numberOfReviews={0}
-                        />
+                        <HotelSearchCard {...hotel} />
                     </SwiperSlide>
                 ))}
-            </AccommodationBlock>
+            </AccommodationsContainer>
 
-            <AccommodationBlock
+            <AccommodationsContainer
                 id="swiper5"
                 title={"Додаткові послуги"}
                 subtitle={"Стійка реєстрації заїзду, прибирання тощо"}
             >
-                {Array.from({ length: 20 }).map((_, index) => (
+                {data?.data.map((hotel, index) => (
                     <SwiperSlide key={index}>
-                        <AccommodationSearchCard
-                            location="Лондон, Велика Британія"
-                            rating={10}
-                            name="Cracow Best Location Apartment"
-                            imageSrc="https://picsum.photos/600/800"
-                            key={index}
-                            numberOfReviews={0}
-                        />
+                        <HotelSearchCard {...hotel} />
                     </SwiperSlide>
                 ))}
-            </AccommodationBlock>
+            </AccommodationsContainer>
 
-            <AccommodationBlock
+            <AccommodationsContainer
                 id="swiper6"
                 title={"Весь простір лише для вас"}
                 subtitle={"Окремі приватні помешкання й житло цілком"}
             >
-                {Array.from({ length: 20 }).map((_, index) => (
+                {data?.data.map((hotel, index) => (
                     <SwiperSlide key={index}>
-                        <AccommodationSearchCard
-                            location="Лондон, Велика Британія"
-                            rating={10}
-                            name="Cracow Best Location Apartment"
-                            imageSrc="https://picsum.photos/550/800"
-                            key={index}
-                            numberOfReviews={0}
-                        />
+                        <HotelSearchCard {...hotel} />
                     </SwiperSlide>
                 ))}
-            </AccommodationBlock>
+            </AccommodationsContainer>
 
-            <AccommodationBlock
+            <AccommodationsContainer
                 id="swiper7"
                 title={"Для вашої поїздки з друзями"}
                 subtitle={"Хороша оцінка від груп мандрівників"}
             >
-                {Array.from({ length: 20 }).map((_, index) => (
+                {data?.data.map((hotel, index) => (
                     <SwiperSlide key={index}>
-                        <AccommodationSearchCard
-                            location="Лондон, Велика Британія"
-                            rating={10}
-                            name="Cracow Best Location Apartment"
-                            imageSrc="https://picsum.photos/570/800"
-                            key={index}
-                            numberOfReviews={0}
-                        />
+                        <HotelSearchCard {...hotel} />
                     </SwiperSlide>
                 ))}
-            </AccommodationBlock>
+            </AccommodationsContainer>
 
-            <AccommodationBlock
+            <AccommodationsContainer
                 id="swiper8"
                 title={"Для поїздки на будь-який строк"}
                 subtitle={"Приватні помешкання, де є все необхідне"}
             >
-                {Array.from({ length: 20 }).map((_, index) => (
+                {data?.data.map((hotel, index) => (
                     <SwiperSlide key={index}>
-                        <AccommodationSearchCard
-                            location="Лондон, Велика Британія"
-                            rating={10}
-                            name="Cracow Best Location Apartment"
-                            imageSrc="https://picsum.photos/555/800"
-                            key={index}
-                            numberOfReviews={0}
-                        />
+                        <HotelSearchCard {...hotel} />
                     </SwiperSlide>
                 ))}
-            </AccommodationBlock>
+            </AccommodationsContainer>
 
             <HowDoesItWork />
         </>

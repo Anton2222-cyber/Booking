@@ -1,10 +1,10 @@
-import BannerLoginAdvantages from "components/BannerLoginAdvantages.tsx";
-import Discount from "components/Discount.tsx";
-import Hero from "components/Hero.tsx";
-import HousingTypeSearch from "components/HousingTypeSearch.tsx";
-import NextTripSearchBanner from "components/NextTripSearchBanner.tsx";
-import PopularAccommodations from "components/PopularAccommodations.tsx";
-import QuickTripPlanner from "components/QuickTripPlanner.tsx";
+import Discount from "components/blocks/Discount.tsx";
+import Hero from "components/blocks/Hero.tsx";
+import HousingTypes from "components/blocks/HousingTypes.tsx";
+import LoginAdvantages from "components/blocks/LoginAdvantages.tsx";
+import NextTrip from "components/blocks/NextTrip.tsx";
+import PopularHotels from "components/blocks/PopularHotels.tsx";
+import QuickTripPlanner from "components/blocks/QuickTripPlanner.tsx";
 import { motion } from "framer-motion";
 import { leftToRightMotion, rightToLightMotion, topToBottomMotion } from "motion/index.ts";
 
@@ -12,10 +12,10 @@ import React from "react";
 
 const blocks: React.ReactNode[] = [
     <QuickTripPlanner />,
-    <HousingTypeSearch />,
-    <PopularAccommodations />,
-    <NextTripSearchBanner />,
-    <BannerLoginAdvantages />,
+    <HousingTypes />,
+    <PopularHotels />,
+    <NextTrip />,
+    <LoginAdvantages />,
 ];
 
 const HomePage = () => {
@@ -24,6 +24,7 @@ const HomePage = () => {
             <motion.div
                 initial={"hidden"}
                 animate={"visible"}
+                className="relative z-0"
                 transition={{
                     duration: 1,
                     ease: "easeInOut",
@@ -47,12 +48,14 @@ const HomePage = () => {
                     ease: "easeInOut",
                 }}
                 variants={leftToRightMotion}
+                className="relative -z-10"
             >
                 <Discount />
             </motion.div>
 
-            {blocks.map((block) => (
+            {blocks.map((block, index) => (
                 <motion.div
+                    key={index}
                     className="card-container"
                     initial="offscreen"
                     whileInView="onscreen"
@@ -63,12 +66,6 @@ const HomePage = () => {
                     </motion.div>
                 </motion.div>
             ))}
-
-            {/*<QuickTripPlanner />*/}
-            {/*<HousingTypeSearch />*/}
-            {/*<PopularAccommodations />*/}
-            {/*<NextTripSearchBanner />*/}
-            {/*<BannerLoginAdvantages />*/}
         </div>
     );
 };

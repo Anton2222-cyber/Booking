@@ -79,9 +79,11 @@ const HotelCard: React.FC<Hotel> = (props) => {
                         </div>
                     </div>
                 </div>
-                <Button variant="primary" size="lg" className="text-nowrap">
-                    Показати ціни
-                </Button>
+                <Link to={`/hotel/${id}`}>
+                    <Button variant="primary" size="lg" className="text-nowrap">
+                        Показати ціни
+                    </Button>
+                </Link>
             </div>
         </div>
     );

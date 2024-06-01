@@ -1,10 +1,10 @@
 import Swiper from "components/Swiper.tsx";
-import AccommodationCard from "components/cards/AccomodationCard.tsx";
+import AccommodationCard from "components/cards/HotelPopularCard.tsx";
 import Label from "components/ui/Label.tsx";
 import { useGetPageHotelsQuery } from "services/hotel.ts";
 import { SwiperSlide } from "swiper/react";
 
-const PopularAccommodations = () => {
+const PopularHotels = () => {
     const { data } = useGetPageHotelsQuery({
         pageSize: 20,
         isRandomItems: true,
@@ -27,4 +27,4 @@ const PopularAccommodations = () => {
     );
 };
 
-export default PopularAccommodations;
+export default PopularHotels;

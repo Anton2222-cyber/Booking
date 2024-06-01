@@ -1,4 +1,5 @@
 import { Country } from "interfaces/country";
+import { PaginationOptions } from "interfaces/index.ts";
 
 export interface City {
     id: number;
@@ -9,7 +10,7 @@ export interface City {
     country: Country;
 }
 
-export interface GetCityPageRequest {
+export interface GetCityPageRequest extends PaginationOptions {
     name?: string;
     longitude?: number;
     latitude?: number;
@@ -18,12 +19,4 @@ export interface GetCityPageRequest {
     minLatitude?: number;
     maxLatitude?: number;
     countryId?: number;
-    isRandomItems?: boolean;
-    pageIndex?: number;
-    pageSize: number;
-}
-
-export interface GetCityPageResponse {
-    data: City[];
-    pagesAvailable: number;
 }

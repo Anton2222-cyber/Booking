@@ -23,3 +23,23 @@ export const handleEndDateChange = (date: Date) => {
     date.setUTCHours(11, 59, 59, 999);
     return date;
 };
+
+export const formatToShortDate = (dateString: string): string => {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    const date = new Date(dateString);
+
+    const day = date.getUTCDate();
+    const month = months[date.getUTCMonth()];
+    const year = date.getUTCFullYear().toString().slice(-2);
+
+    return `${day} ${month} ${year}`;
+};
+
+export const calculateDays = (fromDate: string, toDate: string): number => {
+    const from = new Date(fromDate);
+    const to = new Date(toDate);
+    const diffTime = Math.abs(to.getTime() - from.getTime());
+
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+};
