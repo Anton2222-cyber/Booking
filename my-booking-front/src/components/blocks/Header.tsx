@@ -15,7 +15,7 @@ const Header = () => {
             <div className="container mx-auto">
                 <div className="flex items-center justify-between">
                     <Link to="/">
-                        <img src={bookingLogo} className="w-36" alt="Booking logo" />
+                        <img src={bookingLogo} className="w-36" alt="BookingPage logo" />
                     </Link>
                     <div className="flex items-center gap-2">
                         <Button variant="transparent">UAH</Button>

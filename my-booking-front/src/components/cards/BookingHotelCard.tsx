@@ -10,7 +10,7 @@ import { API_URL } from "utils/getEnvData.ts";
 import React from "react";
 
 const BookingHotelCard: React.FC<Booking> = (props) => {
-    const { to, from, room } = props;
+    const { id, to, from, room } = props;
 
     const { data } = useGetHotelQuery(room.hotelId.toString());
 
@@ -40,9 +40,11 @@ const BookingHotelCard: React.FC<Booking> = (props) => {
                     <p className="text-lg font-semibold">UAH {calculateDays(from, to) * room.price}</p>
                     <p className="text-gray text-xs">за {calculateDays(from, to)} ночі</p>
                 </div>
-                <Button variant="rounded" className="text-sky hover:bg-lightgray/10">
-                    <IconDotsVertical />
-                </Button>
+                <Link to={`/booking/${id}`}>
+                    <Button variant="rounded" className="text-sky hover:bg-lightgray/10">
+                        <IconDotsVertical />
+                    </Button>
+                </Link>
             </div>
         </div>
     );

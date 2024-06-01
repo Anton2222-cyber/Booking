@@ -20,6 +20,10 @@ export const bookingApi = createApi({
     tagTypes: ["Booking"],
 
     endpoints: (builder) => ({
+        getBooking: builder.query<Booking, string>({
+            query: (id) => `getById/${id}`,
+        }),
+
         getPageBookings: builder.query<GetPageResponse<Booking>, GetBookingsPageRequest>({
             query: (params) => {
                 const queryString = createQueryString(params as Record<string, any>);
