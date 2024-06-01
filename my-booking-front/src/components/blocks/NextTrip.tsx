@@ -1,8 +1,7 @@
+import logo from "assets/next_trip_banner.png";
 import { Button } from "components/ui/Button.tsx";
 
-import logo from "../assets/next_trip_banner.png";
-
-const NextTripSearchBanner = () => {
+const NextTrip = () => {
     return (
         <div className="flex flex-col container mx-auto mt-5 gap-2">
             <div className="relative border border-lightgray/20 rounded-md overflow-hidden flex justify-between h-72">
@@ -28,4 +27,4 @@ const NextTripSearchBanner = () => {
     );
 };
 
-export default NextTripSearchBanner;
+export default NextTrip;

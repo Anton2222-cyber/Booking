@@ -18,6 +18,7 @@ export default {
             red: "#A30000",
             brown: "#923E01",
             lightblue: "#1A4FA0",
+            green: "#00d300",
             white: "#ffffff",
             sky: "#006ce4",
             lightsky: "#e8edf6",

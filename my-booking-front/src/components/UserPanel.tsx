@@ -2,6 +2,7 @@ import { Popover, PopoverButton, PopoverPanel, Transition } from "@headlessui/re
 import { IconBrandBooking, IconHeart, IconLogout } from "@tabler/icons-react";
 import { Button } from "components/ui/Button.tsx";
 import { User } from "interfaces/user";
+import { Link } from "react-router-dom";
 import { useAppDispatch } from "store/index.ts";
 import { logOut } from "store/slice/userSlice.ts";
 import { API_URL } from "utils/getEnvData.ts";
@@ -40,14 +41,16 @@ const UserPanel: React.FC<User> = (props) => {
                 leaveTo="opacity-0 translate-y-1"
             >
                 <PopoverPanel className="shadow-xl w-full bg-white py-1 rounded-md absolute right-0 mt-4 z-10 flex flex-col">
-                    <Button
-                        variant="underline"
-                        className="w-full text-sm no-underline text-black hover:bg-gray/20 justify-start"
-                        size="sm"
-                    >
-                        <IconBrandBooking />
-                        Бронювання
-                    </Button>
+                    <Link to={"my-bookings"}>
+                        <Button
+                            variant="underline"
+                            className="w-full text-sm no-underline text-black hover:bg-gray/20 justify-start"
+                            size="sm"
+                        >
+                            <IconBrandBooking />
+                            Бронювання
+                        </Button>
+                    </Link>
 
                     <Button
                         variant="underline"

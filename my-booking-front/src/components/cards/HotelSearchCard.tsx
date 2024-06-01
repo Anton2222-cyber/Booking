@@ -1,18 +1,24 @@
+import { Hotel } from "interfaces/hotel";
+import { API_URL } from "utils/getEnvData.ts";
 import { getRatingDescription } from "utils/getRating.ts";
 
 import React from "react";
 
-const AccommodationSearchCard: React.FC<IAccommodationCardProps> = (props) => {
-    const { name, location, rating, imageSrc } = props;
+const HotelSearchCard: React.FC<Hotel> = (props) => {
+    const { name, address, rating, photos } = props;
     const ratingDescription = getRatingDescription(rating);
 
     return (
         <div className="max-w-64 mx-auto font-main bg-white overflow-hidden cursor-pointer">
             <div className="overflow-hidden rounded-lg">
-                <img className="h-64 w-full object-cover" src={imageSrc} alt={name} />
+                <img
+                    className="h-64 w-full object-cover"
+                    src={`${API_URL}/images/800_${photos[0].name}`}
+                    alt={name}
+                />
             </div>
             <div className="py-3 text-xs text-gray flex flex-col gap-0.5">
-                <p>{location}</p>
+                <p>{address.city.name}</p>
                 <h1 className="text-black font-semibold text-sm">{name}</h1>
                 <p className="text-sm">{`${rating} ${ratingDescription}`}</p>
                 <p className="text-sm">Від UAH 3 500</p>
@@ -21,4 +27,4 @@ const AccommodationSearchCard: React.FC<IAccommodationCardProps> = (props) => {
     );
 };
 
-export default AccommodationSearchCard;
+export default HotelSearchCard;

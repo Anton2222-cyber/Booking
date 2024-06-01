@@ -3,7 +3,7 @@ import { Input } from "components/ui/Input.tsx";
 
 import React, { useState } from "react";
 
-const SubscribeForm: React.FC = () => {
+const Subscribe: React.FC = () => {
     const [email, setEmail] = useState("");
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -48,4 +48,4 @@ const SubscribeForm: React.FC = () => {
     );
 };
 
-export default SubscribeForm;
+export default Subscribe;

@@ -30,6 +30,7 @@
       "hooks/*": ["hooks/*"],
       "data/*": ["data/*"],
       "pages/*": ["pages/*"],
+      "motion/*": ["motion/*"],
       "services/*": ["services/*"],
       "store/*": ["store/*"],
       "types/*": ["types/*"],

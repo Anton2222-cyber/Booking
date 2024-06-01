@@ -2,13 +2,12 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { IconTrash } from "@tabler/icons-react";
 
-type ImageSortableItemProps = {
+type ImageSortableProps = {
     remove: (name: string) => void;
-
     file: File;
 };
 
-const ImageSortableItem = (props: ImageSortableItemProps) => {
+const ImageSortableContainer = (props: ImageSortableProps) => {
     const { remove, file } = props;
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: file.name });
 
@@ -35,4 +34,4 @@ const ImageSortableItem = (props: ImageSortableItemProps) => {
     );
 };
 
-export default ImageSortableItem;
+export default ImageSortableContainer;

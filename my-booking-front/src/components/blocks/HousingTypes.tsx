@@ -3,7 +3,7 @@ import AccommodationTypeCard from "components/cards/AccommodationTypeCard.tsx";
 import Label from "components/ui/Label.tsx";
 import { SwiperSlide } from "swiper/react";
 
-const HousingTypeSearch = () => {
+const HousingTypes = () => {
     return (
         <div className="flex flex-col container mx-auto mt-5 gap-2">
             <Label variant="title">Пошук за типом помешкання</Label>
@@ -23,4 +23,4 @@ const HousingTypeSearch = () => {
     );
 };
 
-export default HousingTypeSearch;
+export default HousingTypes;

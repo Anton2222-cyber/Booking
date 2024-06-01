@@ -2,7 +2,7 @@ import GeniusLogo from "assets/GeniusGenericGiftBox.png";
 import { Button } from "components/ui/Button.tsx";
 import Label from "components/ui/Label.tsx";
 
-const BannerLoginAdvantages = () => {
+const LoginAdvantages = () => {
     return (
         <div className="flex flex-col container mx-auto mt-5 gap-2">
             <Label variant="title">Подорожуйте більше, витрачайте менше</Label>
@@ -29,4 +29,4 @@ const BannerLoginAdvantages = () => {
     );
 };
 
-export default BannerLoginAdvantages;
+export default LoginAdvantages;

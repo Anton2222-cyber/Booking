@@ -1,3 +1,4 @@
+import { PaginationOptions } from "interfaces/index.ts";
 import { Photo } from "interfaces/photo";
 
 export interface Convenience {
@@ -21,7 +22,7 @@ export interface Room {
     conveniences: Convenience[];
 }
 
-export interface GetRoomPageRequest {
+export interface GetRoomPageRequest extends PaginationOptions {
     name?: string;
     price?: number;
     minPrice?: number;
@@ -34,8 +35,5 @@ export interface GetRoomPageRequest {
     maxChildrenPlaces?: number;
     hotelId?: number;
     convenienceIds?: number[];
-    isRandomItems?: boolean;
-    pageIndex?: number;
-    pageSize?: number;
     freeTime?: FreeTime;
 }

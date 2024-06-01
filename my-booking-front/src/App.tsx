@@ -1,5 +1,7 @@
 import AccountLayout from "components/layout/AccountLayout.tsx";
 import Layout from "components/layout/Layout.tsx";
+import BookingPage from "pages/BookingPage.tsx";
+import BookingsPage from "pages/BookingsPage.tsx";
 import CityHotelsMapPage from "pages/CityHotelsMap.tsx";
 import HomePage from "pages/HomePage.tsx";
 import HotelCreatePage from "pages/HotelCreatePage.tsx";
@@ -13,7 +15,6 @@ import { useAppDispatch } from "store/index.ts";
 import { setLocation } from "store/slice/userSlice.ts";
 
 import { useEffect } from "react";
-import BookingCancellation from "pages/BookingCancellation.tsx";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -38,7 +39,8 @@ function App() {
                 <Route path="search-map" element={<CityHotelsMapPage />} />
                 <Route path="hotel/:id" element={<HotelPage />} />
                 <Route path="hotel/create" element={<HotelCreatePage />} />
-                <Route path="hotel/cancellation" element={<BookingCancellation />} />
+                <Route path="my-bookings" element={<BookingsPage />} />
+                <Route path="booking/:id" element={<BookingPage />} />
             </Route>
 
             <Route path="/auth/" element={<AccountLayout />}>

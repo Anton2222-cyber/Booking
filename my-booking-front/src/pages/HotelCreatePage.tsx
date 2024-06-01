@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconCirclePlus, IconCircleX } from "@tabler/icons-react";
+import ImageUpload from "components/ImageUpload.tsx";
 import { Button } from "components/ui/Button.tsx";
 import FormError from "components/ui/FormError.tsx";
-import ImageUploadMulti from "components/ui/ImageUploadMulti.tsx";
 import { Input } from "components/ui/Input.tsx";
 import { HotelCreateSchema, HotelCreateSchemaType } from "interfaces/zod";
 import { useForm } from "react-hook-form";
@@ -231,7 +231,7 @@ const HotelCreatePage = () => {
                         <label className="text-white text-xl font-main" htmlFor="photos">
                             Images
                         </label>
-                        <ImageUploadMulti setFiles={setFiles} remove={removeImage} files={files}>
+                        <ImageUpload setFiles={setFiles} remove={removeImage} files={files}>
                             <Input
                                 {...register("photos")}
                                 onChange={handleFileChange}
@@ -241,7 +241,7 @@ const HotelCreatePage = () => {
                                 type="file"
                                 className="w-full"
                             />
-                        </ImageUploadMulti>
+                        </ImageUpload>
                         {errors?.photos && (
                             <FormError
                                 className="text-red"

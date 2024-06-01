@@ -1,9 +1,9 @@
 import { DndContext, DragEndEvent, KeyboardSensor, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { SortableContext, horizontalListSortingStrategy } from "@dnd-kit/sortable";
 import { IconPhoto } from "@tabler/icons-react";
+import ImageSortableContainer from "components/ImageSortableContainer.tsx";
 
 import React from "react";
-import ImageSortableItem from "components/ui/ImageSortableItemProps.tsx";
 
 type ImageUploadMultiProps = {
     children: React.ReactNode;
@@ -12,7 +12,7 @@ type ImageUploadMultiProps = {
     setFiles: React.Dispatch<React.SetStateAction<File[]>>;
 };
 
-const ImageUploadMulti = (props: ImageUploadMultiProps) => {
+const ImageUpload = (props: ImageUploadMultiProps) => {
     const { children, remove, files, setFiles } = props;
 
     const mouseSensor = useSensor(MouseSensor, {
@@ -58,9 +58,12 @@ const ImageUploadMulti = (props: ImageUploadMultiProps) => {
 
                 <div className="flex flex-wrap gap-4">
                     <DndContext sensors={sensors} onDragEnd={reOrderFilesArray}>
-                        <SortableContext items={files.map((i) => i.name)} strategy={horizontalListSortingStrategy}>
+                        <SortableContext
+                            items={files.map((i) => i.name)}
+                            strategy={horizontalListSortingStrategy}
+                        >
                             {files.map((file: File) => (
-                                <ImageSortableItem remove={remove} key={file.name} file={file} />
+                                <ImageSortableContainer remove={remove} key={file.name} file={file} />
                             ))}
                         </SortableContext>
                     </DndContext>
@@ -70,4 +73,4 @@ const ImageUploadMulti = (props: ImageUploadMultiProps) => {
     );
 };
 
-export default ImageUploadMulti;
+export default ImageUpload;

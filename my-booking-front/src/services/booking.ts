@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { CreateBooking } from "interfaces/booking";
+import { Booking, CreateBooking, GetBookingsPageRequest } from "interfaces/booking";
+import { GetPageResponse } from "interfaces/index.ts";
 import { roomApi } from "services/rooms.ts";
+import { createQueryString } from "utils/createQueryString.ts";
 import { API_URL } from "utils/getEnvData.ts";
 
 export const bookingApi = createApi({
@@ -18,6 +20,18 @@ export const bookingApi = createApi({
     tagTypes: ["Booking"],
 
     endpoints: (builder) => ({
+        getBooking: builder.query<Booking, string>({
+            query: (id) => `getById/${id}`,
+        }),
+
+        getPageBookings: builder.query<GetPageResponse<Booking>, GetBookingsPageRequest>({
+            query: (params) => {
+                const queryString = createQueryString(params as Record<string, any>);
+                return `getPage?${queryString}`;
+            },
+            providesTags: ["Booking"],
+        }),
+
         createBooking: builder.mutation({
             query: (booking: CreateBooking) => {
                 const bookingFormData = new FormData();
@@ -35,8 +49,9 @@ export const bookingApi = createApi({
                 await queryFulfilled;
                 dispatch(roomApi.util.invalidateTags(["Room"]));
             },
+            invalidatesTags: ["Booking"],
         }),
     }),
 });
 
-export const { useCreateBookingMutation } = bookingApi;
+export const { useCreateBookingMutation, useGetPageBookingsQuery } = bookingApi;

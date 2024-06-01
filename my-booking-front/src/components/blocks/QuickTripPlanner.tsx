@@ -2,7 +2,7 @@ import { IconHeart } from "@tabler/icons-react";
 import FakeSwiper from "components/FakeSwiper.tsx";
 import Swiper from "components/Swiper.tsx";
 import CityCard from "components/cards/CityCard.tsx";
-import CityCardSkeleton from "components/cards/CityCardSkeleton.tsx";
+import CityCardSkeleton from "components/skeletons/CityCardSkeleton.tsx";
 import { Button } from "components/ui/Button.tsx";
 import Label from "components/ui/Label.tsx";
 import { useGetPageCitiesQuery } from "services/city.ts";
