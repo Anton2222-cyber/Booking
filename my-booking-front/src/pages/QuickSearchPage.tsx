@@ -7,7 +7,8 @@ import { SwiperSlide } from "swiper/react";
 
 const QuickSearchPage = () => {
     const { data } = useGetPageHotelsQuery({
-        pageSize: 10,
+        pageIndex: 0,
+        pageSize: 20,
         isRandomItems: true,
     });
 

@@ -4,9 +4,7 @@ import Label from "components/ui/Label.tsx";
 import { useGetPageBookingsQuery } from "services/booking.ts";
 
 const BookingsPage = () => {
-    const { data, isSuccess } = useGetPageBookingsQuery({
-        pageSize: 10,
-    });
+    const { data, isSuccess } = useGetPageBookingsQuery({});
 
     return (
         <div className="container mx-auto mt-5 flex flex-col gap-5">

@@ -9,7 +9,7 @@ import { useGetPageCitiesQuery } from "services/city.ts";
 import { SwiperSlide } from "swiper/react";
 
 const QuickTripPlanner = () => {
-    const { data, isSuccess } = useGetPageCitiesQuery({ pageSize: 10, isRandomItems: true });
+    const { data, isSuccess } = useGetPageCitiesQuery({ pageIndex: 0, pageSize: 10, isRandomItems: true });
 
     return (
         <div className="flex flex-col container mx-auto mt-5 gap-2">

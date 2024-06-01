@@ -53,8 +53,7 @@ const HotelPage = () => {
     }, []);
 
     const { data: rooms } = useGetPageRoomsQuery({
-        hotelId: Number(id) || 0,
-        pageSize: 20,
+        hotelId: Number(id),
         minAdultPlaces: adults,
         minChildrenPlaces: children,
         freeTime: {
@@ -64,9 +63,7 @@ const HotelPage = () => {
     });
 
     const { data: reviews } = useGetPageReviewsQuery({
-        hotelId: Number(id) || 0,
-        isRandomItems: true,
-        pageSize: 20,
+        hotelId: Number(id),
     });
 
     const uniqueConveniences = useMemo(() => {
