@@ -1,3 +1,4 @@
+import { PaginationOptions } from "interfaces/index.ts";
 import { Photo } from "interfaces/photo";
 import { User } from "interfaces/user";
 
@@ -10,18 +11,11 @@ export interface Review {
     photos?: Photo;
 }
 
-export interface GetReviewPageResponse {
-    data: Review[];
-    pagesAvailable: number;
-}
-export interface GetReviewPageRequest {
+export interface GetReviewPageRequest extends PaginationOptions {
     description?: string;
     score?: number;
     minScore?: number;
     maxScore?: number;
     user?: User;
     hotelId?: number;
-    isRandomItems?: boolean;
-    pageIndex?: number;
-    pageSize: number;
 }

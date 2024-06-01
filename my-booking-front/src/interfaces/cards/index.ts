@@ -3,12 +3,6 @@ interface IAccommodationTypeCardProps {
     title: string;
 }
 
-interface ICityCardProps {
-    imageSrc: string;
-    cityName: string;
-    geolocation: number;
-}
-
 interface IAccommodationCardProps {
     imageSrc: string;
     name: string;
@@ -16,13 +10,3 @@ interface IAccommodationCardProps {
     rating: number;
     numberOfReviews: number;
 }
-
-// interface IHotelCardProps {
-//     name: string;
-//     description: string;
-//     location: string;
-//     distanceFromCenter: number;
-//     imageUrl: string;
-//     rating: number;
-//     reviewCount: number;
-// }

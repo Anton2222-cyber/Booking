@@ -4,13 +4,13 @@ import ukraineFlag from "assets/ukraine-flag.svg";
 import { Button } from "components/ui/Button.tsx";
 import { Link } from "react-router-dom";
 
-const AccountHeader = () => {
+const AuthHeader = () => {
     return (
         <div className="bg-blue py-4">
             <div className="container mx-auto">
                 <div className="flex items-center justify-between">
                     <Link to="/">
-                        <img src={bookingLogo} className="w-28" alt="Booking logo" />
+                        <img src={bookingLogo} className="w-28" alt="BookingPage logo" />
                     </Link>
                     <div className="flex items-center gap-2">
                         <Button variant="transparent">
@@ -27,4 +27,4 @@ const AccountHeader = () => {
     );
 };
 
-export default AccountHeader;
+export default AuthHeader;

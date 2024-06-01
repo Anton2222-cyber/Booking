@@ -2,6 +2,7 @@ import { IconHeart, IconHeartFilled } from "@tabler/icons-react";
 import NotFoundImage from "assets/icon-image-not-found-free-vector.jpg";
 import { Button } from "components/ui/Button.tsx";
 import { Hotel } from "interfaces/hotel";
+import { Link } from "react-router-dom";
 import { API_URL } from "utils/getEnvData.ts";
 import { getRatingDescription } from "utils/getRating.ts";
 import { haversineDistance } from "utils/haversineDistance.ts";
@@ -9,7 +10,7 @@ import { haversineDistance } from "utils/haversineDistance.ts";
 import React, { useState } from "react";
 
 const HotelCard: React.FC<Hotel> = (props) => {
-    const { name, rating, reviews, description, photos, address } = props;
+    const { id, name, rating, reviews, description, photos, address } = props;
     const [isFavorite, setIsFavorite] = useState(false);
 
     const handleFavoriteClick = () => {
@@ -39,9 +40,12 @@ const HotelCard: React.FC<Hotel> = (props) => {
                 </div>
             </div>
             <div className="ml-4 flex-grow">
-                <h2 className="text-xl text-sky text-extrabold font-bold hover:text-black cursor-pointer">
-                    {name}
-                </h2>
+                <Link to={`/hotel/${id}`}>
+                    <h2 className="text-xl text-sky text-extrabold font-bold hover:text-black cursor-pointer">
+                        {name}
+                    </h2>
+                </Link>
+
                 <div className="text-xs mt-1">
                     <a href="#" className="text-sky underline">
                         {address.city.name}
@@ -75,9 +79,11 @@ const HotelCard: React.FC<Hotel> = (props) => {
                         </div>
                     </div>
                 </div>
-                <Button variant="primary" size="lg" className="text-nowrap">
-                    Показати ціни
-                </Button>
+                <Link to={`/hotel/${id}`}>
+                    <Button variant="primary" size="lg" className="text-nowrap">
+                        Показати ціни
+                    </Button>
+                </Link>
             </div>
         </div>
     );

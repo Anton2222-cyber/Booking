@@ -17,7 +17,18 @@ export default defineConfig({
             store: "/src/store",
             types: "/src/types",
             utils: "/src/utils",
+            motion: "/src/motion",
             interfaces: "/src/interfaces",
         },
     },
+    preview: {
+        port: 5173,
+        strictPort: true,
+    },
+    // server: {
+    //     port: 5173,
+    //     strictPort: true,
+    //     host: true,
+    //     origin: "http://0.0.0.0:5173",
+    // },
 });

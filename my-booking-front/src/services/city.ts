@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { City, GetCityPageRequest, GetCityPageResponse } from "interfaces/city";
+import { City, GetCityPageRequest } from "interfaces/city";
+import { GetPageResponse } from "interfaces/index.ts";
 import { createQueryString } from "utils/createQueryString.ts";
 import { API_URL } from "utils/getEnvData.ts";
 
@@ -13,7 +14,7 @@ export const cityApi = createApi({
             query: () => "getAll",
         }),
 
-        getPageCities: builder.query<GetCityPageResponse, GetCityPageRequest>({
+        getPageCities: builder.query<GetPageResponse<City>, GetCityPageRequest>({
             query: (params) => {
                 const queryString = createQueryString(params as Record<string, any>);
                 return `getPage?${queryString}`;

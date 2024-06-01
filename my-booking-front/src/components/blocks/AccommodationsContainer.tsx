@@ -9,7 +9,7 @@ interface IAccommodationBlockProps {
     id?: string;
 }
 
-const AccommodationBlock: React.FC<IAccommodationBlockProps> = (props) => {
+const AccommodationsContainer: React.FC<IAccommodationBlockProps> = (props) => {
     const { title, subtitle, children, id } = props;
 
     return (
@@ -25,4 +25,4 @@ const AccommodationBlock: React.FC<IAccommodationBlockProps> = (props) => {
     );
 };
 
-export default AccommodationBlock;
+export default AccommodationsContainer;

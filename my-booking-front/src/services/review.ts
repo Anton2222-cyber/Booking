@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { GetReviewPageRequest, GetReviewPageResponse, Review } from "interfaces/review";
+import { GetPageResponse } from "interfaces/index.ts";
+import { GetReviewPageRequest, Review } from "interfaces/review";
 import { createQueryString } from "utils/createQueryString.ts";
 import { API_URL } from "utils/getEnvData.ts";
 
@@ -13,7 +14,7 @@ export const reviewApi = createApi({
             query: () => "getAll",
         }),
 
-        getPageReviews: builder.query<GetReviewPageResponse, GetReviewPageRequest>({
+        getPageReviews: builder.query<GetPageResponse<Review>, GetReviewPageRequest>({
             query: (params) => {
                 const queryString = createQueryString(params as Record<string, any>);
                 return `getPage?${queryString}`;
