@@ -193,8 +193,8 @@ const HotelCreatePage = () => {
                             {...register("address.longitude")}
                             id="longitude"
                             type="number"
-                            min={0.01}
-                            step={0.01}
+                            min={0.00000001}
+                            step={0.00000001}
                             placeholder="Longitude..."
                             className="w-full"
                         />
@@ -214,8 +214,8 @@ const HotelCreatePage = () => {
                             {...register("address.latitude")}
                             id="latitude"
                             type="number"
-                            min={0.01}
-                            step={0.01}
+                            min={0.00000001}
+                            step={0.00000001}
                             placeholder="Latitude..."
                             className="w-full"
                         />
