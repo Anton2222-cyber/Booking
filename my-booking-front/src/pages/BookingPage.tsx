@@ -11,11 +11,16 @@ import {
 } from "@tabler/icons-react";
 import { Button } from "components/ui/Button.tsx";
 import { Link } from "react-router-dom";
+import { useGetBookingQuery } from "services/booking.ts";
 
 import React, { useState } from "react";
 
 const BookingPage: React.FC = () => {
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+    const { data } = useGetBookingQuery("33");
+
+    console.log(data);
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -25,7 +30,7 @@ const BookingPage: React.FC = () => {
         navigator.clipboard
             .writeText(text)
             .then(() => {
-                alert("Скопійовано до буфера обміну: " + text);
+                console.log("Скопійовано до буфера обміну: " + text);
             })
             .catch((err) => {
                 console.error("Помилка копіювання: ", err);
