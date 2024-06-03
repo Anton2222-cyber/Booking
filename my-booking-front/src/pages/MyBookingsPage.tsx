@@ -3,7 +3,7 @@ import BookingHotelCardSkeleton from "components/skeletons/BookingHotelCardSkele
 import Label from "components/ui/Label.tsx";
 import { useGetPageBookingsQuery } from "services/booking.ts";
 
-const BookingsPage = () => {
+const MyBookingsPage = () => {
     const { data, isSuccess } = useGetPageBookingsQuery({});
 
     return (
@@ -20,4 +20,4 @@ const BookingsPage = () => {
     );
 };
 
-export default BookingsPage;
+export default MyBookingsPage;
