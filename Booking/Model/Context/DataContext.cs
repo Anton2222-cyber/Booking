@@ -16,6 +16,7 @@ public class DataContext(DbContextOptions<DataContext> options)
 	public DbSet<City> Cities { get; set; }
 	public DbSet<Address> Addresses { get; set; }
 	public DbSet<Hotel> Hotels { get; set; }
+	public DbSet<HotelType> HotelTypes { get; set; }
 	public DbSet<HotelPhoto> HotelPhotos { get; set; }
 	public DbSet<HotelReview> HotelReviews { get; set; }
 	public DbSet<HotelReviewPhoto> HotelReviewPhotos { get; set; }
@@ -35,6 +36,7 @@ public class DataContext(DbContextOptions<DataContext> options)
 		new CityEntityTypeConfiguration().Configure(modelBuilder.Entity<City>());
 		new AddressEntityTypeConfiguration().Configure(modelBuilder.Entity<Address>());
 		new HotelEntityTypeConfiguration().Configure(modelBuilder.Entity<Hotel>());
+		new HotelTypeEntityTypeConfiguration().Configure(modelBuilder.Entity<HotelType>());
 		new HotelPhotoEntityTypeConfiguration().Configure(modelBuilder.Entity<HotelPhoto>());
 		new HotelReviewEntityTypeConfiguration().Configure(modelBuilder.Entity<HotelReview>());
 		new HotelReviewPhotoEntityTypeConfiguration().Configure(modelBuilder.Entity<HotelReviewPhoto>());
