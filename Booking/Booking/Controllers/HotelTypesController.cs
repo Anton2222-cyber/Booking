@@ -2,7 +2,6 @@
 using AutoMapper.QueryableExtensions;
 using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
-using Booking.ViewModels.Hotel;
 using Booking.ViewModels.HotelType;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +43,7 @@ public class HotelTypesController(
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetById(long id) {
 		var entity = await context.HotelTypes
-			.ProjectTo<HotelVm>(mapper.ConfigurationProvider)
+			.ProjectTo<HotelTypeVm>(mapper.ConfigurationProvider)
 			.FirstOrDefaultAsync(ht => ht.Id == id);
 
 		if (entity is null)

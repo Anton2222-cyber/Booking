@@ -19,7 +19,7 @@ public class HotelsController(
 	IValidator<UpdateHotelVm> updateValidator,
 	IHotelControllerService service,
 	IPaginationService<HotelVm, HotelFilterVm> pagination
-	) : ControllerBase {
+) : ControllerBase {
 
 	[HttpGet]
 	public async Task<IActionResult> GetAll() {

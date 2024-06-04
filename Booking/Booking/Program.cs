@@ -146,6 +146,7 @@ builder.Services.AddTransient<IPaginationService<BookingVm, BookingFilterVm>, Bo
 builder.Services.AddTransient<IHotelTypeControllerService, HotelTypesControllerService>();
 builder.Services.AddTransient<IPaginationService<HotelTypeVm, HotelTypeFilterVm>, HotelTypesPaginationService>();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

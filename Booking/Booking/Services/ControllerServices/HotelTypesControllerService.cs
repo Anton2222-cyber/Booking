@@ -33,14 +33,5 @@ public class HotelTypesControllerService(
 		await context.HotelTypes
 			.Where(ht => ht.Id == id)
 			.ExecuteDeleteAsync();
-
-		//var entity = await context.HotelTypes
-		//	.FirstOrDefaultAsync(ht => ht.Id == id);
-
-		//if (entity is null)
-		//	return;
-
-		//context.HotelTypes.Remove(entity);
-		//await context.SaveChangesAsync();
 	}
 }
