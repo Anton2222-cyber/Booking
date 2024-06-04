@@ -77,11 +77,11 @@ public class ImageService(
 		}
 	}
 
-	public async Task<List<string>> SaveImagesAsync(IEnumerable<byte[]> bytesArray) {
+	public async Task<List<string>> SaveImagesAsync(IEnumerable<byte[]> bytesArrays) {
 		List<string> result = [];
 
 		try {
-			foreach (var bytes in bytesArray) {
+			foreach (var bytes in bytesArrays) {
 				result.Add(await SaveImageAsync(bytes));
 			}
 		}
