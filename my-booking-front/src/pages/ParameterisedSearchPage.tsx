@@ -36,9 +36,13 @@ const ParameterisedSearchPage = () => {
     }, []);
 
     useEffect(() => {
-        if (data) {
-            console.log(data);
+        setHotels([]);
+        setPage(0);
+        setHasMore(true);
+    }, [destination, cityId]);
 
+    useEffect(() => {
+        if (data) {
             if (data.data.length === 0) {
                 setHasMore(false);
             } else {
@@ -48,8 +52,6 @@ const ParameterisedSearchPage = () => {
     }, [data]);
 
     const fetchMoreData = () => {
-        console.log("fetch more data");
-
         setPage((prevPage) => prevPage + 1);
     };
 

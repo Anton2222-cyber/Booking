@@ -6,6 +6,7 @@ import { SwiperSlide } from "swiper/react";
 
 const PopularHotels = () => {
     const { data } = useGetPageHotelsQuery({
+        pageIndex: 0,
         pageSize: 20,
         isRandomItems: true,
     });

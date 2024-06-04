@@ -15,7 +15,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 const HotelCreatePage = () => {
     const { data: cities } = useGetAllCitiesQuery();
     const [files, setFiles] = useState<File[]>([]);
-    const [create] = useAddHotelMutation();
+    const [create, { isLoading }] = useAddHotelMutation();
     const navigate = useNavigate();
 
     const {
@@ -251,11 +251,22 @@ const HotelCreatePage = () => {
                     </div>
 
                     <div className=" text-white flex w-full items-center justify-center gap-5">
-                        <Button size="lg" type="submit" className="hover:bg-sky/70">
+                        <Button
+                            disabled={isLoading}
+                            size="lg"
+                            type="submit"
+                            className="hover:bg-sky/70 disabled:cursor-not-allowed"
+                        >
                             <IconCirclePlus />
                             Create
                         </Button>
-                        <Button size="lg" type="button" onClick={onReset} className="hover:bg-sky/70">
+                        <Button
+                            disabled={isLoading}
+                            size="lg"
+                            type="button"
+                            onClick={onReset}
+                            className="hover:bg-sky/70 disabled:cursor-not-allowed"
+                        >
                             <IconCircleX />
                             Reset
                         </Button>

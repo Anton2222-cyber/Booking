@@ -53,8 +53,7 @@ const HotelPage = () => {
     }, []);
 
     const { data: rooms } = useGetPageRoomsQuery({
-        hotelId: Number(id) || 0,
-        pageSize: 20,
+        hotelId: Number(id),
         minAdultPlaces: adults,
         minChildrenPlaces: children,
         freeTime: {
@@ -64,9 +63,7 @@ const HotelPage = () => {
     });
 
     const { data: reviews } = useGetPageReviewsQuery({
-        hotelId: Number(id) || 0,
-        isRandomItems: true,
-        pageSize: 20,
+        hotelId: Number(id),
     });
 
     const uniqueConveniences = useMemo(() => {
@@ -150,18 +147,17 @@ const HotelPage = () => {
                 </div>
 
                 <div className="grid gap-5 grid-cols-6 mt-5">
-                    <div className="col-span-6 grid grid-cols-2 gap-3 ">
+                    <div className="col-span-6 grid grid-cols-2 md:grid-cols-3 gap-4 ">
                         {data?.photos.map((photo, index) => (
-                            <div key={index}>
-                                <img
-                                    className="h-40 w-full max-w-full object-cover object-center"
-                                    src={`${API_URL}/images/800_${photo.name}`}
-                                    alt="gallery-photo"
-                                />
-                            </div>
+                            <img
+                                key={index}
+                                className="h-40 max-w-full rounded-lg"
+                                src={`${API_URL}/images/800_${photo.name}`}
+                                alt="gallery-photo"
+                            />
                         ))}
 
-                        <div className="col-span-2 text-black">
+                        <div className="col-span-6 text-black">
                             <p className="text-sm">{data?.description}</p>
                             <Label className="font-bold my-2">Найпопулярніші зручності</Label>
                             <div className="flex flex-wrap gap-2">
@@ -233,7 +229,7 @@ const HotelPage = () => {
                         />
                     </div>
                     <Button variant="primary" onClick={scrollToRooms}>
-                        Вказати дані
+                        Перевірити наявність місць
                     </Button>
                 </div>
 

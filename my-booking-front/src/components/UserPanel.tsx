@@ -52,14 +52,16 @@ const UserPanel: React.FC<User> = (props) => {
                         </Button>
                     </Link>
 
-                    <Button
-                        variant="underline"
-                        className="w-full text-sm no-underline text-black hover:bg-gray/20 justify-start"
-                        size="sm"
-                    >
-                        <IconHeart />
-                        Збережене
-                    </Button>
+                    <Link to={"my-saved"}>
+                        <Button
+                            variant="underline"
+                            className="w-full text-sm no-underline text-black hover:bg-gray/20 justify-start"
+                            size="sm"
+                        >
+                            <IconHeart />
+                            Збережене
+                        </Button>
+                    </Link>
 
                     <Button
                         variant="underline"
