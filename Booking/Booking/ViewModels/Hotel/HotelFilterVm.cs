@@ -14,5 +14,7 @@ public class HotelFilterVm : PaginationVm {
 
 	public HotelAddressFilterVm? Address { get; set; }
 
+	public long? TypeId { get; set; }
+
 	public bool? IsRandomItems { get; set; }
 }
