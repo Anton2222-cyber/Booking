@@ -1,12 +1,8 @@
 import MapHotelCard from "components/cards/MapHotelCard.tsx";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { useLocation } from "react-router-dom";
 import { useGetPageHotelsQuery } from "services/hotel.ts";
-
-const useQuery = () => {
-    return new URLSearchParams(useLocation().search);
-};
+import { useQuery } from "utils/query.ts";
 
 const CityHotelsMapPage = () => {
     const query = useQuery();
@@ -15,7 +11,6 @@ const CityHotelsMapPage = () => {
     const cityId = Number(query.get("cityId")) || undefined;
 
     const { data, isSuccess } = useGetPageHotelsQuery({
-        pageSize: 100,
         address: { city: { name: destination, id: cityId } },
     });
 

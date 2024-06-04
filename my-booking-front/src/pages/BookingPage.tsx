@@ -9,6 +9,7 @@ import {
     IconMapPin,
     IconSearch,
 } from "@tabler/icons-react";
+import BookingPageSkeleton from "components/skeletons/BookingPageSkeleton.tsx";
 import { Link, useParams } from "react-router-dom";
 import { useGetBookingQuery } from "services/booking.ts";
 import { useGetHotelQuery } from "services/hotel.ts";
@@ -32,7 +33,7 @@ const BookingPage: React.FC = () => {
         }
     }, [booking]);
 
-    const { data: hotel } = useGetHotelQuery(hotelId || "0", { skip: !hotelId });
+    const { data: hotel, isSuccess } = useGetHotelQuery(hotelId || "0", { skip: !hotelId });
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -54,11 +55,12 @@ const BookingPage: React.FC = () => {
 
     return (
         <>
+            {!isSuccess && <BookingPageSkeleton />}
             {booking && (
-                <div className="p-4 mx-40">
-                    <div className="flex justify-between">
-                        <div className="w-3/4 ">
-                            <div className="flex justify-start mb-2">
+                <div className="container mx-auto mt-5">
+                    <div className="flex justify-between gap-2">
+                        <div className="w-3/4 flex flex-col gap-2">
+                            <div className="flex justify-start">
                                 <span
                                     className={`text-sm ${checkStatus(booking.to) ? "text-red" : "text-green"}`}
                                 >
@@ -175,7 +177,7 @@ const BookingPage: React.FC = () => {
                                             </p>
 
                                             <div className="relative">
-                                                <Link to={"#"}>
+                                                <Link to={`/way-to-hotel/${hotel?.id}`}>
                                                     <button className="text-sky text-sm group-hover:text-black underline">
                                                         Показати маршрут
                                                     </button>

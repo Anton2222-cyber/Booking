@@ -115,7 +115,9 @@ const Hero: React.FC<IHeroProps> = (props) => {
                                     className="placeholder:text-lightgray font-bold w-44 outline-none ps-10 text-sm"
                                     selected={startDate}
                                     minDate={new Date()}
-                                    maxDate={endDate}
+                                    maxDate={
+                                        endDate ? new Date(new Date().setDate(endDate.getDate() - 1)) : null
+                                    }
                                     placeholderText="Заїзд"
                                     onChange={(date: Date) => setStartDate(date)}
                                     dateFormat="MMMM d, yyyy"
@@ -130,7 +132,11 @@ const Hero: React.FC<IHeroProps> = (props) => {
                                     className="placeholder:text-lightgray font-bold w-44 outline-none text-sm ps-10"
                                     placeholderText="Виїзд"
                                     selected={endDate}
-                                    minDate={startDate || new Date()}
+                                    minDate={
+                                        startDate
+                                            ? new Date(new Date().setDate(startDate.getDate() + 1))
+                                            : new Date(new Date().setDate(new Date().getDate() + 1))
+                                    }
                                     onChange={(date: Date) => setEndDate(date)}
                                     dateFormat="MMMM d, yyyy"
                                 />

@@ -14,6 +14,7 @@ const SearchCityAutocomplete: React.FC<ISearchCityAutocompleteProps> = (props) =
 
     const { data, isSuccess } = useGetPageCitiesQuery({
         name: destination,
+        pageIndex: 0,
         pageSize: 5,
         isRandomItems: true,
     });

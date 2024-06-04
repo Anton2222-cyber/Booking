@@ -13,7 +13,7 @@ import React, { useState } from "react";
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const [register] = useRegisterMutation();
+    const [register, { isLoading }] = useRegisterMutation();
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -129,7 +129,13 @@ const RegisterPage: React.FC = () => {
                         />
                     </div>
 
-                    <Button type="button" onClick={handleRegister} variant="primary" className="w-full mb-6">
+                    <Button
+                        disabled={isLoading}
+                        type="button"
+                        onClick={handleRegister}
+                        variant="primary"
+                        className="w-full mb-6 disabled:cursor-not-allowed"
+                    >
                         Зареєструватися
                     </Button>
                 </form>
