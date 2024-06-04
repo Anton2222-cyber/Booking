@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Booking.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240604184139_Added_HotelTypes_table")]
+    [Migration("20240604191848_Added_HotelTypes_table")]
     partial class Added_HotelTypes_table
     {
         /// <inheritdoc />
@@ -387,6 +387,13 @@ namespace Booking.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HotelTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "Temporary type"
+                        });
                 });
 
             modelBuilder.Entity("Model.Entities.Identity.Role", b =>

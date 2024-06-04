@@ -11,5 +11,12 @@ internal class HotelTypeEntityTypeConfiguration : IEntityTypeConfiguration<Hotel
 		builder.Property(ht => ht.Name)
 			.HasMaxLength(255)
 			.IsRequired();
+
+		builder.HasData(
+			new HotelType {
+				Id = 1,
+				Name = "Temporary type"
+			}
+		);
 	}
 }

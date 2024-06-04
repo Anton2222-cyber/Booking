@@ -16,7 +16,7 @@ namespace Booking.Migrations
                 table: "Hotels",
                 type: "bigint",
                 nullable: false,
-                defaultValue: 0L);
+                defaultValue: 1L);
 
             migrationBuilder.CreateTable(
                 name: "HotelTypes",
@@ -30,6 +30,11 @@ namespace Booking.Migrations
                 {
                     table.PrimaryKey("PK_HotelTypes", x => x.Id);
                 });
+
+            migrationBuilder.InsertData(
+                table: "HotelTypes",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1L, "Temporary type" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Hotels_TypeId",

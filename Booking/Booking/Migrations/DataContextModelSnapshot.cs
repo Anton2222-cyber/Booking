@@ -384,6 +384,13 @@ namespace Booking.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HotelTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Name = "Temporary type"
+                        });
                 });
 
             modelBuilder.Entity("Model.Entities.Identity.Role", b =>
