@@ -16,9 +16,9 @@ namespace Booking.Controllers;
 public class HotelTypesController(
 	DataContext context,
 	IMapper mapper,
+	IHotelTypeControllerService service,
 	IValidator<CreateHotelTypeVm> createValidator,
 	IValidator<UpdateHotelTypeVm> updateValidator,
-	IHotelTypeControllerService service,
 	IPaginationService<HotelTypeVm, HotelTypeFilterVm> pagination
 ) : ControllerBase {
 

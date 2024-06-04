@@ -11,6 +11,7 @@ using Booking.ViewModels.Convenience;
 using Booking.ViewModels.Country;
 using Booking.ViewModels.Hotel;
 using Booking.ViewModels.HotelReview;
+using Booking.ViewModels.HotelType;
 using Booking.ViewModels.Room;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -143,6 +144,7 @@ builder.Services.AddTransient<IBookingControllerService, BookingsControllerServi
 builder.Services.AddTransient<IPaginationService<BookingVm, BookingFilterVm>, BookingPaginationService>();
 
 builder.Services.AddTransient<IHotelTypeControllerService, HotelTypesControllerService>();
+builder.Services.AddTransient<IPaginationService<HotelTypeVm, HotelTypeFilterVm>, HotelTypesPaginationService>();
 
 var app = builder.Build();
 
