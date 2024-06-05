@@ -1,19 +1,13 @@
 ﻿using Booking.Services.Interfaces;
 using Booking.ViewModels.Country;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using Model.Context;
 
 namespace Booking.Validators.Country;
 
 public class UpdateCountryValidator : AbstractValidator<UpdateCountryVm> {
-	private readonly DataContext _context;
-
-	public UpdateCountryValidator(DataContext context, IImageValidator imageValidator) {
-		_context = context;
-
+	public UpdateCountryValidator(IExistingEntityCheckerService existingEntityCheckerService, IImageValidator imageValidator) {
 		RuleFor(c => c.Id)
-			.MustAsync(IsCorrectId)
+			.MustAsync(existingEntityCheckerService.IsCorrectCountryId)
 				.WithMessage("Country with this id is not exists");
 
 		RuleFor(c => c.Name)
@@ -27,9 +21,5 @@ public class UpdateCountryValidator : AbstractValidator<UpdateCountryVm> {
 				.WithMessage("Image is not selected")
 			.MustAsync(imageValidator.IsValidImageAsync)
 				.WithMessage("Image is not valid");
-	}
-
-	private async Task<bool> IsCorrectId(long id, CancellationToken token) {
-		return await _context.Countries.AnyAsync(c => c.Id == id, token);
 	}
 }

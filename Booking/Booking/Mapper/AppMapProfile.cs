@@ -7,6 +7,7 @@ using Booking.ViewModels.Convenience;
 using Booking.ViewModels.Country;
 using Booking.ViewModels.Hotel;
 using Booking.ViewModels.HotelReview;
+using Booking.ViewModels.HotelType;
 using Booking.ViewModels.Room;
 using Model.Entities;
 using Model.Entities.Identity;
@@ -83,5 +84,8 @@ public class AppMapProfile : Profile {
 				)
 			);
 		CreateMap<CreateBookingVm, Model.Entities.Booking>();
+
+		CreateMap<HotelType, HotelTypeVm>();
+		CreateMap<CreateHotelTypeVm, HotelType>();
 	}
 }

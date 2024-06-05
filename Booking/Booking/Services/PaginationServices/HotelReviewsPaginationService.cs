@@ -10,7 +10,7 @@ namespace Booking.Services.PaginationServices;
 public class HotelReviewsPaginationService(
 	DataContext context,
 	IMapper mapper
-	) : PaginationService<HotelReview, HotelReviewVm, HotelReviewsFilterVm>(mapper) {
+) : PaginationService<HotelReview, HotelReviewVm, HotelReviewsFilterVm>(mapper) {
 
 	protected override IQueryable<HotelReview> GetQuery() => context.HotelReviews.Include(h => h.Photos.OrderBy(p => p.Priority));
 

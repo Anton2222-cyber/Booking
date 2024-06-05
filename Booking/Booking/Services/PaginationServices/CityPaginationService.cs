@@ -9,7 +9,7 @@ namespace Booking.Services.PaginationServices;
 public class CityPaginationService(
 	DataContext context,
 	IMapper mapper
-	) : PaginationService<City, CityVm, CityFilterVm>(mapper) {
+) : PaginationService<City, CityVm, CityFilterVm>(mapper) {
 
 	protected override IQueryable<City> GetQuery() => context.Cities;
 

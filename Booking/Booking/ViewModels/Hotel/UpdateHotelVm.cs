@@ -11,5 +11,7 @@ public class UpdateHotelVm {
 
 	public UpdateAddressVm Address { get; set; } = null!;
 
+	public long TypeId { get; set; }
+
 	public IEnumerable<IFormFile> Photos { get; set; } = null!;
 }

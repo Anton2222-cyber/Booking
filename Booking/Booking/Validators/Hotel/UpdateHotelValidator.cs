@@ -29,6 +29,10 @@ public class UpdateHotelValidator : AbstractValidator<UpdateHotelVm> {
 		RuleFor(h => h.Address)
 			.SetValidator(addressValidator);
 
+		RuleFor(h => h.TypeId)
+			.MustAsync(existingEntityCheckerService.IsCorrectHotelTypeId)
+				.WithMessage("HotelType with this id is not exists");
+
 		RuleFor(h => h.Photos)
 			.MustAsync(imageValidator.IsValidImagesAsync)
 				.WithMessage("One ore more of photos are invalid");

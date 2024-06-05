@@ -6,7 +6,7 @@ using FluentValidation;
 namespace Booking.Validators.Hotel;
 
 public class CreateHotelValidator : AbstractValidator<CreateHotelVm> {
-	public CreateHotelValidator(IImageValidator imageValidator, IValidator<CreateAddressVm> addressValidator) {
+	public CreateHotelValidator(IImageValidator imageValidator, IValidator<CreateAddressVm> addressValidator, IExistingEntityCheckerService existingEntityCheckerService) {
 		RuleFor(h => h.Name)
 			.NotEmpty()
 				.WithMessage("Name is empty or null")
@@ -21,6 +21,10 @@ public class CreateHotelValidator : AbstractValidator<CreateHotelVm> {
 
 		RuleFor(h => h.Address)
 			.SetValidator(addressValidator);
+
+		RuleFor(h => h.TypeId)
+			.MustAsync(existingEntityCheckerService.IsCorrectHotelTypeId)
+				.WithMessage("HotelType with this id is not exists");
 
 		RuleFor(h => h.Photos)
 			.MustAsync(imageValidator.IsValidImagesAsync)
