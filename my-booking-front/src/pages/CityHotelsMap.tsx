@@ -4,6 +4,13 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useGetPageHotelsQuery } from "services/hotel.ts";
 import { useQuery } from "utils/query.ts";
 
+// new L.TileLayer("https://tms{s}.visicom.ua/2.0.0/planet3/base_uk/{z}/{x}/{y}.png", {
+//     attribution: "Дані карт © 2021 ЧАО «<a href='https://api.visicom.ua/'>Визиком</a>»",
+//     subdomains: "123",
+//     maxZoom: 19,
+//     tms: true
+// })
+
 const CityHotelsMapPage = () => {
     const query = useQuery();
 
@@ -32,7 +39,11 @@ const CityHotelsMapPage = () => {
             />
 
             {data.data.map((hotel) => (
-                <Marker key={hotel.id} position={[hotel.address.latitude, hotel.address.longitude]}>
+                <Marker
+                    key={hotel.id}
+                    draggable={false}
+                    position={[hotel.address.latitude, hotel.address.longitude]}
+                >
                     <Popup className="w-80">
                         <MapHotelCard {...hotel} />
                     </Popup>
