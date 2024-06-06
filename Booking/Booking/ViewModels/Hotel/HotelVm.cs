@@ -1,4 +1,5 @@
 ﻿using Booking.ViewModels.Address;
+using Booking.ViewModels.HotelType;
 
 namespace Booking.ViewModels.Hotel;
 
@@ -14,6 +15,8 @@ public class HotelVm {
 	public int Reviews { get; set; }
 
 	public AddressVm Address { get; set; } = null!;
+
+	public HotelTypeVm Type { get; set; } = null!;
 
 	public IEnumerable<HotelPhotoVm> Photos { get; set; } = null!;
 }

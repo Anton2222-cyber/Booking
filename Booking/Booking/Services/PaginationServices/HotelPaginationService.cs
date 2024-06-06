@@ -10,7 +10,7 @@ namespace Booking.Services.PaginationServices;
 public class HotelPaginationService(
 	DataContext context,
 	IMapper mapper
-	) : PaginationService<Hotel, HotelVm, HotelFilterVm>(mapper) {
+) : PaginationService<Hotel, HotelVm, HotelFilterVm>(mapper) {
 
 	protected override IQueryable<Hotel> GetQuery() => context.Hotels.Include(h => h.Photos.OrderBy(p => p.Priority));
 
@@ -77,6 +77,9 @@ public class HotelPaginationService(
 					query = query.Where(h => h.Address.City.CountryId == city.CountryId);
 			}
 		}
+
+		if (vm.TypeId is not null)
+			query = query.Where(h => h.TypeId == vm.TypeId);
 
 		return query;
 	}

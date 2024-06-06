@@ -9,7 +9,7 @@ namespace Booking.Services.PaginationServices;
 public class CountryPaginationService(
 	DataContext context,
 	IMapper mapper
-	) : PaginationService<Country, CountryVm, CountryFilterVm>(mapper) {
+) : PaginationService<Country, CountryVm, CountryFilterVm>(mapper) {
 
 	protected override IQueryable<Country> GetQuery() => context.Countries.OrderBy(c => c.Id);
 

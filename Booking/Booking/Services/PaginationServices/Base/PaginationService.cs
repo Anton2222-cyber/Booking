@@ -3,13 +3,12 @@ using AutoMapper.QueryableExtensions;
 using Booking.Services.Interfaces;
 using Booking.ViewModels.Pagination;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Booking.Services.PaginationServices.Base;
 
 public abstract class PaginationService<EntityType, EntityVmType, PaginationVmType>(
 	IMapper mapper
-	) : IPaginationService<EntityVmType, PaginationVmType> where PaginationVmType : PaginationVm {
+) : IPaginationService<EntityVmType, PaginationVmType> where PaginationVmType : PaginationVm {
 
 	public async Task<PageVm<EntityVmType>> GetPageAsync(PaginationVmType vm) {
 		if (vm.PageSize is not null && vm.PageIndex is null)

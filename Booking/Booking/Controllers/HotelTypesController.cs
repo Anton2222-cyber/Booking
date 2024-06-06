@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
-using Booking.ViewModels.Hotel;
+using Booking.ViewModels.HotelType;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,27 +12,26 @@ namespace Booking.Controllers;
 
 [Route("api/[controller]/[action]")]
 [ApiController]
-public class HotelsController(
+public class HotelTypesController(
 	DataContext context,
 	IMapper mapper,
-	IValidator<CreateHotelVm> createValidator,
-	IValidator<UpdateHotelVm> updateValidator,
-	IHotelControllerService service,
-	IPaginationService<HotelVm, HotelFilterVm> pagination
+	IHotelTypeControllerService service,
+	IValidator<CreateHotelTypeVm> createValidator,
+	IValidator<UpdateHotelTypeVm> updateValidator,
+	IPaginationService<HotelTypeVm, HotelTypeFilterVm> pagination
 ) : ControllerBase {
 
 	[HttpGet]
 	public async Task<IActionResult> GetAll() {
-		var hotels = await context.Hotels
-			.Include(h => h.Photos.OrderBy(p => p.Priority))
-			.ProjectTo<HotelVm>(mapper.ConfigurationProvider)
+		var entities = await context.HotelTypes
+			.ProjectTo<HotelTypeVm>(mapper.ConfigurationProvider)
 			.ToArrayAsync();
 
-		return Ok(hotels);
+		return Ok(entities);
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetPage([FromQuery] HotelFilterVm vm) {
+	public async Task<IActionResult> GetPage([FromQuery] HotelTypeFilterVm vm) {
 		try {
 			return Ok(await pagination.GetPageAsync(vm));
 		}
@@ -43,19 +42,18 @@ public class HotelsController(
 
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetById(long id) {
-		var hotel = await context.Hotels
-			.Include(h => h.Photos.OrderBy(p => p.Priority))
-			.ProjectTo<HotelVm>(mapper.ConfigurationProvider)
-			.FirstOrDefaultAsync(c => c.Id == id);
+		var entity = await context.HotelTypes
+			.ProjectTo<HotelTypeVm>(mapper.ConfigurationProvider)
+			.FirstOrDefaultAsync(ht => ht.Id == id);
 
-		if (hotel is null)
+		if (entity is null)
 			return NotFound();
 
-		return Ok(hotel);
+		return Ok(entity);
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> Create([FromForm] CreateHotelVm vm) {
+	public async Task<IActionResult> Create([FromForm] CreateHotelTypeVm vm) {
 		var validationResult = await createValidator.ValidateAsync(vm);
 
 		if (!validationResult.IsValid)
@@ -67,7 +65,7 @@ public class HotelsController(
 	}
 
 	[HttpPut]
-	public async Task<IActionResult> Update([FromForm] UpdateHotelVm vm) {
+	public async Task<IActionResult> Update([FromForm] UpdateHotelTypeVm vm) {
 		var validationResult = await updateValidator.ValidateAsync(vm);
 
 		if (!validationResult.IsValid)
