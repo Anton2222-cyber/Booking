@@ -12,6 +12,7 @@ const buttonVariants = cva("flex items-center justify-center rounded-md gap-1", 
             underline: "text-xs text-white hover:bg-lightblue underline font-semibold rounded-none",
             transparent: "bg-transparent text-white hover:bg-lightblue font-bold",
             translight: "bg-transparent text-sky hover:bg-lightsky font-semibold",
+            lightborder: "border border-sky text-sky text-sm font-main mt-4 rounded-md  w-full hover:bg-lightsky"
         },
         size: {
             default: "h-12 px-3 py-2",
