@@ -17,7 +17,6 @@ import { Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "store/index.ts";
 import { setLocation } from "store/slice/userSlice.ts";
 
-import { useEffect } from "react";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -27,7 +26,7 @@ function App() {
         } else {
             navigator.geolocation.getCurrentPosition((position) => {
                 dispatch(
-                    setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
+                    setLocation({latitude: position.coords.latitude, longitude: position.coords.longitude}),
                 );
             });
         }
@@ -54,6 +53,8 @@ function App() {
                 <Route path="register" element={<RegisterPage />} />
             </Route>
         </Routes>
+        //  <CityCardTest {...cityData}/>
+        //<HotelCardTest {...hotelData}/>
     );
 }
 
