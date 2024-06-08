@@ -39,9 +39,7 @@ public abstract class PaginationService<EntityType, EntityVmType, PaginationVmTy
 			pagesAvailable = (count > 0) ? (1) : (0);
 		}
 
-		var data = await query
-			.ProjectTo<EntityVmType>(mapper.ConfigurationProvider)
-			.ToArrayAsync();
+		var data = await MapAsync(query);
 
 		return new PageVm<EntityVmType> {
 			Data = data,
@@ -53,4 +51,10 @@ public abstract class PaginationService<EntityType, EntityVmType, PaginationVmTy
 	protected abstract IQueryable<EntityType> GetQuery();
 
 	protected abstract IQueryable<EntityType> FilterQuery(IQueryable<EntityType> query, PaginationVmType paginationVm);
+
+	protected virtual async Task<IEnumerable<EntityVmType>> MapAsync(IQueryable<EntityType> query) {
+		return await query
+			.ProjectTo<EntityVmType>(mapper.ConfigurationProvider)
+			.ToArrayAsync();
+	}
 }
