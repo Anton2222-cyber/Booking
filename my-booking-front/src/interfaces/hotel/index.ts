@@ -1,4 +1,5 @@
 import { City } from "interfaces/city";
+import { HotelTypes } from "interfaces/hotelTypes";
 import { PaginationOptions } from "interfaces/index.ts";
 import { Photo } from "interfaces/photo";
 
@@ -18,6 +19,7 @@ export interface Hotel {
     rating: number;
     reviews: number;
     address: Address;
+    type: HotelTypes;
     photos: Photo[];
 }
 
@@ -48,6 +50,7 @@ export interface GetHotelPageRequest extends PaginationOptions {
     rating?: number;
     minRating?: number;
     maxRating?: number;
+    typeId?: number;
     address?: HotelAddress;
 }
 

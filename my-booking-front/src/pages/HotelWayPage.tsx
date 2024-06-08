@@ -24,6 +24,9 @@ const RoutingMachine: React.FC<RoutingMachineProps> = ({ start, end }) => {
         const routingControl = L.Routing.control({
             waypoints: [L.latLng(start.lat, start.lng), L.latLng(end.lat, end.lng)],
             routeWhileDragging: true,
+            addWaypoints: false,
+            // @ts-ignore
+            draggableWaypoints: false,
         }).addTo(map);
 
         return () => {

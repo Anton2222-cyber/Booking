@@ -9,6 +9,7 @@ export default {
             backgroundImage: {
                 "hero-home": "url('/assets/homeHero.jpeg')",
                 "hero-search": "url('/assets/searchHero.jpg')",
+                "hero-types": "url('/assets/typesHero.jpg')",
                 "map-bg": "url('/assets/mapbg.png')",
             },
         },
@@ -27,7 +28,6 @@ export default {
             lightgray: "#6b6b6b",
             light2gray: "#f5f5f5",
             yellow: "#ffb700",
-
         },
         fontFamily: {
             main: ["Roboto", "sans-serif"],
