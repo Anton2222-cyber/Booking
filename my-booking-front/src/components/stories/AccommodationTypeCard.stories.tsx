@@ -1,8 +1,8 @@
 import { Meta } from "@storybook/react";
-import AccommodationTypeCard from "components/cards/AccommodationTypeCard.tsx";
+import HotelTypeCard from "components/cards/HotelTypeCard.tsx";
 
-const meta: Meta<typeof AccommodationTypeCard> = {
-    component: AccommodationTypeCard,
+const meta: Meta<typeof HotelTypeCard> = {
+    component: HotelTypeCard,
 };
 
 export default meta;

@@ -1,21 +1,24 @@
 import Swiper from "components/Swiper.tsx";
-import AccommodationTypeCard from "components/cards/AccommodationTypeCard.tsx";
+import HotelTypeCard from "components/cards/HotelTypeCard.tsx";
 import Label from "components/ui/Label.tsx";
+import { useGetPageHotelTypesQuery } from "services/hotelTypes.ts";
 import { SwiperSlide } from "swiper/react";
 
 const HousingTypes = () => {
+    const { data } = useGetPageHotelTypesQuery({
+        pageIndex: 0,
+        pageSize: 10,
+        isRandomItems: true,
+    });
+
     return (
         <div className="flex flex-col container mx-auto mt-5 gap-2">
             <Label variant="title">Пошук за типом помешкання</Label>
 
             <Swiper id="swiper2" slidesPerView={4}>
-                {Array.from({ length: 24 }).map((_, index) => (
+                {data?.data.map((type, index) => (
                     <SwiperSlide key={index}>
-                        <AccommodationTypeCard
-                            title="Апартаменти"
-                            imageSrc="https://picsum.photos/500/800"
-                            key={index}
-                        />
+                        <HotelTypeCard {...type} key={index} />
                     </SwiperSlide>
                 ))}
             </Swiper>

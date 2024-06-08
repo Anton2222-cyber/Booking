@@ -4,6 +4,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { bookingApi } from "services/booking.ts";
 import { cityApi } from "services/city.ts";
 import { hotelApi } from "services/hotel.ts";
+import { hotelTypesApi } from "services/hotelTypes.ts";
 import { reviewApi } from "services/review.ts";
 import { roomApi } from "services/rooms.ts";
 import { userApi } from "services/user.ts";
@@ -18,6 +19,7 @@ export const store = configureStore({
         [hotelApi.reducerPath]: hotelApi.reducer,
         [reviewApi.reducerPath]: reviewApi.reducer,
         [bookingApi.reducerPath]: bookingApi.reducer,
+        [hotelTypesApi.reducerPath]: hotelTypesApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
@@ -27,6 +29,7 @@ export const store = configureStore({
             reviewApi.middleware,
             roomApi.middleware,
             bookingApi.middleware,
+            hotelTypesApi.middleware,
         ),
 });
 
