@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Booking.Services.ControllerServices.Interfaces;
 using Booking.ViewModels.Booking;
-using Booking.ViewModels.City;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
 

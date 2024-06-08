@@ -146,6 +146,8 @@ builder.Services.AddTransient<IPaginationService<BookingVm, BookingFilterVm>, Bo
 builder.Services.AddTransient<IHotelTypeControllerService, HotelTypesControllerService>();
 builder.Services.AddTransient<IPaginationService<HotelTypeVm, HotelTypeFilterVm>, HotelTypesPaginationService>();
 
+builder.Services.AddTransient<IFavoriteHotelsControllerService, FavoriteHotelsControllerService>();
+
 
 var app = builder.Build();
 

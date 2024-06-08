@@ -20,6 +20,9 @@ public class ExistingEntityCheckerService(
 	public async Task<bool> IsCorrectHotelTypeId(long id, CancellationToken cancellationToken) =>
 		await context.HotelTypes.AnyAsync(ht => ht.Id == id, cancellationToken);
 
+	public async Task<bool> IsCorrectFavoriteHotelKey(long hotelId, long userId, CancellationToken cancellationToken) =>
+		await context.FavoriteHotels.AnyAsync(fh => fh.HotelId == hotelId && fh.UserId == userId, cancellationToken);
+
 	public async Task<bool> IsCorrectConvenienceId(long id, CancellationToken cancellationToken) =>
 		await context.Conveniences.AnyAsync(c => c.Id == id, cancellationToken);
 
