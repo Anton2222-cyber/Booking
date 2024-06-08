@@ -29,4 +29,14 @@ public class FavoriteHotelsController(
 
 		return Ok();
 	}
+
+	[HttpDelete]
+	[Authorize(Roles = "Admin,User")]
+	public async Task<IActionResult> Delete(long hotelId) {
+		await identityService.InitCurrentUserAsync(this);
+
+		await service.DeleteIfExistsAsync(hotelId);
+
+		return Ok();
+	}
 }

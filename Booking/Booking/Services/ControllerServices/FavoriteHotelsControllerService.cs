@@ -1,5 +1,6 @@
 ﻿using Booking.Services.ControllerServices.Interfaces;
 using Booking.ViewModels.FavoriteHotel;
+using Microsoft.EntityFrameworkCore;
 using Model.Context;
 using Model.Entities;
 
@@ -19,5 +20,13 @@ public class FavoriteHotelsControllerService(
 		await context.FavoriteHotels.AddAsync(entity);
 
 		await context.SaveChangesAsync();
+	}
+
+	public async Task DeleteIfExistsAsync(long hotelId) {
+		var userId = identityService.GetRequiredUser().Id;
+
+		await context.FavoriteHotels
+		   .Where(fh => fh.HotelId == hotelId && fh.UserId == userId)
+		   .ExecuteDeleteAsync();
 	}
 }
