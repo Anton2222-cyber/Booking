@@ -3,6 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { bookingApi } from "services/booking.ts";
 import { cityApi } from "services/city.ts";
+import { favoriteHotelsApi } from "services/favoriteHotels.ts";
 import { hotelApi } from "services/hotel.ts";
 import { hotelTypesApi } from "services/hotelTypes.ts";
 import { reviewApi } from "services/review.ts";
@@ -20,6 +21,7 @@ export const store = configureStore({
         [reviewApi.reducerPath]: reviewApi.reducer,
         [bookingApi.reducerPath]: bookingApi.reducer,
         [hotelTypesApi.reducerPath]: hotelTypesApi.reducer,
+        [favoriteHotelsApi.reducerPath]: favoriteHotelsApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
@@ -30,6 +32,7 @@ export const store = configureStore({
             roomApi.middleware,
             bookingApi.middleware,
             hotelTypesApi.middleware,
+            favoriteHotelsApi.middleware,
         ),
 });
 

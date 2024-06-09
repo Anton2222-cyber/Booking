@@ -5,7 +5,6 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useGetPageHotelsQuery } from "services/hotel.ts";
 import { useQuery } from "utils/query.ts";
 
-// Define your custom icon
 const customIcon = L.icon({
     iconUrl: "https://static-00.iconduck.com/assets.00/map-marker-icon-342x512-gd1hf1rz.png",
     iconSize: [25, 41],
