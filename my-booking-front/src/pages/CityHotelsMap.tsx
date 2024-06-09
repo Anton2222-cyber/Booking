@@ -1,15 +1,18 @@
 import MapHotelCard from "components/cards/MapHotelCard.tsx";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useGetPageHotelsQuery } from "services/hotel.ts";
 import { useQuery } from "utils/query.ts";
 
-// new L.TileLayer("https://tms{s}.visicom.ua/2.0.0/planet3/base_uk/{z}/{x}/{y}.png", {
-//     attribution: "Дані карт © 2021 ЧАО «<a href='https://api.visicom.ua/'>Визиком</a>»",
-//     subdomains: "123",
-//     maxZoom: 19,
-//     tms: true
-// })
+// Define your custom icon
+const customIcon = L.icon({
+    iconUrl: "https://static-00.iconduck.com/assets.00/map-marker-icon-342x512-gd1hf1rz.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+});
 
 const CityHotelsMapPage = () => {
     const query = useQuery();
@@ -43,6 +46,7 @@ const CityHotelsMapPage = () => {
                     key={hotel.id}
                     draggable={false}
                     position={[hotel.address.latitude, hotel.address.longitude]}
+                    icon={customIcon} // Apply the custom icon here
                 >
                     <Popup className="w-80">
                         <MapHotelCard {...hotel} />
