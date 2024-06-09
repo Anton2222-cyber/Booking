@@ -281,5 +281,13 @@ yarn-error.log*
 
 package-lock.json
 
+
+
+# Development appsettings.json
+/Booking/appsettings.Development.json
+
+# API data
+/Booking/Data/
+
 # Docker volumes
-volumes/
+/volumes/
