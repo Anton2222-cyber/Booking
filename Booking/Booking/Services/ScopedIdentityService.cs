@@ -13,4 +13,7 @@ public class ScopedIdentityService(
 	public async Task InitCurrentUserAsync(ControllerBase controller) {
 		User = await identityService.GetCurrentUserAsync(controller);
 	}
+
+	public User GetRequiredUser() =>
+		User ?? throw new Exception($"User in {nameof(ScopedIdentityService)} is not inicialized");
 }

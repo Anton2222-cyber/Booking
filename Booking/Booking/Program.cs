@@ -4,11 +4,13 @@ using Booking.Services.ControllerServices;
 using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
 using Booking.Services.PaginationServices;
+using Booking.Services.PaginationServices.Base;
 using Booking.Validators.Country;
 using Booking.ViewModels.Booking;
 using Booking.ViewModels.City;
 using Booking.ViewModels.Convenience;
 using Booking.ViewModels.Country;
+using Booking.ViewModels.FavoriteHotel;
 using Booking.ViewModels.Hotel;
 using Booking.ViewModels.HotelReview;
 using Booking.ViewModels.HotelType;
@@ -21,6 +23,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Model.Context;
+using Model.Entities;
 using Model.Entities.Identity;
 using System.Text;
 
@@ -145,6 +148,9 @@ builder.Services.AddTransient<IPaginationService<BookingVm, BookingFilterVm>, Bo
 
 builder.Services.AddTransient<IHotelTypeControllerService, HotelTypesControllerService>();
 builder.Services.AddTransient<IPaginationService<HotelTypeVm, HotelTypeFilterVm>, HotelTypesPaginationService>();
+
+builder.Services.AddTransient<IFavoriteHotelsControllerService, FavoriteHotelsControllerService>();
+builder.Services.AddTransient<IPaginationService<HotelVm, FavoriteHotelsFilterVm>, FavoriteHotelsPaginationService>();
 
 
 var app = builder.Build();

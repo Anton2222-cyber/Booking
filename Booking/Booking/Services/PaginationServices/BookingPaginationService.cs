@@ -18,10 +18,7 @@ public class BookingPaginationService(
 		.ThenInclude(b => b.Photos.OrderBy(p => p.Priority));
 
 	protected override IQueryable<Model.Entities.Booking> FilterQuery(IQueryable<Model.Entities.Booking> query, BookingFilterVm vm) {
-		if (scopedIdentityService.User is null)
-			throw new Exception($"User in {nameof(IScopedIdentityService)} is not inicialized");
-		else
-			query = query.Where(b => b.UserId == scopedIdentityService.User.Id);
+		query = query.Where(b => b.UserId == scopedIdentityService.GetRequiredUser().Id);
 
 		if (vm.IsRandomItems == true) {
 			query = query.OrderBy(b => Guid.NewGuid());
