@@ -10,6 +10,23 @@ import { getUserLocation } from "store/slice/userSlice.ts";
 
 import React from "react";
 
+// Define your custom icons
+const customStartIcon = new L.Icon({
+    iconUrl: "https://static-00.iconduck.com/assets.00/map-marker-icon-342x512-gd1hf1rz.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+});
+
+const customEndIcon = new L.Icon({
+    iconUrl: "https://static-00.iconduck.com/assets.00/map-marker-icon-342x512-gd1hf1rz.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+});
+
 interface RoutingMachineProps {
     start: { lat: number; lng: number };
     end: { lat: number; lng: number };
@@ -23,6 +40,11 @@ const RoutingMachine: React.FC<RoutingMachineProps> = ({ start, end }) => {
 
         const routingControl = L.Routing.control({
             waypoints: [L.latLng(start.lat, start.lng), L.latLng(end.lat, end.lng)],
+            // @ts-ignore
+            createMarker: function (i, waypoint, _n) {
+                const icon = i === 0 ? customStartIcon : customEndIcon;
+                return L.marker(waypoint.latLng, { icon });
+            },
             routeWhileDragging: true,
             addWaypoints: false,
             // @ts-ignore

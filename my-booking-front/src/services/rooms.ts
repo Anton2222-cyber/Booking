@@ -1,12 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { GetPageResponse } from "interfaces/index.ts";
 import { GetRoomPageRequest, Room } from "interfaces/room";
+import { createBaseQuery } from "utils/apiUtils.ts";
 import { createQueryString } from "utils/createQueryString.ts";
-import { API_URL } from "utils/getEnvData.ts";
 
 export const roomApi = createApi({
     reducerPath: "roomApi",
-    baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}/api/rooms/` }),
+    baseQuery: createBaseQuery("rooms"),
     tagTypes: ["Room"],
 
     endpoints: (builder) => ({

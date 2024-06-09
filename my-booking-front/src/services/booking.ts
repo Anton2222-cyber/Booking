@@ -1,22 +1,13 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { Booking, CreateBooking, GetBookingsPageRequest } from "interfaces/booking";
 import { GetPageResponse } from "interfaces/index.ts";
 import { roomApi } from "services/rooms.ts";
+import { createBaseQuery } from "utils/apiUtils.ts";
 import { createQueryString } from "utils/createQueryString.ts";
-import { API_URL } from "utils/getEnvData.ts";
 
 export const bookingApi = createApi({
     reducerPath: "bookingApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${API_URL}/api/bookings/`,
-        prepareHeaders: (headers) => {
-            const token = localStorage.getItem("authToken");
-            if (token) {
-                headers.set("authorization", `Bearer ${token}`);
-                return headers;
-            }
-        },
-    }),
+    baseQuery: createBaseQuery("bookings"),
     tagTypes: ["Booking"],
 
     endpoints: (builder) => ({

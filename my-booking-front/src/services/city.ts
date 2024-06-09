@@ -1,12 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { City, GetCityPageRequest } from "interfaces/city";
 import { GetPageResponse } from "interfaces/index.ts";
+import { createBaseQuery } from "utils/apiUtils.ts";
 import { createQueryString } from "utils/createQueryString.ts";
-import { API_URL } from "utils/getEnvData.ts";
 
 export const cityApi = createApi({
     reducerPath: "cityApi",
-    baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}/api/cities/` }),
+    baseQuery: createBaseQuery("cities"),
     tagTypes: ["Cities"],
 
     endpoints: (builder) => ({

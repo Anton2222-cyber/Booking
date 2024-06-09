@@ -1,10 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { LoginResponse, RegisterUser } from "interfaces/user";
-import { API_URL } from "utils/getEnvData.ts";
+import { createBaseQuery } from "utils/apiUtils.ts";
 
 export const userApi = createApi({
     reducerPath: "userApi",
-    baseQuery: fetchBaseQuery({ baseUrl: `${API_URL}/api/accounts/` }),
+    baseQuery: createBaseQuery("accounts"),
     tagTypes: ["User"],
 
     endpoints: (builder) => ({
