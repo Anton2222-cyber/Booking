@@ -1,0 +1,18 @@
+# IDEs files
+/.vs/
+/.idea/
+
+# Build files
+/Booking/bin/
+/Booking/obj/
+/Model/bin/
+/Model/obj/
+
+# Development appsettings.json
+/Booking/appsettings.Development.json
+
+# API data
+/Booking/Data/
+
+# Docker volumes
+/volumes/
