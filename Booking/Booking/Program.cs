@@ -114,6 +114,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateCountryValidator>();
 
 builder.Services.AddScoped<IMigrationService, MigrationService>();
 builder.Services.AddScoped<IIdentitySeeder, IdentitySeeder>();
+builder.Services.AddScoped<IProductionDataSeeder, ProductionDataSeeder>();
 builder.Services.AddScoped<IDataSeeder, DataSeeder>();
 
 builder.Services.AddTransient<IImageService, ImageService>();
@@ -187,6 +188,7 @@ app.MapControllers();
 await using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateAsyncScope()) {
 	await scope.ServiceProvider.GetRequiredService<IMigrationService>().MigrateLatestAsync();
 	await scope.ServiceProvider.GetRequiredService<IIdentitySeeder>().SeedAsync();
+	await scope.ServiceProvider.GetRequiredService<IProductionDataSeeder>().SeedAsync();
 	await scope.ServiceProvider.GetRequiredService<IDataSeeder>().SeedAsync();
 }
 

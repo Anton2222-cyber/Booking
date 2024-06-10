@@ -15,12 +15,6 @@ public class DataSeeder(
 		using var transaction = await context.Database.BeginTransactionAsync();
 
 		try {
-			if (!await context.Countries.AnyAsync())
-				await CreateCountriesAsync();
-
-			if (!await context.Cities.AnyAsync())
-				await CreateCitiesAsync();
-
 			if (!await context.Addresses.AnyAsync())
 				await CreateAddressesAsync();
 
@@ -48,67 +42,6 @@ public class DataSeeder(
 			await transaction.RollbackAsync();
 			throw;
 		}
-	}
-
-	private async Task CreateCountriesAsync() {
-		Faker faker = new Faker();
-
-		var countryFaker = new Faker<Country>()
-			.RuleFor(c => c.Id, f => f.IndexFaker + 1)
-			.RuleFor(c => c.Name, f => f.Address.Country());
-
-		var countries = countryFaker.Generate(50);
-
-		using var httpClient = new HttpClient();
-
-		foreach (var country in countries) {
-			var imageUrl = faker.Image.LoremFlickrUrl(keywords: "city");
-			var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
-
-			country.Image = await imageService.SaveImageAsync(imageBase64);
-		}
-
-		var uniqueCountries = countries
-		   .GroupBy(c => c.Name)
-		   .Select(g => g.First())
-		   .ToList();
-
-		context.Countries.AddRange(uniqueCountries);
-		context.SaveChanges();
-	}
-
-	private async Task CreateCitiesAsync() {
-		var ukrainianCities = await GetUkrainianCitiesFromGeonamesAsync();
-
-		using var httpClient = new HttpClient();
-		Faker faker = new Faker();
-
-		foreach (var city in ukrainianCities) {
-			var imageUrl = faker.Image.LoremFlickrUrl(keywords: "city");
-			var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
-
-			city.Image = await imageService.SaveImageAsync(imageBase64);
-		}
-
-		context.Cities.AddRange(ukrainianCities);
-		context.SaveChanges();
-	}
-
-	private async Task<List<City>> GetUkrainianCitiesFromGeonamesAsync() {
-		const string geonamesUsername = "deadlightdie";
-		var geonamesUrl = $"http://api.geonames.org/searchJSON?country=UA&featureClass=P&maxRows=100&username={geonamesUsername}";
-
-		using var httpClient = new HttpClient();
-		var geonamesResponse = await httpClient.GetFromJsonAsync<GeonamesResponse>(geonamesUrl);
-
-		var cities = geonamesResponse.Geonames.Select(g => new City {
-			Name = g.Name,
-			Latitude = g.Lat,
-			Longitude = g.Lng,
-			CountryId = context.Countries.First(c => c.Name == "Ukraine").Id
-		}).ToList();
-
-		return cities;
 	}
 
 	private async Task CreateAddressesAsync() {
@@ -250,18 +183,9 @@ public class DataSeeder(
 		}
 	}
 
+
 	private static async Task<string> GetImageAsBase64Async(HttpClient httpClient, string imageUrl) {
 		var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
 		return Convert.ToBase64String(imageBytes);
 	}
-}
-
-public class GeonamesResponse {
-	public List<Geoname> Geonames { get; set; }
-}
-
-public class Geoname {
-	public string Name { get; set; }
-	public double Lat { get; set; }
-	public double Lng { get; set; }
 }
