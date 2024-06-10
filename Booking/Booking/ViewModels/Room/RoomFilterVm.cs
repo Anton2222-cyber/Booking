@@ -20,6 +20,8 @@ public class RoomFilterVm : PaginationVm {
 
 	public long? HotelId { get; set; }
 
+	public long? UserId { get; set; }
+
 	public IEnumerable<long>? ConvenienceIds { get; set; }
 
 	public TimeSpanVm? FreeTime { get; set; }
