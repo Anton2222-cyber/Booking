@@ -10,6 +10,7 @@ import { reviewApi } from "services/review.ts";
 import { roomApi } from "services/rooms.ts";
 import { userApi } from "services/user.ts";
 import userReducer from "store/slice/userSlice.ts";
+import {convenienceApi} from "services/convenience.ts";
 
 export const store = configureStore({
     reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
         [bookingApi.reducerPath]: bookingApi.reducer,
         [hotelTypesApi.reducerPath]: hotelTypesApi.reducer,
         [favoriteHotelsApi.reducerPath]: favoriteHotelsApi.reducer,
+        [convenienceApi.reducerPath]: convenienceApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
@@ -33,6 +35,7 @@ export const store = configureStore({
             bookingApi.middleware,
             hotelTypesApi.middleware,
             favoriteHotelsApi.middleware,
+            convenienceApi.middleware
         ),
 });
 
