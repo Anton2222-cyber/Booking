@@ -9,23 +9,23 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useGetAllCitiesQuery } from "services/city.ts";
 import { useAddHotelMutation } from "services/hotel.ts";
+import { useGetAllHotelTypesQuery } from "services/hotelTypes.ts";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import {useGetAllHotelTypesQuery} from "services/hotelTypes.ts";
 
 const HotelCreatePage = () => {
     const { data: cities } = useGetAllCitiesQuery();
-    const {data: hotelTypes } = useGetAllHotelTypesQuery();
+    const { data: hotelTypes } = useGetAllHotelTypesQuery();
     const [files, setFiles] = useState<File[]>([]);
     const [create, { isLoading }] = useAddHotelMutation();
     const navigate = useNavigate();
-
 
     const {
         register,
         handleSubmit,
         reset,
         setValue,
+        watch,
         formState: { errors },
     } = useForm<HotelCreateSchemaType>({ resolver: zodResolver(HotelCreateSchema) });
 
@@ -42,7 +42,7 @@ const HotelCreatePage = () => {
 
     useEffect(() => {
         reset();
-    }, [open, reset]);
+    }, [reset]);
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files;
@@ -78,7 +78,7 @@ const HotelCreatePage = () => {
         //         message: "Hotel images is required!",
         //     });
         //     return;
-        // // }
+        // }
         try {
             await create({ ...data, photos: files, cityId: Number(data.address.cityId) }).unwrap();
 
@@ -91,7 +91,37 @@ const HotelCreatePage = () => {
     const onReset = () => {
         reset();
     };
+
     const sortedCities = cities ? [...cities].sort((a, b) => a.name.localeCompare(b.name)) : [];
+    const selectedCityId = watch("address.cityId");
+
+    useEffect(() => {
+        if (selectedCityId) {
+            const selectedCity = cities?.find((city) => city.id === parseInt(selectedCityId));
+            if (selectedCity) {
+                const minLatitude = selectedCity.latitude - 0.2;
+                const maxLatitude = selectedCity.latitude + 0.2;
+                const minLongitude = selectedCity.longitude - 0.2;
+                const maxLongitude = selectedCity.longitude + 0.2;
+
+                setValue("address.latitude", selectedCity.latitude.toString());
+                setValue("address.longitude", selectedCity.longitude.toString());
+
+                const latitudeInput = document.getElementById("latitude");
+                const longitudeInput = document.getElementById("longitude");
+
+                if (latitudeInput) {
+                    latitudeInput.setAttribute("min", minLatitude.toString());
+                    latitudeInput.setAttribute("max", maxLatitude.toString());
+                }
+                if (longitudeInput) {
+                    longitudeInput.setAttribute("min", minLongitude.toString());
+                    longitudeInput.setAttribute("max", maxLongitude.toString());
+                }
+            }
+        }
+    }, [selectedCityId, cities, setValue]);
+
     return (
         <div className="container mx-auto flex justify-center mt-5">
             <div className="w-full p-5">
@@ -162,10 +192,10 @@ const HotelCreatePage = () => {
                             placeholder="Street..."
                             className="w-full"
                         />
-                        {errors?.address && (
+                        {errors?.address?.street && (
                             <FormError
                                 className="text-red"
-                                errorMessage={errors?.address.street?.message as string}
+                                errorMessage={errors?.address?.street?.message as string}
                             />
                         )}
                     </div>
@@ -180,10 +210,10 @@ const HotelCreatePage = () => {
                             placeholder="House Number..."
                             className="w-full"
                         />
-                        {errors?.address && (
+                        {errors?.address?.houseNumber && (
                             <FormError
                                 className="text-red"
-                                errorMessage={errors?.address.houseNumber?.message as string}
+                                errorMessage={errors?.address?.houseNumber?.message as string}
                             />
                         )}
                     </div>
@@ -207,10 +237,10 @@ const HotelCreatePage = () => {
                                 </option>
                             ))}
                         </select>
-                        {errors?.address && (
+                        {errors?.address?.cityId && (
                             <FormError
                                 className="text-red"
-                                errorMessage={errors?.address.cityId?.message as string}
+                                errorMessage={errors?.address?.cityId?.message as string}
                             />
                         )}
                     </div>
@@ -223,15 +253,14 @@ const HotelCreatePage = () => {
                             {...register("address.latitude")}
                             id="latitude"
                             type="number"
-                            min={-90.0000000000000000}
                             step={0.0000000000000001}
                             placeholder="Latitude..."
                             className="w-full"
                         />
-                        {errors?.address && (
+                        {errors?.address?.latitude && (
                             <FormError
                                 className="text-red"
-                                errorMessage={errors?.address.latitude?.message as string}
+                                errorMessage={errors?.address?.latitude?.message as string}
                             />
                         )}
                     </div>
@@ -244,20 +273,17 @@ const HotelCreatePage = () => {
                             {...register("address.longitude")}
                             id="longitude"
                             type="number"
-                            min={-180.0000000000000000}
                             step={0.0000000000000001}
                             placeholder="Longitude..."
                             className="w-full"
                         />
-                        {errors?.address && (
+                        {errors?.address?.longitude && (
                             <FormError
                                 className="text-red"
-                                errorMessage={errors?.address.longitude?.message as string}
+                                errorMessage={errors?.address?.longitude?.message as string}
                             />
                         )}
                     </div>
-
-
 
                     <div>
                         <label className="text-white text-xl font-main" htmlFor="photos">
@@ -287,7 +313,7 @@ const HotelCreatePage = () => {
                             disabled={isLoading}
                             size="lg"
                             type="submit"
-                            className="hover:bg-sky/70 disabled:cursor-not-allowed"
+                            className="hover:bg-sky/70 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             <IconCirclePlus />
                             Create

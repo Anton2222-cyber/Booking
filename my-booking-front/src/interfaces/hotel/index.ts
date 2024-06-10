@@ -57,7 +57,7 @@ export interface GetHotelPageRequest extends PaginationOptions {
 export interface CreateHotel {
     name: string;
     cityId: number;
-    typeId: number;
+    typeId: string;
     description: string;
     address: HotelAddress;
     photos: File[];
