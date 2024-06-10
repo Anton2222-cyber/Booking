@@ -35,3 +35,35 @@ export const HotelCreateSchema = z.object({
 });
 
 export type HotelCreateSchemaType = z.infer<typeof HotelCreateSchema>;
+
+export const RoomCreateSchema = z.object({
+    name: z.string().min(1, "Name is required"),
+    price: z.string()
+        .refine((val) => {
+            const num = parseFloat(val);
+            return !isNaN(num) && num > 0;
+        }, { message: "Price must be greater than 0" }),
+    adultPlaces: z.string()
+        .refine((val) => {
+            const num = parseFloat(val);
+            return !isNaN(num) && num > 0;
+        }, { message: "Adult places must be greater than 0" }),
+    childrenPlaces: z.string()
+        .refine((val) => {
+            const num = parseFloat(val);
+            return !isNaN(num);
+        }, { message: "Children places must be a number" }),
+    hotelId: z
+        .string()
+        .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) !== 0, {
+            message: "Hotel is required",
+        }),
+    photos: z.any(),
+    convenienceIds: z
+        .string()
+        .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) !== 0, {
+            message: "Convenience is required",
+        }),
+});
+
+export type RoomCreateSchemaType = z.infer<typeof RoomCreateSchema>;
