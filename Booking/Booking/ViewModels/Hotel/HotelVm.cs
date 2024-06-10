@@ -14,6 +14,8 @@ public class HotelVm {
 
 	public int Reviews { get; set; }
 
+	public long UserId { get; set; }
+
 	public AddressVm Address { get; set; } = null!;
 
 	public HotelTypeVm Type { get; set; } = null!;
