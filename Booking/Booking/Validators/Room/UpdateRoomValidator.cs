@@ -8,7 +8,9 @@ public class UpdateRoomValidator : AbstractValidator<UpdateRoomVm> {
 	public UpdateRoomValidator(IImageValidator imageValidator, IExistingEntityCheckerService existingEntityCheckerService) {
 		RuleFor(r => r.Id)
 			.MustAsync(existingEntityCheckerService.IsCorrectRoomId)
-				.WithMessage("Room with this id is not exists");
+				.WithMessage("Room with this id is not exists")
+			.MustAsync(existingEntityCheckerService.IsCorrectRoomIdOfCurrentUser)
+				.WithMessage("This is someone else's room (Placed in someone else's hotel)");
 
 		RuleFor(r => r.Name)
 			.NotEmpty()
@@ -30,7 +32,9 @@ public class UpdateRoomValidator : AbstractValidator<UpdateRoomVm> {
 
 		RuleFor(r => r.HotelId)
 			.MustAsync(existingEntityCheckerService.IsCorrectHotelId)
-				.WithMessage("Hotel with this id is not exists");
+				.WithMessage("Hotel with this id is not exists")
+			.MustAsync(existingEntityCheckerService.IsCorrectHotelIdOfCurrentUser)
+				.WithMessage("This is someone else's hotel");
 
 		RuleFor(r => r.Photos)
 			.MustAsync(imageValidator.IsValidImagesAsync)

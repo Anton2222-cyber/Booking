@@ -1,25 +1,18 @@
-﻿using Booking.Services;
-using Booking.Services.Interfaces;
+﻿using Booking.Services.Interfaces;
 using Booking.ViewModels.Address;
 using Booking.ViewModels.Hotel;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using Model.Context;
 
 namespace Booking.Validators.Hotel;
 
 public class UpdateHotelValidator : AbstractValidator<UpdateHotelVm> {
 	public UpdateHotelValidator(IExistingEntityCheckerService existingEntityCheckerService, IImageValidator imageValidator,
-		IValidator<UpdateAddressVm> addressValidator, IScopedIdentityService scopedIdentityService, DataContext context) {
+		IValidator<UpdateAddressVm> addressValidator) {
 
 		RuleFor(h => h.Id)
 			.MustAsync(existingEntityCheckerService.IsCorrectHotelId)
-				.WithMessage("Hotel with this id is not exists");
-
-		RuleFor(h => h)
-			.MustAsync(async (hVm, cancellationToken) =>
-				await context.Hotels.AnyAsync(h => h.Id == hVm.Id && h.UserId == scopedIdentityService.GetRequiredUser().Id, cancellationToken: cancellationToken)
-			)
+				.WithMessage("Hotel with this id is not exists")
+			.MustAsync(existingEntityCheckerService.IsCorrectHotelIdOfCurrentUser)
 				.WithMessage("This is someone else's hotel");
 
 		RuleFor(h => h.Name)
