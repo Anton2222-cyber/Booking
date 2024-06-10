@@ -35,6 +35,7 @@ export const hotelApi = createApi({
                 hotelFormData.append("Address.Latitude", hotel.address.latitude || "0");
                 hotelFormData.append("Address.Longitude", hotel.address.longitude || "0");
                 hotelFormData.append("Address.CityId", hotel.cityId?.toString() || "0");
+                hotelFormData.append("TypeId", hotel.typeId?.toString() || "0");
 
                 if (hotel.photos) {
                     Array.from(hotel.photos).forEach((image) => hotelFormData.append("Photos", image));
