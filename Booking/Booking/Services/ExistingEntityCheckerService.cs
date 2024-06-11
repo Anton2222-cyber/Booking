@@ -5,7 +5,8 @@ using Model.Context;
 namespace Booking.Services;
 
 public class ExistingEntityCheckerService(
-	DataContext context
+	DataContext context,
+	IScopedIdentityService scopedIdentityService
 ) : IExistingEntityCheckerService {
 
 	public async Task<bool> IsCorrectCountryId(long id, CancellationToken cancellationToken) =>
@@ -16,6 +17,9 @@ public class ExistingEntityCheckerService(
 
 	public async Task<bool> IsCorrectHotelId(long id, CancellationToken cancellationToken) =>
 		await context.Hotels.AnyAsync(h => h.Id == id, cancellationToken);
+
+	public async Task<bool> IsCorrectHotelIdOfCurrentUser(long id, CancellationToken cancellationToken) =>
+		await context.Hotels.AnyAsync(h => h.Id == id && h.UserId == scopedIdentityService.GetRequiredUser().Id, cancellationToken);
 
 	public async Task<bool> IsCorrectHotelTypeId(long id, CancellationToken cancellationToken) =>
 		await context.HotelTypes.AnyAsync(ht => ht.Id == id, cancellationToken);
@@ -40,6 +44,11 @@ public class ExistingEntityCheckerService(
 
 	public async Task<bool> IsCorrectRoomId(long id, CancellationToken cancellationToken) =>
 		await context.Rooms.AnyAsync(r => r.Id == id, cancellationToken);
+
+	public async Task<bool> IsCorrectRoomIdOfCurrentUser(long id, CancellationToken cancellationToken) =>
+		await context.Rooms
+			.Include(r => r.Hotel)
+			.AnyAsync(r => r.Id == id && r.Hotel.UserId == scopedIdentityService.GetRequiredUser().Id, cancellationToken);
 
 	public async Task<bool> IsCorrectBookingId(long id, CancellationToken cancellationToken) =>
 		await context.Bookings.AnyAsync(b => b.Id == id, cancellationToken);

@@ -1,4 +1,6 @@
-﻿namespace Model.Entities;
+﻿using Model.Entities.Identity;
+
+namespace Model.Entities;
 
 public class Hotel {
 	public long Id { get; set; }
@@ -12,6 +14,9 @@ public class Hotel {
 
 	public long TypeId { get; set; }
 	public HotelType Type { get; set; } = null!;
+
+	public long UserId { get; set; }
+	public User User { get; set; } = null!;
 
 	public ICollection<HotelPhoto> Photos { get; set; } = null!;
 

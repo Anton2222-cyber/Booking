@@ -1,4 +1,5 @@
-﻿using Booking.Services.Interfaces;
+﻿using Booking.Services;
+using Booking.Services.Interfaces;
 using Booking.ViewModels.Room;
 using FluentValidation;
 
@@ -6,6 +7,7 @@ namespace Booking.Validators.Room;
 
 public class CreateRoomValidator : AbstractValidator<CreateRoomVm> {
 	public CreateRoomValidator(IImageValidator imageValidator, IExistingEntityCheckerService existingEntityCheckerService) {
+
 		RuleFor(r => r.Name)
 			.NotEmpty()
 				.WithMessage("Name is empty or null")
@@ -26,7 +28,9 @@ public class CreateRoomValidator : AbstractValidator<CreateRoomVm> {
 
 		RuleFor(r => r.HotelId)
 			.MustAsync(existingEntityCheckerService.IsCorrectHotelId)
-				.WithMessage("Hotel with this id is not exists");
+				.WithMessage("Hotel with this id is not exists")
+			.MustAsync(existingEntityCheckerService.IsCorrectHotelIdOfCurrentUser)
+				.WithMessage("This is someone else's hotel");
 
 		RuleFor(r => r.Photos)
 			.MustAsync(imageValidator.IsValidImagesAsync)
