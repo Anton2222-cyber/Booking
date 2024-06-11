@@ -36,6 +36,9 @@ public class HotelPaginationService(
 		if (vm.MaxRating is not null)
 			query = query.Where(h => h.Reviews.Average(r => r.Score).GetValueOrDefault(0) <= vm.MaxRating);
 
+		if (vm.UserId is not null)
+			query = query.Where(h => h.UserId == vm.UserId);
+
 		if (vm.Address is not null) {
 			HotelAddressFilterVm address = vm.Address;
 

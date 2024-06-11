@@ -13,6 +13,7 @@ public class RoomsPaginationService(
 ) : PaginationService<Room, RoomVm, RoomFilterVm>(mapper) {
 
 	protected override IQueryable<Room> GetQuery() => context.Rooms
+		.Include(r => r.Hotel)
 		.Include(r => r.Photos.OrderBy(p => p.Priority))
 		.AsSplitQuery();
 
@@ -50,6 +51,9 @@ public class RoomsPaginationService(
 
 		if (vm.HotelId is not null)
 			query = query.Where(r => r.HotelId == vm.HotelId);
+
+		if (vm.UserId is not null)
+			query = query.Where(r => r.Hotel.UserId == vm.UserId);
 
 		if (vm.ConvenienceIds is not null)
 			query = query.Where(
