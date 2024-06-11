@@ -12,6 +12,8 @@ public class HotelFilterVm : PaginationVm {
 	public double? MinRating { get; set; }
 	public double? MaxRating { get; set; }
 
+	public long? UserId { get; set; }
+
 	public HotelAddressFilterVm? Address { get; set; }
 
 	public long? TypeId { get; set; }

@@ -11,13 +11,15 @@ namespace Booking.Services.ControllerServices;
 public class HotelControllerService(
 	DataContext context,
 	IMapper mapper,
-	IImageService imageService
+	IImageService imageService,
+	IScopedIdentityService scopedIdentityService
 ) : IHotelControllerService {
 
 	public async Task CreateAsync(CreateHotelVm vm) {
 		var hotel = mapper.Map<Hotel>(vm);
 
 		hotel.Photos = await SaveAndPrioritizePhotosAsync(vm.Photos, hotel);
+		hotel.UserId = scopedIdentityService.GetRequiredUser().Id;
 
 		context.Hotels.Add(hotel);
 
