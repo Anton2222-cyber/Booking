@@ -1,5 +1,5 @@
 import { Popover, PopoverButton, PopoverPanel, Transition } from "@headlessui/react";
-import { IconBrandBooking, IconHeart, IconLogout } from "@tabler/icons-react";
+import { IconBrandBooking, IconBuildingSkyscraper, IconHeart, IconLogout } from "@tabler/icons-react";
 import { Button } from "components/ui/Button.tsx";
 import { User } from "interfaces/user";
 import { Link } from "react-router-dom";
@@ -60,6 +60,17 @@ const UserPanel: React.FC<User> = (props) => {
                         >
                             <IconHeart />
                             Збережене
+                        </Button>
+                    </Link>
+
+                    <Link to={"my-hotels"}>
+                        <Button
+                            variant="underline"
+                            className="w-full text-sm no-underline text-black hover:bg-gray/20 justify-start"
+                            size="sm"
+                        >
+                            <IconBuildingSkyscraper />
+                            Мої готелі
                         </Button>
                     </Link>
 

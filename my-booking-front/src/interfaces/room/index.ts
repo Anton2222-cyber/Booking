@@ -37,3 +37,13 @@ export interface GetRoomPageRequest extends PaginationOptions {
     convenienceIds?: number[];
     freeTime?: FreeTime;
 }
+
+export interface RoomCreate {
+    name: string;
+    price: string;
+    adultPlaces: string;
+    childrenPlaces: string;
+    hotelId: number;
+    photos?: File[];
+    convenienceIds?: number[];
+}

@@ -4,29 +4,26 @@ import ImageUpload from "components/ImageUpload.tsx";
 import { Button } from "components/ui/Button.tsx";
 import FormError from "components/ui/FormError.tsx";
 import { Input } from "components/ui/Input.tsx";
-import { RoomCreateSchema, RoomCreateSchemaType} from "interfaces/zod";
-import { useForm } from "react-hook-form";
+import { RoomCreateSchema, RoomCreateSchemaType } from "interfaces/zod";
+import { UseFormGetValues, UseFormSetValue, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useGetAllConveniencesQuery } from "services/convenience.ts";
+import { useAddRoomMutation } from "services/rooms.ts";
 
-import {useAddHotelMutation, useGetAllHotelsQuery} from "services/hotel.ts";
-
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-
-import {useGetAllConveniencesQuery} from "services/convenience.ts";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 
 const RoomCreatePage = () => {
-    const { data: hotels } = useGetAllHotelsQuery();
-    const {data: conveniences } = useGetAllConveniencesQuery();
+    const { data: conveniences } = useGetAllConveniencesQuery();
     const [files, setFiles] = useState<File[]>([]);
-    // const [create, { isLoading }] = useAddHotelMutation();
-    // const navigate = useNavigate();
-
+    const [create, { isLoading }] = useAddRoomMutation();
+    const navigate = useNavigate();
 
     const {
         register,
         handleSubmit,
         reset,
         setValue,
+        getValues,
         formState: { errors },
     } = useForm<RoomCreateSchemaType>({ resolver: zodResolver(RoomCreateSchema) });
 
@@ -73,17 +70,14 @@ const RoomCreatePage = () => {
 
     const onSubmit = handleSubmit(async (data) => {
         console.log(data);
-        // if (!data.photos?.length) {
-        //     setError("photos", {
-        //         type: "required",
-        //         message: "Hotel images is required!",
-        //     });
-        //     return;
-        // // }
+
         try {
-            // await create({ ...data, photos: files, cityId: Number(data.address.cityId) }).unwrap();
-            //
-            // navigate(`/search-results?cityId=${data.address.cityId}`);
+            await create({
+                ...data,
+                hotelId: 100,
+            }).unwrap();
+
+            navigate(`/hotel/${100}`);
         } catch (err) {
             console.log("Error created hotel: ", err);
         }
@@ -91,6 +85,30 @@ const RoomCreatePage = () => {
 
     const onReset = () => {
         reset();
+    };
+
+    const handleCheckboxChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        setValue: UseFormSetValue<RoomCreateSchemaType>,
+        getValues: UseFormGetValues<RoomCreateSchemaType>,
+    ) => {
+        const { value, checked } = event.target;
+        const currentValues = getValues("convenienceIds") || [];
+
+        if (checked) {
+            setValue("convenienceIds", [...currentValues, parseInt(value)], {
+                shouldValidate: true,
+            });
+        } else {
+            setValue(
+                "convenienceIds",
+                // @ts-ignore
+                currentValues.filter((val) => val !== parseInt(value)),
+                {
+                    shouldValidate: true,
+                },
+            );
+        }
     };
 
     return (
@@ -116,16 +134,13 @@ const RoomCreatePage = () => {
                             {...register("price")}
                             id="price"
                             type="number"
-                            min={1.00}
+                            min={1.0}
                             step={0.01}
                             placeholder="Price..."
                             className="w-full"
                         />
                         {errors?.price && (
-                            <FormError
-                                className="text-red"
-                                errorMessage={errors?.price?.message as string}
-                            />
+                            <FormError className="text-red" errorMessage={errors?.price?.message as string} />
                         )}
                     </div>
 
@@ -172,33 +187,6 @@ const RoomCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-lightgray text-xl font-main" htmlFor="typeId">
-                            Hotel
-                        </label>
-                        <select
-                            {...register("hotelId", { required: "Type is required" })}
-                            id="hotelId"
-                            defaultValue=""
-                            className="w-full text-md border px-3 py-1 rounded-sm "
-                        >
-                            <option disabled value="">
-                                Select hotel
-                            </option>
-                            {hotels?.map((hotel) => (
-                                <option key={hotel.id} value={hotel.id}>
-                                    {hotel.name}
-                                </option>
-                            ))}
-                        </select>
-                        {errors?.hotelId && (
-                            <FormError
-                                className="text-red"
-                                errorMessage={errors?.hotelId?.message as string}
-                            />
-                        )}
-                    </div>
-
-                    <div>
                         <label className="text-lightgray text-xl font-main" htmlFor="convenienceIds">
                             Conveniences
                         </label>
@@ -207,8 +195,8 @@ const RoomCreatePage = () => {
                                 <label key={convenience.id} className="flex items-center space-x-2">
                                     <input
                                         type="checkbox"
-                                        {...register("convenienceIds")}
                                         value={convenience.id}
+                                        onChange={(event) => handleCheckboxChange(event, setValue, getValues)}
                                     />
                                     <span>{convenience.name}</span>
                                 </label>
@@ -221,8 +209,6 @@ const RoomCreatePage = () => {
                             />
                         )}
                     </div>
-
-
 
                     <div>
                         <label className="text-lightgray text-xl font-main" htmlFor="photos">
@@ -249,7 +235,6 @@ const RoomCreatePage = () => {
 
                     <div className=" text-white flex w-full items-center justify-center gap-5">
                         <Button
-
                             size="lg"
                             type="submit"
                             className="hover:bg-sky/70 disabled:cursor-not-allowed"
@@ -258,9 +243,9 @@ const RoomCreatePage = () => {
                             Create
                         </Button>
                         <Button
-
                             size="lg"
                             type="button"
+                            disabled={isLoading}
                             onClick={onReset}
                             className="hover:bg-sky/70 disabled:cursor-not-allowed"
                         >

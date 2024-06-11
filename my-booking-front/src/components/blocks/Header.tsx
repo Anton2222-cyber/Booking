@@ -10,6 +10,8 @@ import { getUser } from "store/slice/userSlice.ts";
 const Header = () => {
     const user = useAppSelector(getUser);
 
+    console.log(user);
+
     return (
         <div className="bg-blue py-4">
             <div className="container mx-auto">
