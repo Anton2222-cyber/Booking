@@ -11,6 +11,7 @@ import MyBookingsPage from "pages/MyBookingsPage.tsx";
 import ParameterisedSearchPage from "pages/ParameterisedSearchPage.tsx";
 import QuickSearchPage from "pages/QuickSearchPage.tsx";
 import RegisterPage from "pages/RegisterPage.tsx";
+import RoomCreatePage from "pages/RoomCreatePage.tsx";
 import SavedPage from "pages/SavedPage.tsx";
 import TypesSearchPage from "pages/TypesSearchPage.tsx";
 import { Route, Routes } from "react-router-dom";
@@ -18,7 +19,6 @@ import { useAppDispatch } from "store/index.ts";
 import { setLocation } from "store/slice/userSlice.ts";
 
 import { useEffect } from "react";
-import RoomCreatePage from "pages/RoomCreatePage.tsx";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -35,27 +35,27 @@ function App() {
     }, []);
 
     return (
-        // <Routes>
-        //     <Route path="/" element={<Layout />}>
-        //         <Route index element={<HomePage />} />
-        //         <Route path="search-accommodation" element={<QuickSearchPage />} />
-        //         <Route path="search-types/:id" element={<TypesSearchPage />} />
-        //         <Route path="search-map" element={<CityHotelsMapPage />} />
-        //         <Route path="hotel/:id" element={<HotelPage />} />
-        //         <Route path="hotel/create" element={<HotelCreatePage />} />
-        //         <Route path="my-bookings" element={<MyBookingsPage />} />
-        //         <Route path="my-saved" element={<SavedPage />} />{" "}
-        //         <Route path="search-results" element={<ParameterisedSearchPage />} />
-        //         <Route path="booking/:id" element={<BookingPage />} />
-        //         <Route path="way-to-hotel/:id" element={<HotelWayPage />} />
-        //     </Route>
-        //
-        //     <Route path="/auth/" element={<AccountLayout />}>
-        //         <Route path="login" element={<LoginPage />} />
-        //         <Route path="register" element={<RegisterPage />} />
-        //     </Route>
-        // </Routes>
-        <RoomCreatePage/>
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                <Route index element={<HomePage />} />
+                <Route path="search-accommodation" element={<QuickSearchPage />} />
+                <Route path="search-types/:id" element={<TypesSearchPage />} />
+                <Route path="search-map" element={<CityHotelsMapPage />} />
+                <Route path="hotel/:id" element={<HotelPage />} />
+                <Route path="hotel/create" element={<HotelCreatePage />} />
+                <Route path="room/create" element={<RoomCreatePage />} />
+                <Route path="my-bookings" element={<MyBookingsPage />} />
+                <Route path="my-saved" element={<SavedPage />} />{" "}
+                <Route path="search-results" element={<ParameterisedSearchPage />} />
+                <Route path="booking/:id" element={<BookingPage />} />
+                <Route path="way-to-hotel/:id" element={<HotelWayPage />} />
+            </Route>
+
+            <Route path="/auth/" element={<AccountLayout />}>
+                <Route path="login" element={<LoginPage />} />
+                <Route path="register" element={<RegisterPage />} />
+            </Route>
+        </Routes>
     );
 }
 

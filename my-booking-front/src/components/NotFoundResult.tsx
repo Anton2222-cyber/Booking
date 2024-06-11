@@ -14,7 +14,7 @@ const NotFoundResult: React.FC<INotFoundResultProps> = (props) => {
             <div className="m-4 ps-4 text-2xl text-black font-bold flex flex-col justify-between">
                 <h1 className=" text-2xl text-center text-black font-bold  ">{text}</h1>
                 <div className="flex items-center justify-center">
-                    <img className="h-20 w-20" src={NotFoundImage} alt="Not Found Image" />
+                    <img className="h-40 w-40" src={NotFoundImage} alt="Not Found Image" />
                 </div>
 
                 <Link to="/">
