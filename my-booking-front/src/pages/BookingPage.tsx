@@ -7,8 +7,10 @@ import {
     IconInfoCircle,
     IconList,
     IconMapPin,
+    IconPencil,
     IconSearch,
 } from "@tabler/icons-react";
+import AddReview from "components/AddReview.tsx";
 import BookingPageSkeleton from "components/skeletons/BookingPageSkeleton.tsx";
 import { Link, useParams } from "react-router-dom";
 import { useGetBookingQuery } from "services/booking.ts";
@@ -23,6 +25,7 @@ const BookingPage: React.FC = () => {
     const { id } = useParams();
 
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
+    const [isExpandedReview, setIsExpandedReview] = useState<boolean>(false);
 
     const { data: booking } = useGetBookingQuery(id || "0");
     const [hotelId, setHotelId] = useState<string | null>(null);
@@ -37,6 +40,10 @@ const BookingPage: React.FC = () => {
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
+    };
+
+    const toggleExpandReview = () => {
+        setIsExpandedReview(!isExpandedReview);
     };
 
     const copyToClipboard = (text: string) => {
@@ -186,6 +193,25 @@ const BookingPage: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="border border-lightgray/20 rounded-md p-2 mb-2">
+                                <div className="flex items-center justify-between mb-0">
+                                    <div className="flex items-center">
+                                        <IconPencil
+                                            className="cursor-pointer text-brown h-8"
+                                            onClick={toggleExpandReview}
+                                        />
+                                        <p className="font-bold ml-2 text-sm">Залишити відгук</p>
+                                    </div>
+                                    <span
+                                        className={`cursor-pointer ${isExpanded ? "rotate-180" : ""}`}
+                                        onClick={toggleExpandReview}
+                                    >
+                                        <IconChevronDown />
+                                    </span>
+                                </div>
+                                {isExpandedReview && <AddReview hotelId={Number(hotelId)} />}
                             </div>
                         </div>
                         <div className="w-2/4 pl-4 max-w-xs ">

@@ -7,185 +7,246 @@ using Model.Entities;
 namespace Booking.Services;
 
 public class DataSeeder(
-	DataContext context,
-	IImageService imageService
-) : IDataSeeder {
+    DataContext context,
+    IImageService imageService
+) : IDataSeeder
+{
 
-	public async Task SeedAsync() {
-		using var transaction = await context.Database.BeginTransactionAsync();
+    public async Task SeedAsync()
+    {
+        using var transaction = await context.Database.BeginTransactionAsync();
 
-		try {
-			if (!await context.Addresses.AnyAsync())
-				await CreateAddressesAsync();
+        try
+        {
+            if (!await context.Addresses.AnyAsync())
+                await CreateAddressesAsync();
 
-			if (
-				!await context.HotelTypes.AnyAsync() ||
-				(await context.HotelTypes.CountAsync() == 1 && (await context.HotelTypes.FirstAsync()).Name == "Temporary type")
-			)
-				await CreateHotelTypesAsync();
+            if (
+                !await context.HotelTypes.AnyAsync() ||
+                (await context.HotelTypes.CountAsync() == 1 && (await context.HotelTypes.FirstAsync()).Name == "Temporary type")
+            )
+                await CreateHotelTypesAsync();
 
-			if (!await context.Hotels.AnyAsync())
-				await CreateHotelsAsync();
+            if (!await context.Hotels.AnyAsync())
+                await CreateHotelsAsync();
 
-			if (!await context.HotelPhotos.AnyAsync())
-				await CreateHotelPhotosAsync();
+            if (!await context.Conveniences.AnyAsync())
+                await CreateConveniencesAsync();
 
-			if (!await context.HotelReviews.AnyAsync())
-				await CreateHotelReviewsAsync();
+            if (!await context.HotelPhotos.AnyAsync())
+                await CreateHotelPhotosAsync();
 
-			if (!await context.HotelReviewPhotos.AnyAsync())
-				await CreateHotelReviewPhotosAsync();
+            if (!await context.HotelReviews.AnyAsync())
+                await CreateHotelReviewsAsync();
 
-			await transaction.CommitAsync();
-		}
-		catch (Exception) {
-			await transaction.RollbackAsync();
-			throw;
-		}
-	}
+            if (!await context.HotelReviewPhotos.AnyAsync())
+                await CreateHotelReviewPhotosAsync();
 
-	private async Task CreateAddressesAsync() {
-		Faker faker = new Faker();
-		Random random = new Random();
+            await transaction.CommitAsync();
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
 
-		var citiesId = await context.Cities.Select(c => c.Id).ToListAsync();
+    private async Task CreateAddressesAsync()
+    {
+        Faker faker = new Faker();
+        Random random = new Random();
 
-		var addresses = new List<Model.Entities.Address>();
+        var citiesId = await context.Cities.Select(c => c.Id).ToListAsync();
 
-		for (int i = 0; i < 100; i++) {
-			var cityId = faker.PickRandom(citiesId);
-			var city = context.Cities.Where(c => c.Id == cityId).FirstOrDefault();
+        var addresses = new List<Model.Entities.Address>();
 
-			if (city != null) {
-				var address = new Address {
-					Street = faker.Address.StreetName(),
-					HouseNumber = faker.Address.BuildingNumber(),
-					CityId = cityId,
-					Latitude = city.Latitude + (random.NextDouble() * 0.01 - 0.005),
-					Longitude = city.Longitude + (random.NextDouble() * 0.01 - 0.005)
-				};
+        for (int i = 0; i < 100; i++)
+        {
+            var cityId = faker.PickRandom(citiesId);
+            var city = context.Cities.Where(c => c.Id == cityId).FirstOrDefault();
 
-				addresses.Add(address);
-			}
-		}
+            if (city != null)
+            {
+                var address = new Address
+                {
+                    Street = faker.Address.StreetName(),
+                    HouseNumber = faker.Address.BuildingNumber(),
+                    CityId = cityId,
+                    Latitude = city.Latitude + (random.NextDouble() * 0.01 - 0.005),
+                    Longitude = city.Longitude + (random.NextDouble() * 0.01 - 0.005)
+                };
 
-		context.Addresses.AddRange(addresses);
-		context.SaveChanges();
-	}
+                addresses.Add(address);
+            }
+        }
 
-	private async Task CreateHotelTypesAsync() {
-		var faker = new Faker<HotelType>()
-			.RuleFor(ht => ht.Name, f => f.Name.Random.Word());
+        context.Addresses.AddRange(addresses);
+        context.SaveChanges();
+    }
 
-		var hotelTypes = faker.Generate(10).ToArray();
+    private async Task CreateHotelTypesAsync()
+    {
+        var faker = new Faker<HotelType>()
+            .RuleFor(ht => ht.Name, f => f.Commerce.Department());
 
-		context.HotelTypes.AddRange(hotelTypes);
-		await context.SaveChangesAsync();
-	}
+        var uniqueNames = new HashSet<string>();
+        var hotelTypes = new List<HotelType>();
 
-	private async Task CreateHotelsAsync() {
-		Faker faker = new Faker();
-		Random random = new Random();
+        while (hotelTypes.Count < 10)
+        {
+            var newHotelType = faker.Generate();
 
-		var addressesId = await context.Addresses.Select(c => c.Id).ToListAsync();
-		var typeIds = await context.HotelTypes.Select(ht => ht.Id).ToArrayAsync();
+            if (uniqueNames.Add(newHotelType.Name))
+            {
+                hotelTypes.Add(newHotelType);
+            }
+        }
 
-		var hotels = new List<Hotel>();
+        context.HotelTypes.AddRange(hotelTypes);
+        await context.SaveChangesAsync();
+    }
 
-		foreach (var address in addressesId) {
-			var hotel = new Hotel {
-				Name = faker.Company.CompanyName(),
-				Description = faker.Lorem.Sentences(5),
-				AddressId = address,
-				TypeId = faker.PickRandom(typeIds)
-			};
-			hotels.Add(hotel);
-		}
+    private async Task CreateConveniencesAsync()
+    {
+        var faker = new Faker<Convenience>()
+            .RuleFor(ht => ht.Name, f => f.Commerce.Department());
 
-		context.Hotels.AddRange(hotels);
-		await context.SaveChangesAsync();
-	}
+        var uniqueNames = new HashSet<string>();
+        var conveniences = new List<Convenience>();
 
-	private async Task CreateHotelPhotosAsync() {
-		Faker faker = new Faker();
-		Random random = new Random();
+        while (conveniences.Count < 20)
+        {
+            var newConvenience = faker.Generate();
 
-		using var httpClient = new HttpClient();
+            if (uniqueNames.Add(newConvenience.Name))
+            {
+                conveniences.Add(newConvenience);
+            }
+        }
 
-		var hotelsId = await context.Hotels.Select(c => c.Id).ToListAsync();
-
-		foreach (var hotel in hotelsId) {
-			var hotelsPhotos = new List<HotelPhoto>();
-			var photoCount = random.Next(1, 5);
-
-			for (int i = 0; i < photoCount; i++) {
-				var imageUrl = faker.Image.LoremFlickrUrl(keywords: "hotel");
-				var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
-
-				var hotelPhoto = new HotelPhoto {
-					Name = await imageService.SaveImageAsync(imageBase64),
-					Priority = i,
-					HotelId = hotel
-				};
-
-				hotelsPhotos.Add(hotelPhoto);
-			}
-			context.HotelPhotos.AddRange(hotelsPhotos);
-			context.SaveChanges();
-		}
-	}
-
-	private async Task CreateHotelReviewsAsync() {
-		Faker faker = new Faker();
-		Random random = new Random();
-
-		var hotelsId = await context.Hotels.Select(c => c.Id).ToListAsync();
-		var usersId = await context.Users.Select(c => c.Id).ToListAsync();
-
-		var reviewFaker = new Faker<HotelReview>()
-			.RuleFor(c => c.Description, f => faker.Lorem.Sentences(3))
-			.RuleFor(c => c.UserId, f => f.PickRandom(usersId))
-			.RuleFor(c => c.HotelId, f => f.PickRandom(hotelsId))
-			.RuleFor(c => c.Score, f => f.Random.Int(1, 10));
-
-		var reviews = reviewFaker.Generate(200);
-
-		context.HotelReviews.AddRange(reviews);
-		context.SaveChanges();
-	}
-
-	private async Task CreateHotelReviewPhotosAsync() {
-		Faker faker = new Faker();
-		Random random = new Random();
-
-		using var httpClient = new HttpClient();
-
-		var hotelsReviewsId = await context.HotelReviews.Select(c => c.Id).ToListAsync();
-
-		foreach (var review in hotelsReviewsId) {
-			var reviewsPhotos = new List<HotelReviewPhoto>();
-			var photoCount = random.Next(1, 3);
-
-			for (int i = 0; i < photoCount; i++) {
-				var imageUrl = faker.Image.LoremFlickrUrl(keywords: "room");
-				var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
-
-				var reviewPhoto = new HotelReviewPhoto {
-					Name = await imageService.SaveImageAsync(imageBase64),
-					Priority = i,
-					HotelReviewId = review
-				};
-
-				reviewsPhotos.Add(reviewPhoto);
-			}
-			context.HotelReviewPhotos.AddRange(reviewsPhotos);
-			context.SaveChanges();
-		}
-	}
+        context.Conveniences.AddRange(conveniences);
+        await context.SaveChangesAsync();
+    }
 
 
-	private static async Task<string> GetImageAsBase64Async(HttpClient httpClient, string imageUrl) {
-		var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
-		return Convert.ToBase64String(imageBytes);
-	}
+    private async Task CreateHotelsAsync()
+    {
+        Faker faker = new Faker();
+        Random random = new Random();
+
+        var addressesId = await context.Addresses.Select(c => c.Id).ToListAsync();
+        var typeIds = await context.HotelTypes.Select(ht => ht.Id).ToArrayAsync();
+        var userIds = await context.Users.Select(u => u.Id).ToArrayAsync();
+
+        var hotels = new List<Hotel>();
+
+        foreach (var address in addressesId)
+        {
+            var hotel = new Hotel
+            {
+                Name = faker.Company.CompanyName(),
+                Description = faker.Lorem.Sentences(5),
+                AddressId = address,
+                TypeId = faker.PickRandom(typeIds),
+                UserId = faker.PickRandom(userIds)
+            };
+            hotels.Add(hotel);
+        }
+
+        context.Hotels.AddRange(hotels);
+        await context.SaveChangesAsync();
+    }
+
+    private async Task CreateHotelPhotosAsync()
+    {
+        Faker faker = new Faker();
+        Random random = new Random();
+
+        using var httpClient = new HttpClient();
+
+        var hotelsId = await context.Hotels.Select(c => c.Id).ToListAsync();
+
+        foreach (var hotel in hotelsId)
+        {
+            var hotelsPhotos = new List<HotelPhoto>();
+            var photoCount = random.Next(1, 5);
+
+            for (int i = 0; i < photoCount; i++)
+            {
+                var imageUrl = faker.Image.LoremFlickrUrl(keywords: "hotel");
+                var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
+
+                var hotelPhoto = new HotelPhoto
+                {
+                    Name = await imageService.SaveImageAsync(imageBase64),
+                    Priority = i,
+                    HotelId = hotel
+                };
+
+                hotelsPhotos.Add(hotelPhoto);
+            }
+            context.HotelPhotos.AddRange(hotelsPhotos);
+            context.SaveChanges();
+        }
+    }
+
+    private async Task CreateHotelReviewsAsync()
+    {
+        Faker faker = new Faker();
+        Random random = new Random();
+
+        var hotelsId = await context.Hotels.Select(c => c.Id).ToListAsync();
+        var usersId = await context.Users.Select(c => c.Id).ToListAsync();
+
+        var reviewFaker = new Faker<HotelReview>()
+            .RuleFor(c => c.Description, f => faker.Lorem.Sentences(3))
+            .RuleFor(c => c.UserId, f => f.PickRandom(usersId))
+            .RuleFor(c => c.HotelId, f => f.PickRandom(hotelsId))
+            .RuleFor(c => c.Score, f => f.Random.Int(1, 10));
+
+        var reviews = reviewFaker.Generate(200);
+
+        context.HotelReviews.AddRange(reviews);
+        context.SaveChanges();
+    }
+
+    private async Task CreateHotelReviewPhotosAsync()
+    {
+        Faker faker = new Faker();
+        Random random = new Random();
+
+        using var httpClient = new HttpClient();
+
+        var hotelsReviewsId = await context.HotelReviews.Select(c => c.Id).ToListAsync();
+
+        foreach (var review in hotelsReviewsId)
+        {
+            var reviewsPhotos = new List<HotelReviewPhoto>();
+            var photoCount = random.Next(1, 3);
+
+            for (int i = 0; i < photoCount; i++)
+            {
+                var imageUrl = faker.Image.LoremFlickrUrl(keywords: "room");
+                var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
+
+                var reviewPhoto = new HotelReviewPhoto
+                {
+                    Name = await imageService.SaveImageAsync(imageBase64),
+                    Priority = i,
+                    HotelReviewId = review
+                };
+
+                reviewsPhotos.Add(reviewPhoto);
+            }
+            context.HotelReviewPhotos.AddRange(reviewsPhotos);
+            context.SaveChanges();
+        }
+    }
+
+
+    private static async Task<string> GetImageAsBase64Async(HttpClient httpClient, string imageUrl)
+    {
+        var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
+        return Convert.ToBase64String(imageBytes);
+    }
 }
