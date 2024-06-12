@@ -7,6 +7,7 @@ import {
     IconUserFilled,
 } from "@tabler/icons-react";
 import AdvertisingContainer from "components/AdvertisingContainer.tsx";
+import PhotosGallery from "components/PhotosGallery.tsx";
 import RoomsTable from "components/RoomsTable.tsx";
 import SelectPerson from "components/SelectPerson.tsx";
 import Swiper from "components/Swiper.tsx";
@@ -26,7 +27,6 @@ import {
     handleEndDateChange,
     handleStartDateChange,
 } from "utils/dateFormat.ts";
-import { API_URL } from "utils/getEnvData.ts";
 import { getRatingDescription } from "utils/getRating.ts";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -147,14 +147,7 @@ const HotelPage = () => {
 
                 <div className="grid gap-5 grid-cols-6 mt-5">
                     <div className="col-span-6 grid grid-cols-2 md:grid-cols-3 gap-4 ">
-                        {data?.photos.map((photo, index) => (
-                            <img
-                                key={index}
-                                className="h-40 max-w-full rounded-lg"
-                                src={`${API_URL}/images/800_${photo.name}`}
-                                alt="gallery-photo"
-                            />
-                        ))}
+                        {data?.photos && <PhotosGallery images={data.photos} />}
 
                         <div className="col-span-6 text-black">
                             <p className="text-sm">{data?.description}</p>

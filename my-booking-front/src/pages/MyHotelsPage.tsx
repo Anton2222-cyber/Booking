@@ -1,10 +1,9 @@
+import HotelsTable from "components/HotelsTable.tsx";
 import HotelsTableSkeleton from "components/skeletons/HotelsTableSkeleton.tsx";
 import Label from "components/ui/Label.tsx";
 import { useGetPageHotelsQuery } from "services/hotel.ts";
 import { useAppSelector } from "store/index.ts";
 import { getUser } from "store/slice/userSlice.ts";
-
-import HotelsTable from "../HotelsTable.tsx";
 
 const MyHotelsPage = () => {
     const user = useAppSelector(getUser);
