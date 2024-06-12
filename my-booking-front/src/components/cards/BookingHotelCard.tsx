@@ -14,13 +14,17 @@ const BookingHotelCard: React.FC<Booking> = (props) => {
 
     const { data } = useGetHotelQuery(room.hotelId.toString());
 
+    console.log(data?.photos[0].name);
+
     return (
         <div className="flex items-center bg-white shadow rounded-lg p-4 hover:shadow-xl">
-            <img
-                src={`${API_URL}/images/800_${data?.photos[0].name}`}
-                alt="Hotel"
-                className="w-20 h-20 rounded-md"
-            />
+            {data?.photos[0] && (
+                <img
+                    src={`${API_URL}/images/800_${data?.photos[0].name}`}
+                    alt="Hotel"
+                    className="w-20 h-20 rounded-md"
+                />
+            )}
             <div className="ml-4 flex-grow flex flex-col gap-2">
                 <Link
                     to={`/hotel/${data?.id}`}

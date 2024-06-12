@@ -6,9 +6,9 @@ import {
     IconMinus,
     IconUserFilled,
 } from "@tabler/icons-react";
+import AdvertisingContainer from "components/AdvertisingContainer.tsx";
 import RoomsTable from "components/RoomsTable.tsx";
 import SelectPerson from "components/SelectPerson.tsx";
-import SideSearchMenu from "components/SideSearchMenu.tsx";
 import Swiper from "components/Swiper.tsx";
 import ReviewCard from "components/cards/ReviewCard.tsx";
 import { Button } from "components/ui/Button.tsx";
@@ -96,8 +96,7 @@ const HotelPage = () => {
         <div className="container mx-auto mt-5 grid grid-cols-4 gap-5">
             <div className="col-span-1">
                 <div className="sticky top-5 ">
-                    <SideSearchMenu />
-
+                    <AdvertisingContainer />
                     <div className=" border border-gray/20 rounded-sm p-4  mt-5">
                         <div className="flex items-center justify-end gap-2 border-gray/20 border-b pb-2 -mx-4 px-4">
                             <div className="flex items-end justify-center flex-col">

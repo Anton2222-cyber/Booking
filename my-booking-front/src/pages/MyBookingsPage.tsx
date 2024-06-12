@@ -13,7 +13,7 @@ const MyBookingsPage = () => {
 
             <div className="flex flex-col gap-3">
                 {isLoading &&
-                    Array.from({ length: 10 }).map((_, index) => <BookingHotelCardSkeleton key={index} />)}
+                    Array.from({ length: 3 }).map((_, index) => <BookingHotelCardSkeleton key={index} />)}
 
                 {(isError || data?.data.length === 0) && <NotFoundResult text="У вас немає бронювань" />}
 

@@ -9,8 +9,8 @@ const BookingHotelCardSkeleton = () => {
             </div>
             <div className="text-right flex justify-center items-center gap-3">
                 <div>
-                    <div className="h-5 bg-gray/30 rounded w-16"></div>
-                    <div className="h-3 bg-gray/30 rounded w-24 mt-2"></div>
+                    <div className="h-6 bg-gray/30 rounded w-16"></div>
+                    <div className="h-4 bg-gray/30 rounded w-24 mt-2"></div>
                 </div>
                 <div className="h-8 w-8 rounded-full bg-gray-300"></div>
             </div>
