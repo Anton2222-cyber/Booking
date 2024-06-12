@@ -8,6 +8,7 @@ import HotelPage from "pages/HotelPage.tsx";
 import HotelWayPage from "pages/HotelWayPage.tsx";
 import LoginPage from "pages/LoginPage.tsx";
 import MyBookingsPage from "pages/MyBookingsPage.tsx";
+import MyHotelsPage from "pages/MyHotelsPage.tsx";
 import ParameterisedSearchPage from "pages/ParameterisedSearchPage.tsx";
 import QuickSearchPage from "pages/QuickSearchPage.tsx";
 import RegisterPage from "pages/RegisterPage.tsx";
@@ -43,8 +44,9 @@ function App() {
                 <Route path="search-map" element={<CityHotelsMapPage />} />
                 <Route path="hotel/:id" element={<HotelPage />} />
                 <Route path="hotel/create" element={<HotelCreatePage />} />
-                <Route path="room/create" element={<RoomCreatePage />} />
+                <Route path="room/create/:hotelId" element={<RoomCreatePage />} />
                 <Route path="my-bookings" element={<MyBookingsPage />} />
+                <Route path="my-hotels" element={<MyHotelsPage />} />
                 <Route path="my-saved" element={<SavedPage />} />{" "}
                 <Route path="search-results" element={<ParameterisedSearchPage />} />
                 <Route path="booking/:id" element={<BookingPage />} />

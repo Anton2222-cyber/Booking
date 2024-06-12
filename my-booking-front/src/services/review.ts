@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { GetPageResponse } from "interfaces/index.ts";
-import { GetReviewPageRequest, Review } from "interfaces/review";
+import { CreateReview, GetReviewPageRequest, Review } from "interfaces/review";
 import { createBaseQuery } from "utils/apiUtils.ts";
 import { createQueryString } from "utils/createQueryString.ts";
 
@@ -20,7 +20,26 @@ export const reviewApi = createApi({
                 return `getPage?${queryString}`;
             },
         }),
+        addReview: builder.mutation({
+            query: (review: CreateReview) => {
+                const reviewFormData = new FormData();
+                reviewFormData.append("description", review.description);
+                reviewFormData.append("score", review.score.toString());
+                reviewFormData.append("hotelId", review.hotelId.toString());
+
+                if (review.photos) {
+                    Array.from(review.photos).forEach((image) => reviewFormData.append("Photos", image));
+                }
+
+                return {
+                    url: "create",
+                    method: "POST",
+                    body: reviewFormData,
+                };
+            },
+            invalidatesTags: ["Review"],
+        }),
     }),
 });
 
-export const { useGetAllReviewsQuery, useGetPageReviewsQuery } = reviewApi;
+export const { useGetAllReviewsQuery, useGetPageReviewsQuery, useAddReviewMutation } = reviewApi;

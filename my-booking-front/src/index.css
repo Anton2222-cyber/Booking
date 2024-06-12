@@ -29,3 +29,7 @@
 .swiper-button-next {
     display: none;
 }
+
+svg.star-svg {
+    display: inline;
+}

@@ -1,32 +1,32 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconCirclePlus, IconCircleX } from "@tabler/icons-react";
+import { IconCirclePlus, IconCircleX, IconPencilPlus } from "@tabler/icons-react";
 import ImageUpload from "components/ImageUpload.tsx";
 import { Button } from "components/ui/Button.tsx";
 import FormError from "components/ui/FormError.tsx";
 import { Input } from "components/ui/Input.tsx";
-import { RoomCreateSchema, RoomCreateSchemaType} from "interfaces/zod";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import Label from "components/ui/Label.tsx";
+import { RoomCreateSchema, RoomCreateSchemaType } from "interfaces/zod";
+import { UseFormGetValues, UseFormSetValue, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetAllConveniencesQuery } from "services/convenience.ts";
+import { useAddRoomMutation } from "services/rooms.ts";
 
-import {useAddHotelMutation, useGetAllHotelsQuery} from "services/hotel.ts";
-
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-
-import {useGetAllConveniencesQuery} from "services/convenience.ts";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 
 const RoomCreatePage = () => {
-    const { data: hotels } = useGetAllHotelsQuery();
-    const {data: conveniences } = useGetAllConveniencesQuery();
-    const [files, setFiles] = useState<File[]>([]);
-    // const [create, { isLoading }] = useAddHotelMutation();
-    // const navigate = useNavigate();
+    const { hotelId } = useParams();
 
+    const { data: conveniences } = useGetAllConveniencesQuery();
+    const [files, setFiles] = useState<File[]>([]);
+    const [create, { isLoading }] = useAddRoomMutation();
+    const navigate = useNavigate();
 
     const {
         register,
         handleSubmit,
         reset,
         setValue,
+        getValues,
         formState: { errors },
     } = useForm<RoomCreateSchemaType>({ resolver: zodResolver(RoomCreateSchema) });
 
@@ -72,18 +72,13 @@ const RoomCreatePage = () => {
     };
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data);
-        // if (!data.photos?.length) {
-        //     setError("photos", {
-        //         type: "required",
-        //         message: "Hotel images is required!",
-        //     });
-        //     return;
-        // // }
         try {
-            // await create({ ...data, photos: files, cityId: Number(data.address.cityId) }).unwrap();
-            //
-            // navigate(`/search-results?cityId=${data.address.cityId}`);
+            await create({
+                ...data,
+                hotelId: Number(hotelId),
+            }).unwrap();
+
+            navigate(`/hotel/${Number(hotelId)}`);
         } catch (err) {
             console.log("Error created hotel: ", err);
         }
@@ -93,15 +88,41 @@ const RoomCreatePage = () => {
         reset();
     };
 
+    const handleCheckboxChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        setValue: UseFormSetValue<RoomCreateSchemaType>,
+        getValues: UseFormGetValues<RoomCreateSchemaType>,
+    ) => {
+        const { value, checked } = event.target;
+        const currentValues = getValues("convenienceIds") || [];
+
+        if (checked) {
+            setValue("convenienceIds", [...currentValues, parseInt(value)], {
+                shouldValidate: true,
+            });
+        } else {
+            setValue(
+                "convenienceIds",
+                // @ts-ignore
+                currentValues.filter((val) => val !== parseInt(value)),
+                {
+                    shouldValidate: true,
+                },
+            );
+        }
+    };
+
     return (
         <div className="container mx-auto flex justify-center mt-5">
-            <div className="w-full p-5">
-                <h1 className="pb-5 text-2xl text-center text-black font-main font-bold">Add New Room</h1>
+            <div className="w-full ">
+                <div className="pb-5 text-2xl text-center text-black font-main font-bold flex items-center justify-center gap-2">
+                    <IconPencilPlus />
+                    Створення номеру
+                </div>
                 <form className="flex flex-col gap-5" onSubmit={onSubmit}>
                     <div>
-                        <label className="text-lightgray text-xl font-main" htmlFor="name">
-                            Name
-                        </label>
+                        <Label htmlFor="childrenPlaces">Назва номеру:</Label>
+
                         <Input {...register("name")} id="name" placeholder="Name..." className="w-full" />
                         {errors?.name && (
                             <FormError className="text-red" errorMessage={errors?.name?.message as string} />
@@ -109,35 +130,30 @@ const RoomCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-lightgray text-xl font-main" htmlFor="price">
-                            Price
-                        </label>
+                        <Label htmlFor="childrenPlaces">Ціна:</Label>
+
                         <Input
                             {...register("price")}
                             id="price"
                             type="number"
-                            min={1.00}
+                            min={1.0}
                             step={0.01}
                             placeholder="Price..."
                             className="w-full"
                         />
                         {errors?.price && (
-                            <FormError
-                                className="text-red"
-                                errorMessage={errors?.price?.message as string}
-                            />
+                            <FormError className="text-red" errorMessage={errors?.price?.message as string} />
                         )}
                     </div>
 
                     <div>
-                        <label className="text-lightgray text-xl font-main" htmlFor="adultPlaces">
-                            Adult places
-                        </label>
+                        <Label htmlFor="childrenPlaces">Макс к-сть дорослих:</Label>
                         <Input
                             {...register("adultPlaces")}
                             id="adultPlaces"
                             type="number"
                             min={1}
+                            max={20}
                             step={1}
                             placeholder="Adult places..."
                             className="w-full"
@@ -151,14 +167,13 @@ const RoomCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-lightgray text-xl font-main" htmlFor="childrenPlaces">
-                            Children places
-                        </label>
+                        <Label htmlFor="childrenPlaces">Макс к-сть дітей:</Label>
                         <Input
                             {...register("childrenPlaces")}
                             id="childrenPlaces"
                             type="number"
                             min={0}
+                            max={20}
                             step={1}
                             placeholder="Children places..."
                             className="w-full"
@@ -172,43 +187,16 @@ const RoomCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-lightgray text-xl font-main" htmlFor="typeId">
-                            Hotel
-                        </label>
-                        <select
-                            {...register("hotelId", { required: "Type is required" })}
-                            id="hotelId"
-                            defaultValue=""
-                            className="w-full text-md border px-3 py-1 rounded-sm "
-                        >
-                            <option disabled value="">
-                                Select hotel
-                            </option>
-                            {hotels?.map((hotel) => (
-                                <option key={hotel.id} value={hotel.id}>
-                                    {hotel.name}
-                                </option>
-                            ))}
-                        </select>
-                        {errors?.hotelId && (
-                            <FormError
-                                className="text-red"
-                                errorMessage={errors?.hotelId?.message as string}
-                            />
-                        )}
-                    </div>
+                        <Label>Оберіть зручності:</Label>
 
-                    <div>
-                        <label className="text-lightgray text-xl font-main" htmlFor="convenienceIds">
-                            Conveniences
-                        </label>
-                        <div className="flex flex-wrap gap-2 flex-col">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                             {conveniences?.map((convenience) => (
                                 <label key={convenience.id} className="flex items-center space-x-2">
                                     <input
+                                        id={`convenience-${convenience.id}`}
                                         type="checkbox"
-                                        {...register("convenienceIds")}
                                         value={convenience.id}
+                                        onChange={(event) => handleCheckboxChange(event, setValue, getValues)}
                                     />
                                     <span>{convenience.name}</span>
                                 </label>
@@ -221,8 +209,6 @@ const RoomCreatePage = () => {
                             />
                         )}
                     </div>
-
-
 
                     <div>
                         <label className="text-lightgray text-xl font-main" htmlFor="photos">
@@ -249,18 +235,18 @@ const RoomCreatePage = () => {
 
                     <div className=" text-white flex w-full items-center justify-center gap-5">
                         <Button
-
                             size="lg"
+                            disabled={isLoading}
                             type="submit"
-                            className="hover:bg-sky/70 disabled:cursor-not-allowed"
+                            className="hover:bg-sky/70 disabled:bg-sky/20 disabled:cursor-not-allowed"
                         >
                             <IconCirclePlus />
                             Create
                         </Button>
                         <Button
-
                             size="lg"
                             type="button"
+                            disabled={isLoading}
                             onClick={onReset}
                             className="hover:bg-sky/70 disabled:cursor-not-allowed"
                         >

@@ -22,7 +22,7 @@ const SavedPage = () => {
                 <NotFoundResult text="Збережених помешканних немає" />
             ) : (
                 <div className="grid grid-cols-4 gap-5 gap-y-5 ">
-                    {data?.data.map((hotel) => <AccommodationCard {...hotel} />)}
+                    {data?.data.map((hotel) => <AccommodationCard key={hotel.id} {...hotel} />)}
                 </div>
             )}
         </div>

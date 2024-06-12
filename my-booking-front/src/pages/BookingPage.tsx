@@ -16,7 +16,7 @@ import { Link, useParams } from "react-router-dom";
 import { useGetBookingQuery } from "services/booking.ts";
 import { useGetHotelQuery } from "services/hotel.ts";
 import { checkStatus } from "utils/checkBookingStatus.ts";
-import { calculateDays, formatToShortDate } from "utils/dateFormat.ts";
+import { calculateDays, convertFromTimestamptz, formatToShortDate } from "utils/dateFormat.ts";
 import { API_URL } from "utils/getEnvData.ts";
 
 import React, { useEffect, useState } from "react";
@@ -80,16 +80,22 @@ const BookingPage: React.FC = () => {
                             <div className="flex justify-start items-center mb-4 space-x-4">
                                 <div className="flex items-center space-x-2 cursor-pointer group">
                                     <IconBuilding className="text-sky group-hover:text-black" />
-                                    <button className="text-sky text-sm group-hover:text-black group-hover:underline">
+                                    <Link
+                                        to={`/hotel/${hotel?.id}`}
+                                        className="text-sky text-sm group-hover:text-black group-hover:underline"
+                                    >
                                         Забронювати знову
-                                    </button>
+                                    </Link>
                                 </div>
 
                                 <div className="flex items-center space-x-2 px-5 cursor-pointer group">
                                     <IconSearch className="text-sky group-hover:text-black" />
-                                    <button className="text-sky text-sm group-hover:text-black group-hover:underline">
+                                    <Link
+                                        to={`/search-results?cityId=${hotel?.address.city.id}&destination=${hotel?.address.city.name}`}
+                                        className="text-sky text-sm group-hover:text-black group-hover:underline"
+                                    >
                                         Знайдіть інший варіант проживання
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="border border-lightgray/20 rounded-md p-2 mb-2">
@@ -195,24 +201,26 @@ const BookingPage: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="border border-lightgray/20 rounded-md p-2 mb-2">
-                                <div className="flex items-center justify-between mb-0">
-                                    <div className="flex items-center">
-                                        <IconPencil
-                                            className="cursor-pointer text-brown h-8"
+                            {convertFromTimestamptz(booking.to) < new Date() && (
+                                <div className="border border-lightgray/20 rounded-md p-2 mb-2">
+                                    <div className="flex items-center justify-between mb-0">
+                                        <div className="flex items-center">
+                                            <IconPencil
+                                                className="cursor-pointer text-brown h-8"
+                                                onClick={toggleExpandReview}
+                                            />
+                                            <p className="font-bold ml-2 text-sm">Залишити відгук</p>
+                                        </div>
+                                        <span
+                                            className={`cursor-pointer ${isExpanded ? "rotate-180" : ""}`}
                                             onClick={toggleExpandReview}
-                                        />
-                                        <p className="font-bold ml-2 text-sm">Залишити відгук</p>
+                                        >
+                                            <IconChevronDown />
+                                        </span>
                                     </div>
-                                    <span
-                                        className={`cursor-pointer ${isExpanded ? "rotate-180" : ""}`}
-                                        onClick={toggleExpandReview}
-                                    >
-                                        <IconChevronDown />
-                                    </span>
+                                    {isExpandedReview && <AddReview hotelId={Number(hotelId)} />}
                                 </div>
-                                {isExpandedReview && <AddReview hotelId={Number(hotelId)} />}
-                            </div>
+                            )}
                         </div>
                         <div className="w-2/4 pl-4 max-w-xs ">
                             <div className="border border-gray rounded-sm p-4 mb-4 text-sm bg-light2gray">

@@ -11,6 +11,13 @@ export interface Review {
     photos?: Photo;
 }
 
+export interface CreateReview {
+    description: string;
+    score: number;
+    hotelId: number;
+    photos?: File[];
+}
+
 export interface GetReviewPageRequest extends PaginationOptions {
     description?: string;
     score?: number;

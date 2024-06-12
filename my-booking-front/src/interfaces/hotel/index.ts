@@ -45,6 +45,7 @@ export interface HotelAddress {
 }
 
 export interface GetHotelPageRequest extends PaginationOptions {
+    userId?: number;
     name?: string;
     description?: string;
     rating?: number;

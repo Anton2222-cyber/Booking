@@ -3,12 +3,12 @@ import { classNames } from "utils/classNames.ts";
 
 import React from "react";
 
-const labelVariants = cva("flex font-main", {
+const labelVariants = cva("flex font-main text-black", {
     variants: {
         variant: {
-            default: "",
-            small: "text-black text-xs",
-            extra: "text-black font-bold text-3xl",
+            default: "text-xl font-main",
+            small: "text-xs",
+            extra: " font-bold text-3xl",
             title: "text-black font-bold text-2xl",
             subtitle: "text-lightgray text-md",
         },

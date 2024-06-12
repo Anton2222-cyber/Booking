@@ -6,9 +6,10 @@ import {
     IconMinus,
     IconUserFilled,
 } from "@tabler/icons-react";
+import AdvertisingContainer from "components/AdvertisingContainer.tsx";
+import PhotosGallery from "components/PhotosGallery.tsx";
 import RoomsTable from "components/RoomsTable.tsx";
 import SelectPerson from "components/SelectPerson.tsx";
-import SideSearchMenu from "components/SideSearchMenu.tsx";
 import Swiper from "components/Swiper.tsx";
 import ReviewCard from "components/cards/ReviewCard.tsx";
 import { Button } from "components/ui/Button.tsx";
@@ -26,7 +27,6 @@ import {
     handleEndDateChange,
     handleStartDateChange,
 } from "utils/dateFormat.ts";
-import { API_URL } from "utils/getEnvData.ts";
 import { getRatingDescription } from "utils/getRating.ts";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -96,8 +96,7 @@ const HotelPage = () => {
         <div className="container mx-auto mt-5 grid grid-cols-4 gap-5">
             <div className="col-span-1">
                 <div className="sticky top-5 ">
-                    <SideSearchMenu />
-
+                    <AdvertisingContainer />
                     <div className=" border border-gray/20 rounded-sm p-4  mt-5">
                         <div className="flex items-center justify-end gap-2 border-gray/20 border-b pb-2 -mx-4 px-4">
                             <div className="flex items-end justify-center flex-col">
@@ -148,14 +147,7 @@ const HotelPage = () => {
 
                 <div className="grid gap-5 grid-cols-6 mt-5">
                     <div className="col-span-6 grid grid-cols-2 md:grid-cols-3 gap-4 ">
-                        {data?.photos.map((photo, index) => (
-                            <img
-                                key={index}
-                                className="h-40 max-w-full rounded-lg"
-                                src={`${API_URL}/images/800_${photo.name}`}
-                                alt="gallery-photo"
-                            />
-                        ))}
+                        {data?.photos && <PhotosGallery images={data.photos} />}
 
                         <div className="col-span-6 text-black">
                             <p className="text-sm">{data?.description}</p>
