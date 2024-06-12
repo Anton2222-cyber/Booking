@@ -1,3 +1,4 @@
+import { ACCEPTED_IMAGE_MIME_TYPES, MAX_FILE_SIZE } from "constants/index.ts";
 import { z } from "zod";
 
 export const AddressSchema = z.object({
@@ -57,13 +58,16 @@ export const RoomCreateSchema = z.object({
         },
         { message: "Children places must be a number" },
     ),
-    photos: z.any(),
+    photos: z
+        .any()
+        .refine((files) => files?.length == 1, "Image is required.")
+        .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+        .refine(
+            (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+            "Only .jpg, .jpeg, .png and .webp files are accepted.",
+        ),
 
     convenienceIds: z.array(z.number()).nonempty("Convenience IDs must be an array and cannot be empty"),
-
-    // convenienceIds: z.string().refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) !== 0, {
-    //     message: "Convenience is required",
-    // }),
 });
 
 export type RoomCreateSchemaType = z.infer<typeof RoomCreateSchema>;

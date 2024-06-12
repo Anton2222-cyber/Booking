@@ -44,7 +44,7 @@ function App() {
                 <Route path="search-map" element={<CityHotelsMapPage />} />
                 <Route path="hotel/:id" element={<HotelPage />} />
                 <Route path="hotel/create" element={<HotelCreatePage />} />
-                <Route path="room/create" element={<RoomCreatePage />} />
+                <Route path="room/create/:hotelId" element={<RoomCreatePage />} />
                 <Route path="my-bookings" element={<MyBookingsPage />} />
                 <Route path="my-hotels" element={<MyHotelsPage />} />
                 <Route path="my-saved" element={<SavedPage />} />{" "}

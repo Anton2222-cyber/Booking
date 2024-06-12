@@ -49,7 +49,7 @@ const HotelsTable: React.FC<HotelsTableProps> = (props) => {
                         </td>
                         <td className="whitespace-nowrap py-3 pl-6 pr-3">
                             <div className="flex justify-end gap-3">
-                                <Link to={"/room/create"}>
+                                <Link to={`/room/create/${hotel.id}`}>
                                     <Button size="sm" variant="primary">
                                         Додати кімнату
                                     </Button>

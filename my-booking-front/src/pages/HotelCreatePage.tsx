@@ -4,6 +4,7 @@ import ImageUpload from "components/ImageUpload.tsx";
 import { Button } from "components/ui/Button.tsx";
 import FormError from "components/ui/FormError.tsx";
 import { Input } from "components/ui/Input.tsx";
+import Label from "components/ui/Label.tsx";
 import { HotelCreateSchema, HotelCreateSchemaType } from "interfaces/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -71,14 +72,6 @@ const HotelCreatePage = () => {
     };
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data);
-        // if (!data.photos?.length) {
-        //     setError("photos", {
-        //         type: "required",
-        //         message: "Hotel images is required!",
-        //     });
-        //     return;
-        // }
         try {
             await create({ ...data, photos: files, cityId: Number(data.address.cityId) }).unwrap();
 
@@ -124,13 +117,12 @@ const HotelCreatePage = () => {
 
     return (
         <div className="container mx-auto flex justify-center mt-5">
-            <div className="w-full p-5">
+            <div className="w-full ">
                 <h1 className="pb-5 text-2xl text-center text-black font-main font-bold">Add New Hotel</h1>
                 <form className="flex flex-col gap-5" onSubmit={onSubmit}>
                     <div>
-                        <label className="text-white text-xl font-main" htmlFor="name">
-                            Name
-                        </label>
+                        <Label htmlFor="name">Назва:</Label>
+
                         <Input {...register("name")} id="name" placeholder="Name..." className="w-full" />
                         {errors?.name && (
                             <FormError className="text-red" errorMessage={errors?.name?.message as string} />
@@ -138,9 +130,7 @@ const HotelCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-white text-xl font-main" htmlFor="typeId">
-                            Type Hotel
-                        </label>
+                        <Label htmlFor="typeId">Тип готелю:</Label>
                         <select
                             {...register("typeId", { required: "Type is required" })}
                             id="typeId"
@@ -165,14 +155,13 @@ const HotelCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-white text-xl font-main" htmlFor="description">
-                            Description
-                        </label>
-                        <Input
+                        <Label htmlFor="description">Опис:</Label>
+
+                        <textarea
                             {...register("description")}
                             id="description"
                             placeholder="Description..."
-                            className="w-full"
+                            className="p-3 border-gray-300 font-normal w-full text-sm placeholder:text-lightgray h-full rounded-md outline-none border"
                         />
                         {errors?.description && (
                             <FormError
@@ -183,9 +172,8 @@ const HotelCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-white text-xl font-main" htmlFor="street">
-                            Street
-                        </label>
+                        <Label htmlFor="address.street">Вулиця:</Label>
+
                         <Input
                             {...register("address.street")}
                             id="address.street"
@@ -201,9 +189,8 @@ const HotelCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-white text-xl font-main" htmlFor="houseNumber">
-                            House Number
-                        </label>
+                        <Label htmlFor="address.houseNumber">№ будинку:</Label>
+
                         <Input
                             {...register("address.houseNumber")}
                             id="address.houseNumber"
@@ -219,9 +206,8 @@ const HotelCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-white text-xl font-main" htmlFor="cityId">
-                            City
-                        </label>
+                        <Label htmlFor="cityId">Місто:</Label>
+
                         <select
                             {...register("address.cityId", { required: "City is required" })}
                             id="cityId"
@@ -246,9 +232,8 @@ const HotelCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-white text-xl font-main" htmlFor="latitude">
-                            Latitude
-                        </label>
+                        <Label htmlFor="latitude">Широта:</Label>
+
                         <Input
                             {...register("address.latitude")}
                             id="latitude"
@@ -266,9 +251,8 @@ const HotelCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-white text-xl font-main" htmlFor="longitude">
-                            Longitude
-                        </label>
+                        <Label htmlFor="longitude">Довгота:</Label>
+
                         <Input
                             {...register("address.longitude")}
                             id="longitude"
@@ -286,9 +270,8 @@ const HotelCreatePage = () => {
                     </div>
 
                     <div>
-                        <label className="text-white text-xl font-main" htmlFor="photos">
-                            Images
-                        </label>
+                        <Label htmlFor="longitude">Фото:</Label>
+
                         <ImageUpload setFiles={setFiles} remove={removeImage} files={files}>
                             <Input
                                 {...register("photos")}
