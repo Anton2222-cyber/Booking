@@ -20,10 +20,6 @@ public class UpdateHotelReviewValidator : AbstractValidator<UpdateHotelReviewVm>
 			.InclusiveBetween(0, 10)
 				.WithMessage("Score must be in the range from 0 to 10");
 
-		RuleFor(hr => hr.HotelId)
-			.MustAsync(existingEntityCheckerService.IsCorrectHotelId)
-				.WithMessage("Hotel with this id is not exists");
-
 		RuleFor(hr => hr.Photos)
 			.MustAsync(imageValidator.IsValidNullPossibeImagesAsync)
 				.WithMessage("One ore more of photos are invalid");

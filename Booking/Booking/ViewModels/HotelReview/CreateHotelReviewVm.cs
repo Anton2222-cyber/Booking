@@ -5,7 +5,7 @@ public class CreateHotelReviewVm {
 
 	public double? Score { get; set; }
 
-	public long HotelId { get; set; }
+	public long BookingId { get; set; }
 
 	public IEnumerable<IFormFile>? Photos { get; set; }
 }

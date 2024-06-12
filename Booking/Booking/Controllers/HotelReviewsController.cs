@@ -81,7 +81,7 @@ public class HotelReviewsController(
 		var hotelReview = await context.HotelReviews.FirstAsync(hr => hr.Id == vm.Id);
 		var user = await identityService.GetCurrentUserAsync(this);
 		if (hotelReview.UserId != user.Id)
-			return Forbid("The hotel review is not own");
+			return BadRequest("The hotel review is not own");
 
 		await service.UpdateAsync(vm);
 

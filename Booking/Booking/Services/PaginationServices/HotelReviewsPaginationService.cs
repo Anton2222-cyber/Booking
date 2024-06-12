@@ -46,8 +46,11 @@ public class HotelReviewsPaginationService(
 				query = query.Where(hr => hr.User.LastName.ToLower().Contains(user.LastName));
 		}
 
+		if (vm.BookingId is not null)
+			query = query.Where(hr => hr.BookingId == vm.BookingId);
+
 		if (vm.HotelId is not null)
-			query = query.Where(hr => hr.HotelId == vm.HotelId);
+			query = query.Where(hr => hr.Booking.Room.HotelId == vm.HotelId);
 
 		return query;
 	}

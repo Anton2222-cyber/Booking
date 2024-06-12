@@ -44,7 +44,6 @@ public class HotelReviewsControllerService(
 
 		hotelReview.Description = vm.Description;
 		hotelReview.Score = vm.Score;
-		hotelReview.HotelId = vm.HotelId;
 		hotelReview.Photos.Clear();
 		foreach (var photo in await SaveAndPrioritizePhotosAsync(vm.Photos, hotelReview))
 			hotelReview.Photos.Add(photo);

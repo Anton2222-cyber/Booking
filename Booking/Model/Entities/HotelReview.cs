@@ -12,8 +12,8 @@ public class HotelReview {
 	public long UserId { get; set; }
 	public User User { get; set; } = null!;
 
-	public long HotelId { get; set; }
-	public Hotel Hotel { get; set; } = null!;
+	public long BookingId { get; set; }
+	public Booking Booking { get; set; } = null!;
 
 	public ICollection<HotelReviewPhoto> Photos { get; set; } = null!;
 }
