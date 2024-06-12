@@ -18,7 +18,6 @@ public class HotelReviewsController(
 	DataContext context,
 	IMapper mapper,
 	IPaginationService<HotelReviewVm, HotelReviewsFilterVm> pagination,
-	IIdentityService identityService,
 	IScopedIdentityService scopedIdentityService,
 	IHotelReviewsControllerService service,
 	IValidator<CreateHotelReviewVm> createValidator,
@@ -90,16 +89,9 @@ public class HotelReviewsController(
 	[HttpDelete]
 	[Authorize(Roles = "Admin,User")]
 	public async Task<IActionResult> Delete(long id) {
-		var hotelReview = await context.HotelReviews.FirstOrDefaultAsync(hr => hr.Id == id);
+		await scopedIdentityService.InitCurrentUserAsync(this);
 
-		if (hotelReview is not null) {
-			var user = await identityService.GetCurrentUserAsync(this);
-
-			if (hotelReview.UserId != user.Id)
-				return Forbid("The hotel review is not own");
-
-			await service.DeleteIfExistsAsync(id);
-		}
+		await service.DeleteIfExistsAsync(id);
 
 		return Ok();
 	}

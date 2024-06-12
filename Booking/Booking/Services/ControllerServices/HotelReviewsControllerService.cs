@@ -62,7 +62,7 @@ public class HotelReviewsControllerService(
 	public async Task DeleteIfExistsAsync(long id) {
 		var hotelReview = await context.HotelReviews
 			.Include(hr => hr.Photos)
-			.FirstOrDefaultAsync(hr => hr.Id == id);
+			.FirstOrDefaultAsync(hr => hr.Id == id && hr.UserId == scopedIdentityService.GetRequiredUserId());
 
 		if (hotelReview is null)
 			return;
