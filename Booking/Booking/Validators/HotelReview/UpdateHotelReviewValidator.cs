@@ -8,7 +8,9 @@ public class UpdateHotelReviewValidator : AbstractValidator<UpdateHotelReviewVm>
 	public UpdateHotelReviewValidator(IExistingEntityCheckerService existingEntityCheckerService, IImageValidator imageValidator) {
 		RuleFor(hr => hr.Id)
 			.MustAsync(existingEntityCheckerService.IsCorrectHotelReviewId)
-				.WithMessage("Hotel review with this id is not exists");
+				.WithMessage("Hotel review with this id is not exists")
+			.MustAsync(existingEntityCheckerService.IsCorrectHotelReviewIdOfCurrentUser)
+				.WithMessage("Hotel review is not own");
 
 		RuleFor(hr => hr.Description)
 			.NotEmpty()

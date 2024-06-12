@@ -82,11 +82,6 @@ public class HotelReviewsController(
 		if (!validationResult.IsValid)
 			return BadRequest(validationResult.Errors);
 
-		var hotelReview = await context.HotelReviews.FirstAsync(hr => hr.Id == vm.Id);
-		var user = await identityService.GetCurrentUserAsync(this);
-		if (hotelReview.UserId != user.Id)
-			return BadRequest("The hotel review is not own");
-
 		await service.UpdateAsync(vm);
 
 		return Ok();
