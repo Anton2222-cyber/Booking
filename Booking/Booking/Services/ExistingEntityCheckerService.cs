@@ -15,11 +15,17 @@ public class ExistingEntityCheckerService(
 	public async Task<bool> IsCorrectHotelReviewId(long id, CancellationToken cancellationToken) =>
 		await context.HotelReviews.AnyAsync(h => h.Id == id, cancellationToken);
 
+	public async Task<bool> IsCorrectHotelReviewByBookingIdAndUserId(long bookingId, CancellationToken cancellationToken) =>
+		await context.HotelReviews.AnyAsync(
+			hr => hr.BookingId == bookingId && hr.UserId == scopedIdentityService.GetRequiredUserId(),
+			cancellationToken
+		);
+
 	public async Task<bool> IsCorrectHotelId(long id, CancellationToken cancellationToken) =>
 		await context.Hotels.AnyAsync(h => h.Id == id, cancellationToken);
 
 	public async Task<bool> IsCorrectHotelIdOfCurrentUser(long id, CancellationToken cancellationToken) =>
-		await context.Hotels.AnyAsync(h => h.Id == id && h.UserId == scopedIdentityService.GetRequiredUser().Id, cancellationToken);
+		await context.Hotels.AnyAsync(h => h.Id == id && h.UserId == scopedIdentityService.GetRequiredUserId(), cancellationToken);
 
 	public async Task<bool> IsCorrectHotelTypeId(long id, CancellationToken cancellationToken) =>
 		await context.HotelTypes.AnyAsync(ht => ht.Id == id, cancellationToken);

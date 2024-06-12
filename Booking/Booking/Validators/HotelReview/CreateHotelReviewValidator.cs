@@ -1,4 +1,5 @@
-﻿using Booking.Services.Interfaces;
+﻿using Booking.Services;
+using Booking.Services.Interfaces;
 using Booking.ViewModels.HotelReview;
 using FluentValidation;
 
@@ -18,7 +19,12 @@ public class CreateHotelReviewValidator : AbstractValidator<CreateHotelReviewVm>
 
 		RuleFor(hr => hr.BookingId)
 			.MustAsync(existingEntityCheckerService.IsCorrectBookingId)
-				.WithMessage("Booking with this id is not exists");
+				.WithMessage("Booking with this id is not exists")
+			.MustAsync(
+				async (id, cancellationToken) =>
+					!await existingEntityCheckerService.IsCorrectHotelReviewByBookingIdAndUserId(id, cancellationToken)
+			)
+				.WithMessage("There is already a review for the booking with this Id");
 
 		RuleFor(hr => hr.Photos)
 			.MustAsync(imageValidator.IsValidNullPossibeImagesAsync)

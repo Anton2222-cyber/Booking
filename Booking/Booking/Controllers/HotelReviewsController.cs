@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Booking.Services;
 using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
 using Booking.ViewModels.HotelReview;
@@ -18,6 +19,7 @@ public class HotelReviewsController(
 	IMapper mapper,
 	IPaginationService<HotelReviewVm, HotelReviewsFilterVm> pagination,
 	IIdentityService identityService,
+	IScopedIdentityService scopedIdentityService,
 	IHotelReviewsControllerService service,
 	IValidator<CreateHotelReviewVm> createValidator,
 	IValidator<UpdateHotelReviewVm> updateValidator
@@ -58,14 +60,14 @@ public class HotelReviewsController(
 	[HttpPost]
 	[Authorize(Roles = "Admin,User")]
 	public async Task<IActionResult> Create([FromForm] CreateHotelReviewVm vm) {
+		await scopedIdentityService.InitCurrentUserAsync(this);
+
 		var validationResult = await createValidator.ValidateAsync(vm);
 
 		if (!validationResult.IsValid)
 			return BadRequest(validationResult.Errors);
 
-		var user = await identityService.GetCurrentUserAsync(this);
-
-		await service.CreateAsync(vm, user);
+		await service.CreateAsync(vm);
 
 		return Ok();
 	}
@@ -73,6 +75,8 @@ public class HotelReviewsController(
 	[HttpPut]
 	[Authorize(Roles = "Admin,User")]
 	public async Task<IActionResult> Update([FromForm] UpdateHotelReviewVm vm) {
+		await scopedIdentityService.InitCurrentUserAsync(this);
+
 		var validationResult = await updateValidator.ValidateAsync(vm);
 
 		if (!validationResult.IsValid)

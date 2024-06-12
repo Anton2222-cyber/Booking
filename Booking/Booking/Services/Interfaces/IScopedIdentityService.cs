@@ -9,4 +9,6 @@ public interface IScopedIdentityService {
 	Task InitCurrentUserAsync(ControllerBase controller);
 
 	User GetRequiredUser();
+
+	long GetRequiredUserId();
 }

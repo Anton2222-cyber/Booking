@@ -5,20 +5,20 @@ using Booking.ViewModels.HotelReview;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
 using Model.Entities;
-using Model.Entities.Identity;
 
 namespace Booking.Services.ControllerServices;
 
 public class HotelReviewsControllerService(
 	DataContext context,
 	IMapper mapper,
-	IImageService imageService
+	IImageService imageService,
+	IScopedIdentityService scopedIdentityService
 	) : IHotelReviewsControllerService {
 
-	public async Task CreateAsync(CreateHotelReviewVm vm, User user) {
+	public async Task CreateAsync(CreateHotelReviewVm vm) {
 		var hotelReview = mapper.Map<HotelReview>(vm);
 
-		hotelReview.UserId = user.Id;
+		hotelReview.UserId = scopedIdentityService.GetRequiredUserId();
 
 		hotelReview.Photos = await SaveAndPrioritizePhotosAsync(vm.Photos, hotelReview);
 
