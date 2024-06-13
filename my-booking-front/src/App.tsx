@@ -48,8 +48,8 @@ function App() {
                 <Route path="way-to-hotel/:id" element={<MapWayToHotelPage />} />
 
                 <Route element={<ProtectedRoute />}>
-                    <Route path="my-bookings" element={<MyBookingsPage />} />
                     <Route path="my-hotels" element={<MyHotelsPage />} />
+                    <Route path="my-bookings" element={<MyBookingsPage />} />
                     <Route path="my-saved" element={<MySavedPage />} />
                     <Route path="booking/:id" element={<BookingPage />} />
                     <Route path="hotel/create" element={<HotelCreatePage />} />
