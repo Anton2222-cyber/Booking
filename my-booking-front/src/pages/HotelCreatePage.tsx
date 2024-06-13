@@ -15,11 +15,14 @@ import { useGetAllHotelTypesQuery } from "services/hotelTypes.ts";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 const HotelCreatePage = () => {
-    const { data: cities } = useGetAllCitiesQuery();
-    const { data: hotelTypes } = useGetAllHotelTypesQuery();
-    const [files, setFiles] = useState<File[]>([]);
-    const [create, { isLoading }] = useAddHotelMutation();
     const navigate = useNavigate();
+    const [files, setFiles] = useState<File[]>([]);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const [create, { isLoading }] = useAddHotelMutation();
+
+    const { data: citiesData } = useGetAllCitiesQuery();
+    const { data: hotelTypesData } = useGetAllHotelTypesQuery();
 
     const {
         register,
@@ -30,7 +33,8 @@ const HotelCreatePage = () => {
         formState: { errors },
     } = useForm<HotelCreateSchemaType>({ resolver: zodResolver(HotelCreateSchema) });
 
-    const inputRef = useRef<HTMLInputElement>(null);
+    const sortedCities = citiesData ? [...citiesData].sort((a, b) => a.name.localeCompare(b.name)) : [];
+    const selectedCityId = watch("address.cityId");
 
     useEffect(() => {
         if (inputRef.current) {
@@ -44,6 +48,33 @@ const HotelCreatePage = () => {
     useEffect(() => {
         reset();
     }, [reset]);
+
+    useEffect(() => {
+        if (selectedCityId) {
+            const selectedCity = citiesData?.find((city) => city.id === parseInt(selectedCityId));
+            if (selectedCity) {
+                const minLatitude = selectedCity.latitude - 0.2;
+                const maxLatitude = selectedCity.latitude + 0.2;
+                const minLongitude = selectedCity.longitude - 0.2;
+                const maxLongitude = selectedCity.longitude + 0.2;
+
+                setValue("address.latitude", selectedCity.latitude.toString());
+                setValue("address.longitude", selectedCity.longitude.toString());
+
+                const latitudeInput = document.getElementById("latitude");
+                const longitudeInput = document.getElementById("longitude");
+
+                if (latitudeInput) {
+                    latitudeInput.setAttribute("min", minLatitude.toString());
+                    latitudeInput.setAttribute("max", maxLatitude.toString());
+                }
+                if (longitudeInput) {
+                    longitudeInput.setAttribute("min", minLongitude.toString());
+                    longitudeInput.setAttribute("max", maxLongitude.toString());
+                }
+            }
+        }
+    }, [selectedCityId, citiesData, setValue]);
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files;
@@ -76,7 +107,7 @@ const HotelCreatePage = () => {
             await create({ ...data, photos: files, cityId: Number(data.address.cityId) }).unwrap();
 
             const cityId = data.address.cityId;
-            const cityName = cities?.find((c) => c.id === Number(cityId))?.name;
+            const cityName = citiesData?.find((c) => c.id === Number(cityId))?.name;
 
             navigate(`/search-results?cityId=${data.address.cityId}&destination=${cityName}`);
         } catch (err) {
@@ -87,36 +118,6 @@ const HotelCreatePage = () => {
     const onReset = () => {
         reset();
     };
-
-    const sortedCities = cities ? [...cities].sort((a, b) => a.name.localeCompare(b.name)) : [];
-    const selectedCityId = watch("address.cityId");
-
-    useEffect(() => {
-        if (selectedCityId) {
-            const selectedCity = cities?.find((city) => city.id === parseInt(selectedCityId));
-            if (selectedCity) {
-                const minLatitude = selectedCity.latitude - 0.2;
-                const maxLatitude = selectedCity.latitude + 0.2;
-                const minLongitude = selectedCity.longitude - 0.2;
-                const maxLongitude = selectedCity.longitude + 0.2;
-
-                setValue("address.latitude", selectedCity.latitude.toString());
-                setValue("address.longitude", selectedCity.longitude.toString());
-
-                const latitudeInput = document.getElementById("latitude");
-                const longitudeInput = document.getElementById("longitude");
-
-                if (latitudeInput) {
-                    latitudeInput.setAttribute("min", minLatitude.toString());
-                    latitudeInput.setAttribute("max", maxLatitude.toString());
-                }
-                if (longitudeInput) {
-                    longitudeInput.setAttribute("min", minLongitude.toString());
-                    longitudeInput.setAttribute("max", maxLongitude.toString());
-                }
-            }
-        }
-    }, [selectedCityId, cities, setValue]);
 
     return (
         <div className="container mx-auto flex justify-center mt-5">
@@ -143,7 +144,7 @@ const HotelCreatePage = () => {
                             <option disabled value="">
                                 Select type
                             </option>
-                            {hotelTypes?.map((hotelType) => (
+                            {hotelTypesData?.map((hotelType) => (
                                 <option key={hotelType.id} value={hotelType.id}>
                                     {hotelType.name}
                                 </option>

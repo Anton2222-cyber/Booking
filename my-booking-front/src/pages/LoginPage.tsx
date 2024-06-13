@@ -14,11 +14,12 @@ const LoginPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useAppDispatch();
-    const [googleLogin] = useGoogleLoginMutation();
-    const [emailLogin] = useLoginMutation();
 
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+
+    const [googleLogin] = useGoogleLoginMutation();
+    const [emailLogin] = useLoginMutation();
 
     const login = async () => {
         const res = await emailLogin({ email, password });

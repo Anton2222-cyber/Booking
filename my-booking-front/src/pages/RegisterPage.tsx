@@ -1,4 +1,3 @@
-// Assuming you have a register mutation in your user service
 import { Button } from "components/ui/Button.tsx";
 import { Input } from "components/ui/Input.tsx";
 import { User } from "interfaces/user";

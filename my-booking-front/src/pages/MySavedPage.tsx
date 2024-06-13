@@ -4,8 +4,8 @@ import HotelCardSkeleton from "components/skeletons/HotelCardSkeleton.tsx";
 import Label from "components/ui/Label.tsx";
 import { useGetUserFavoriteHotelsQuery } from "services/favoriteHotels.ts";
 
-const SavedPage = () => {
-    const { data, isLoading } = useGetUserFavoriteHotelsQuery();
+const MySavedPage = () => {
+    const { data: hotelsData, isLoading } = useGetUserFavoriteHotelsQuery();
 
     return (
         <div className="container mx-auto mt-5 flex flex-col gap-5">
@@ -18,15 +18,15 @@ const SavedPage = () => {
                 </div>
             )}
 
-            {data?.data.length === 0 ? (
+            {hotelsData?.data.length === 0 ? (
                 <NotFoundResult text="Збережених помешканних немає" />
             ) : (
                 <div className="grid grid-cols-4 gap-5 gap-y-5 ">
-                    {data?.data.map((hotel) => <AccommodationCard key={hotel.id} {...hotel} />)}
+                    {hotelsData?.data.map((hotel) => <AccommodationCard key={hotel.id} {...hotel} />)}
                 </div>
             )}
         </div>
     );
 };
 
-export default SavedPage;
+export default MySavedPage;

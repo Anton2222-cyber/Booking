@@ -12,10 +12,10 @@ import { useGetPageHotelsQuery } from "services/hotel.ts";
 import { SwiperSlide } from "swiper/react";
 import { getRandomCity } from "utils/getRandomItemsFromArr.ts";
 
-const TypesSearchPage = () => {
+const TypeHotelResultsPage = () => {
     const { id } = useParams();
 
-    const { data: cities, isSuccess } = useGetPageCitiesQuery({
+    const { data: citiesData, isSuccess } = useGetPageCitiesQuery({
         pageIndex: 0,
         pageSize: 10,
         isRandomItems: true,
@@ -30,11 +30,11 @@ const TypesSearchPage = () => {
     const { data: cityHotels, isSuccess: isCityHotelsSuccess } = useGetPageHotelsQuery(
         {
             address: {
-                city: { countryId: getRandomCity(cities?.data) },
+                city: { countryId: getRandomCity(citiesData?.data) },
             },
             isRandomItems: true,
         },
-        { skip: !cities },
+        { skip: !citiesData },
     );
 
     return (
@@ -57,7 +57,7 @@ const TypesSearchPage = () => {
                     </FakeSwiper>
                 ) : (
                     <Swiper id="swiper16" slidesPerView={6}>
-                        {cities.data?.map((city) => (
+                        {citiesData.data?.map((city) => (
                             <SwiperSlide key={city.id}>
                                 <CityCardTypes {...city} />
                             </SwiperSlide>
@@ -103,4 +103,4 @@ const TypesSearchPage = () => {
     );
 };
 
-export default TypesSearchPage;
+export default TypeHotelResultsPage;

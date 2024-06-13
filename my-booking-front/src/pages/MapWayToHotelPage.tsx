@@ -10,7 +10,6 @@ import { getUserLocation } from "store/slice/userSlice.ts";
 
 import React from "react";
 
-// Define your custom icons
 const customStartIcon = new L.Icon({
     iconUrl: "https://static-00.iconduck.com/assets.00/map-marker-icon-342x512-gd1hf1rz.png",
     iconSize: [25, 41],
@@ -59,14 +58,14 @@ const RoutingMachine: React.FC<RoutingMachineProps> = ({ start, end }) => {
     return null;
 };
 
-const HotelWayPage: React.FC = () => {
+const MapWayToHotelPage: React.FC = () => {
     const { id } = useParams();
     const location = useAppSelector(getUserLocation);
 
-    const { data } = useGetHotelQuery(id || "0");
+    const { data: hotelData } = useGetHotelQuery(id || "0");
 
     const start = { lat: location?.latitude || 0, lng: location?.longitude || 0 };
-    const end = { lat: data?.address.latitude || 0, lng: data?.address.longitude || 0 };
+    const end = { lat: hotelData?.address.latitude || 0, lng: hotelData?.address.longitude || 0 };
 
     return (
         <MapContainer
@@ -80,9 +79,9 @@ const HotelWayPage: React.FC = () => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            {location && data && <RoutingMachine start={start} end={end} />}
+            {location && hotelData && <RoutingMachine start={start} end={end} />}
         </MapContainer>
     );
 };
 
-export default HotelWayPage;
+export default MapWayToHotelPage;

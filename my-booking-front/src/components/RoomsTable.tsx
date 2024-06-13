@@ -43,9 +43,9 @@ const RoomsTable: React.FC<RoomsTableProps> = (props) => {
     return (
         <>
             <table className="table-auto w-full ">
-                <thead className="bg-blue text-sm font-bold text-white ">
+                <thead className="bg-blue text-sm font-bold text-white h-12">
                     <tr>
-                        <th className="p-2 text-start">Тип номера</th>
+                        <th className="p-2 text-start w-1/3">Тип номера</th>
                         <th className="p-2 text-start">Кількість гостей</th>
                         <th className="p-2 text-start">Ціна за ніч</th>
                         <th></th>
@@ -57,10 +57,12 @@ const RoomsTable: React.FC<RoomsTableProps> = (props) => {
                             <td className=" text-sm font-bold text-sky underline">
                                 <button
                                     onClick={() => handleOpenModal(room)}
-                                    className="flex items-center gap-1"
+                                    className="flex items-center  gap-1"
                                 >
-                                    <IconCaretRightFilled className="text-yellow" />
-                                    {room.name}
+                                    <div>
+                                        <IconCaretRightFilled className="text-yellow" />
+                                    </div>
+                                    <p className="text-start line-clamp-1 pe-2">{room.name}</p>
                                 </button>
                             </td>
                             <td>

@@ -13,7 +13,7 @@ const customIcon = L.icon({
     shadowSize: [41, 41],
 });
 
-const CityHotelsMapPage = () => {
+const MapCityPage = () => {
     const query = useQuery();
 
     const destination = query.get("destination") || "";
@@ -56,4 +56,4 @@ const CityHotelsMapPage = () => {
     );
 };
 
-export default CityHotelsMapPage;
+export default MapCityPage;

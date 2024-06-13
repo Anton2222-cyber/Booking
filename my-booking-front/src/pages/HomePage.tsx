@@ -10,15 +10,15 @@ import { leftToRightMotion, rightToLightMotion, topToBottomMotion } from "motion
 
 import React from "react";
 
-const blocks: React.ReactNode[] = [
-    <QuickTripPlanner />,
-    <HousingTypes />,
-    <PopularHotels />,
-    <NextTrip />,
-    <LoginAdvantages />,
-];
-
 const HomePage = () => {
+    const blocks: React.ReactNode[] = [
+        <QuickTripPlanner />,
+        <HousingTypes />,
+        <PopularHotels />,
+        <NextTrip />,
+        <LoginAdvantages />,
+    ];
+
     return (
         <div className="overflow-hidden">
             <motion.div
