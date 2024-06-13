@@ -23,7 +23,8 @@ const TypeHotelResultsPage = () => {
 
     const { data: popularHotels, isSuccess: isPopularHotelsSuccess } = useGetPageHotelsQuery({
         typeId: Number(id),
-        minRating: 7,
+        pageIndex: 0,
+        pageSize: 10,
         isRandomItems: true,
     });
 
@@ -46,7 +47,7 @@ const TypeHotelResultsPage = () => {
                 img={"bg-hero-types"}
             />
             <div className="flex flex-col container mx-auto mt-10 gap-2">
-                <Label variant="title">Популярні напрямки з {popularHotels?.data[0].type.name}</Label>
+                <Label variant="title">Популярні напрямки з {popularHotels?.data[0]?.type.name}</Label>
                 <Label variant="subtitle">
                     Перегляньте напрямки, які зараз популярні серед інших мандрівників
                 </Label>
@@ -67,7 +68,7 @@ const TypeHotelResultsPage = () => {
 
                 <Label variant="title">Ми обожнюємо ці помешкання</Label>
 
-                {!isPopularHotelsSuccess ? (
+                {!isPopularHotelsSuccess || popularHotels?.data.length === 0 ? (
                     <FakeSwiper slidesPerView={3}>
                         <HotelCardTypesSkeleton />
                     </FakeSwiper>
