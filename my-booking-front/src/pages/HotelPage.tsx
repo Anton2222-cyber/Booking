@@ -13,6 +13,7 @@ import SelectPerson from "components/SelectPerson.tsx";
 import Swiper from "components/Swiper.tsx";
 import ReviewCard from "components/cards/ReviewCard.tsx";
 import { Button } from "components/ui/Button.tsx";
+import Drawer from "components/ui/Drawer.tsx";
 import Label from "components/ui/Label.tsx";
 import { Convenience } from "interfaces/room";
 import DatePicker from "react-datepicker";
@@ -34,6 +35,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 const HotelPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+
+    const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
     const [adults, setAdults] = useState<number>(1);
     const [room, setRooms] = useState<number>(1);
@@ -63,10 +66,7 @@ const HotelPage = () => {
     });
 
     const { data: reviews } = useGetPageReviewsQuery({
-        pageSize: 5,
-        pageIndex: 0,
         hotelId: Number(id),
-        isRandomItems: true,
     });
 
     const uniqueConveniences = useMemo(() => {
@@ -222,7 +222,12 @@ const HotelPage = () => {
                             <span className="text-xs">{data?.reviews} відгуки</span>
                         </div>
 
-                        <div className="text-sm text-sky underline cursor-pointer">Читати всі відгуки</div>
+                        <button
+                            onClick={() => setIsDrawerOpen(true)}
+                            className="text-sm text-sky underline cursor-pointer"
+                        >
+                            Читати всі відгуки
+                        </button>
                     </div>
 
                     {reviews?.data.length ? (
@@ -236,6 +241,10 @@ const HotelPage = () => {
                     ) : null}
                 </div>
             </div>
+
+            <Drawer open={isDrawerOpen} close={() => setIsDrawerOpen(false)}>
+                {reviews && reviews.data.map((review) => <ReviewCard {...review} key={review.id} />)}
+            </Drawer>
         </div>
     );
 };

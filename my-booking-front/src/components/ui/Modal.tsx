@@ -3,13 +3,15 @@ import { IconX } from "@tabler/icons-react";
 
 import React, { Fragment } from "react";
 
-type ModalProps = {
+interface ModalProps {
     open: boolean;
     close: () => void;
     children?: React.ReactNode;
-};
+}
 
-const Modal = ({ open, close, children }: ModalProps) => {
+const Modal: React.FC<ModalProps> = (props) => {
+    const { open, close, children } = props;
+
     return (
         <Transition appear show={open} as={Fragment}>
             <Dialog as="div" className="relative z-50 font-body" onClose={close}>
@@ -37,8 +39,11 @@ const Modal = ({ open, close, children }: ModalProps) => {
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <DialogPanel className=" transform overflow-hidden rounded-2xl bg-gradient-to-br from-sky to-blue text-left align-middle shadow-xl transition-all sm:mx-20 sm:my-8 sm:w-full sm:max-w-5xl">
-                                <div className="bg-sky py-3 sm:flex sm:flex-row-reverse ">
-                                    <button className="text-white hover:bg-transparent" onClick={close}>
+                                <div className="bg-sky p-3 sm:flex sm:flex-row-reverse ">
+                                    <button
+                                        className="text-white hover:bg-transparent hover:scale-125 hover:rotate-180 duration-200"
+                                        onClick={close}
+                                    >
                                         <IconX />
                                     </button>
                                 </div>
