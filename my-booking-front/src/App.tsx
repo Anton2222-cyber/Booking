@@ -1,3 +1,4 @@
+import ProtectedRoute from "components/guards/ProtectedRoute.tsx";
 import AccountLayout from "components/layout/AccountLayout.tsx";
 import Layout from "components/layout/Layout.tsx";
 import BookingPage from "pages/BookingPage.tsx";
@@ -42,15 +43,18 @@ function App() {
                 <Route path="search-accommodation" element={<PersonalizedHotelResultsPage />} />
                 <Route path="search-types/:id" element={<TypeHotelResultsPage />} />
                 <Route path="search-map" element={<MapCityPage />} />
-                <Route path="hotel/:id" element={<HotelPage />} />
-                <Route path="hotel/create" element={<HotelCreatePage />} />
-                <Route path="room/create/:hotelId" element={<RoomCreatePage />} />
-                <Route path="my-bookings" element={<MyBookingsPage />} />
-                <Route path="my-hotels" element={<MyHotelsPage />} />
-                <Route path="my-saved" element={<MySavedPage />} />{" "}
                 <Route path="search-results" element={<SearchHotelResultsPage />} />
-                <Route path="booking/:id" element={<BookingPage />} />
+                <Route path="hotel/:id" element={<HotelPage />} />
                 <Route path="way-to-hotel/:id" element={<MapWayToHotelPage />} />
+
+                <Route element={<ProtectedRoute />}>
+                    <Route path="my-hotels" element={<MyHotelsPage />} />
+                    <Route path="my-bookings" element={<MyBookingsPage />} />
+                    <Route path="my-saved" element={<MySavedPage />} />
+                    <Route path="booking/:id" element={<BookingPage />} />
+                    <Route path="hotel/create" element={<HotelCreatePage />} />
+                    <Route path="room/create/:hotelId" element={<RoomCreatePage />} />
+                </Route>
             </Route>
 
             <Route path="/auth/" element={<AccountLayout />}>
