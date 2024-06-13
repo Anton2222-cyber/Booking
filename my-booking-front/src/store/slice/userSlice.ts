@@ -29,6 +29,7 @@ const userSlice = createSlice({
 });
 
 export const getUser = (state: { user: UserState }) => state.user.user;
+export const getToken = (state: { user: UserState }) => state.user.token;
 export const getUserLocation = (state: { user: UserState }) => state.user.location;
 export const { setLocation, setCredentials, logOut } = userSlice.actions;
 export default userSlice.reducer;
