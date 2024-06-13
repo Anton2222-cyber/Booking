@@ -63,7 +63,10 @@ const HotelPage = () => {
     });
 
     const { data: reviews } = useGetPageReviewsQuery({
+        pageSize: 5,
+        pageIndex: 0,
         hotelId: Number(id),
+        isRandomItems: true,
     });
 
     const uniqueConveniences = useMemo(() => {
@@ -97,30 +100,7 @@ const HotelPage = () => {
             <div className="col-span-1">
                 <div className="sticky top-5 ">
                     <AdvertisingContainer />
-                    <div className=" border border-gray/20 rounded-sm p-4  mt-5">
-                        <div className="flex items-center justify-end gap-2 border-gray/20 border-b pb-2 -mx-4 px-4">
-                            <div className="flex items-end justify-center flex-col">
-                                <span className="text-sm font-bold">
-                                    {getRatingDescription(data?.rating || 0)}
-                                </span>
-                                <span className="text-xs">{data?.reviews} відгуки</span>
-                            </div>
-
-                            <div className="bg-blue text-white text-sm font-main font-bold rounded-md w-7 h-7 flex items-center justify-center">
-                                {data?.rating.toPrecision(2)}
-                            </div>
-                        </div>
-
-                        {reviews?.data.length ? (
-                            <Swiper id="swiper10" slidesPerView={1}>
-                                {reviews.data?.map((review) => (
-                                    <SwiperSlide key={review.id}>
-                                        <ReviewCard {...review} />
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-                        ) : null}
-
+                    <div className=" border border-gray/20 rounded-sm mt-5">
                         <div className="bg-map-bg py-10 gap-3 rounded flex flex-col items-center justify-center">
                             <IconMapPinFilled className="text-sky h-12 w-12" />
                             <Button onClick={handleShowOnMap} size="md" className="text-xs">
@@ -226,6 +206,35 @@ const HotelPage = () => {
                 </div>
 
                 <RoomsTable from={startDate} to={endDate} rooms={rooms?.data || []} />
+
+                <div>
+                    <Label className=" my-2" variant="title">
+                        Відгуки гостей
+                    </Label>
+                    <div className="flex items-center gap-3 border-gray/20 border-b pb-2 -mx-4 px-4">
+                        <div className="bg-blue text-white text-sm font-main font-bold rounded-md w-7 h-7 flex items-center justify-center">
+                            {data?.rating.toPrecision(2)}
+                        </div>
+                        <div className="flex justify-center flex-col">
+                            <span className="text-sm font-bold">
+                                {getRatingDescription(data?.rating || 0)}
+                            </span>
+                            <span className="text-xs">{data?.reviews} відгуки</span>
+                        </div>
+
+                        <div className="text-sm text-sky underline cursor-pointer">Читати всі відгуки</div>
+                    </div>
+
+                    {reviews?.data.length ? (
+                        <Swiper id="swiper10" slidesPerView={3}>
+                            {reviews.data?.map((review) => (
+                                <SwiperSlide key={review.id}>
+                                    <ReviewCard {...review} />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    ) : null}
+                </div>
             </div>
         </div>
     );

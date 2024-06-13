@@ -11,17 +11,22 @@ const PhotosGallery: React.FC<PhotosGalleryProps> = (props) => {
     const { images } = props;
 
     const getGridClass = (index: number) => {
-        if (index % 7 === 0) {
-            return "col-span-2 row-span-1";
-        }
-        if (index % 5 === 0) {
-            return "col-span-2 row-span-1";
-        }
-        return "col-span-1";
-    };
+        switch (index) {
+            case 0:
+                return "col-span-2 row-span-2";
+            case 1:
+                return "col-span-2 row-span-1";
+            case 2:
+                return "col-span-2 row-span-1";
+            case 3:
+                return "col-span-1 row-span-1";
 
+            default:
+                return "col-span-1 row-span-1";
+        }
+    };
     return (
-        <div className="col-span-6 grid grid-cols-2 md:grid-cols-4 gap-4 overflow-hidden">
+        <div className="col-span-6 grid grid-cols-6 gap-4 overflow-hidden">
             {images.map((photo, index) => (
                 <div
                     key={index}
