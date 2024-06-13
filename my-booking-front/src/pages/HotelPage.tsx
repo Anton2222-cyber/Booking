@@ -5,6 +5,7 @@ import PhotosGallery from "components/PhotosGallery.tsx";
 import RoomsTable from "components/RoomsTable.tsx";
 import Swiper from "components/Swiper.tsx";
 import ReviewCard from "components/cards/ReviewCard.tsx";
+import ReviewDetailCard from "components/cards/ReviewDetailCard.tsx";
 import HotelPageSkeleton from "components/skeletons/HotelPageSkeleton.tsx";
 import { Button } from "components/ui/Button.tsx";
 import Drawer from "components/ui/Drawer.tsx";
@@ -186,7 +187,8 @@ const HotelPage = () => {
                 </div>
             )}
             <Drawer open={isDrawerOpen} close={() => setIsDrawerOpen(false)}>
-                {reviewsData && reviewsData.data.map((review) => <ReviewCard {...review} key={review.id} />)}
+                {reviewsData &&
+                    reviewsData.data.map((review) => <ReviewDetailCard {...review} key={review.id} />)}
             </Drawer>
         </div>
     );

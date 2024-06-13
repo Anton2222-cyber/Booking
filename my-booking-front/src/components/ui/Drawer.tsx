@@ -39,7 +39,7 @@ const Drawer: React.FC<DrawerProps> = (props) => {
                                 leaveFrom="translate-x-0"
                                 leaveTo="translate-x-full"
                             >
-                                <DialogPanel className="pointer-events-auto relative w-screen max-w-md">
+                                <DialogPanel className="pointer-events-auto relative w-screen max-w-[700px]">
                                     <TransitionChild
                                         as={Fragment}
                                         enter="ease-in-out duration-500"
