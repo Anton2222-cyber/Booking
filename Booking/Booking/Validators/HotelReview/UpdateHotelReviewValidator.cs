@@ -8,7 +8,9 @@ public class UpdateHotelReviewValidator : AbstractValidator<UpdateHotelReviewVm>
 	public UpdateHotelReviewValidator(IExistingEntityCheckerService existingEntityCheckerService, IImageValidator imageValidator) {
 		RuleFor(hr => hr.Id)
 			.MustAsync(existingEntityCheckerService.IsCorrectHotelReviewId)
-				.WithMessage("Hotel review with this id is not exists");
+				.WithMessage("Hotel review with this id is not exists")
+			.MustAsync(existingEntityCheckerService.IsCorrectHotelReviewIdOfCurrentUser)
+				.WithMessage("Hotel review is not own");
 
 		RuleFor(hr => hr.Description)
 			.NotEmpty()
@@ -19,10 +21,6 @@ public class UpdateHotelReviewValidator : AbstractValidator<UpdateHotelReviewVm>
 		RuleFor(hr => hr.Score)
 			.InclusiveBetween(0, 10)
 				.WithMessage("Score must be in the range from 0 to 10");
-
-		RuleFor(hr => hr.HotelId)
-			.MustAsync(existingEntityCheckerService.IsCorrectHotelId)
-				.WithMessage("Hotel with this id is not exists");
 
 		RuleFor(hr => hr.Photos)
 			.MustAsync(imageValidator.IsValidNullPossibeImagesAsync)

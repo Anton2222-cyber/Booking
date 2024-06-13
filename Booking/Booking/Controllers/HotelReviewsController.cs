@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Booking.Services;
 using Booking.Services.ControllerServices.Interfaces;
 using Booking.Services.Interfaces;
 using Booking.ViewModels.HotelReview;
@@ -17,7 +18,7 @@ public class HotelReviewsController(
 	DataContext context,
 	IMapper mapper,
 	IPaginationService<HotelReviewVm, HotelReviewsFilterVm> pagination,
-	IIdentityService identityService,
+	IScopedIdentityService scopedIdentityService,
 	IHotelReviewsControllerService service,
 	IValidator<CreateHotelReviewVm> createValidator,
 	IValidator<UpdateHotelReviewVm> updateValidator
@@ -58,14 +59,14 @@ public class HotelReviewsController(
 	[HttpPost]
 	[Authorize(Roles = "Admin,User")]
 	public async Task<IActionResult> Create([FromForm] CreateHotelReviewVm vm) {
+		await scopedIdentityService.InitCurrentUserAsync(this);
+
 		var validationResult = await createValidator.ValidateAsync(vm);
 
 		if (!validationResult.IsValid)
 			return BadRequest(validationResult.Errors);
 
-		var user = await identityService.GetCurrentUserAsync(this);
-
-		await service.CreateAsync(vm, user);
+		await service.CreateAsync(vm);
 
 		return Ok();
 	}
@@ -73,15 +74,12 @@ public class HotelReviewsController(
 	[HttpPut]
 	[Authorize(Roles = "Admin,User")]
 	public async Task<IActionResult> Update([FromForm] UpdateHotelReviewVm vm) {
+		await scopedIdentityService.InitCurrentUserAsync(this);
+
 		var validationResult = await updateValidator.ValidateAsync(vm);
 
 		if (!validationResult.IsValid)
 			return BadRequest(validationResult.Errors);
-
-		var hotelReview = await context.HotelReviews.FirstAsync(hr => hr.Id == vm.Id);
-		var user = await identityService.GetCurrentUserAsync(this);
-		if (hotelReview.UserId != user.Id)
-			return Forbid("The hotel review is not own");
 
 		await service.UpdateAsync(vm);
 
@@ -91,16 +89,9 @@ public class HotelReviewsController(
 	[HttpDelete]
 	[Authorize(Roles = "Admin,User")]
 	public async Task<IActionResult> Delete(long id) {
-		var hotelReview = await context.HotelReviews.FirstOrDefaultAsync(hr => hr.Id == id);
+		await scopedIdentityService.InitCurrentUserAsync(this);
 
-		if (hotelReview is not null) {
-			var user = await identityService.GetCurrentUserAsync(this);
-
-			if (hotelReview.UserId != user.Id)
-				return Forbid("The hotel review is not own");
-
-			await service.DeleteIfExistsAsync(id);
-		}
+		await service.DeleteIfExistsAsync(id);
 
 		return Ok();
 	}

@@ -7,7 +7,5 @@ public class UpdateHotelReviewVm {
 
 	public double? Score { get; set; }
 
-	public long HotelId { get; set; }
-
 	public IEnumerable<IFormFile>? Photos { get; set; }
 }

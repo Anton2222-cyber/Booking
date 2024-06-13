@@ -11,6 +11,8 @@ public class HotelReviewVm {
 
 	public UserVm User { get; set; } = null!;
 
+	public long BookingId { get; set; }
+
 	public long HotelId { get; set; }
 
 	public IEnumerable<HotelReviewPhotoVm> Photos { get; set; } = null!;

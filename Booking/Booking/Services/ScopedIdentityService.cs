@@ -16,4 +16,6 @@ public class ScopedIdentityService(
 
 	public User GetRequiredUser() =>
 		User ?? throw new Exception($"User in {nameof(ScopedIdentityService)} is not inicialized");
+
+	public long GetRequiredUserId() => GetRequiredUser().Id;
 }

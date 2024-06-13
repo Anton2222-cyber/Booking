@@ -14,7 +14,7 @@ public class FavoriteHotelsControllerService(
 	public async Task CreateAsync(CreateFavoriteHotelVm vm) {
 		var entity = new FavoriteHotel {
 			HotelId = vm.HotelId,
-			UserId = identityService.GetRequiredUser().Id
+			UserId = identityService.GetRequiredUserId()
 		};
 
 		await context.FavoriteHotels.AddAsync(entity);
@@ -23,7 +23,7 @@ public class FavoriteHotelsControllerService(
 	}
 
 	public async Task DeleteIfExistsAsync(long hotelId) {
-		var userId = identityService.GetRequiredUser().Id;
+		var userId = identityService.GetRequiredUserId();
 
 		await context.FavoriteHotels
 		   .Where(fh => fh.HotelId == hotelId && fh.UserId == userId)

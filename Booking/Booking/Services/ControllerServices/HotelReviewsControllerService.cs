@@ -5,20 +5,20 @@ using Booking.ViewModels.HotelReview;
 using Microsoft.EntityFrameworkCore;
 using Model.Context;
 using Model.Entities;
-using Model.Entities.Identity;
 
 namespace Booking.Services.ControllerServices;
 
 public class HotelReviewsControllerService(
 	DataContext context,
 	IMapper mapper,
-	IImageService imageService
+	IImageService imageService,
+	IScopedIdentityService scopedIdentityService
 	) : IHotelReviewsControllerService {
 
-	public async Task CreateAsync(CreateHotelReviewVm vm, User user) {
+	public async Task CreateAsync(CreateHotelReviewVm vm) {
 		var hotelReview = mapper.Map<HotelReview>(vm);
 
-		hotelReview.UserId = user.Id;
+		hotelReview.UserId = scopedIdentityService.GetRequiredUserId();
 
 		hotelReview.Photos = await SaveAndPrioritizePhotosAsync(vm.Photos, hotelReview);
 
@@ -44,7 +44,6 @@ public class HotelReviewsControllerService(
 
 		hotelReview.Description = vm.Description;
 		hotelReview.Score = vm.Score;
-		hotelReview.HotelId = vm.HotelId;
 		hotelReview.Photos.Clear();
 		foreach (var photo in await SaveAndPrioritizePhotosAsync(vm.Photos, hotelReview))
 			hotelReview.Photos.Add(photo);
@@ -63,7 +62,7 @@ public class HotelReviewsControllerService(
 	public async Task DeleteIfExistsAsync(long id) {
 		var hotelReview = await context.HotelReviews
 			.Include(hr => hr.Photos)
-			.FirstOrDefaultAsync(hr => hr.Id == id);
+			.FirstOrDefaultAsync(hr => hr.Id == id && hr.UserId == scopedIdentityService.GetRequiredUserId());
 
 		if (hotelReview is null)
 			return;
