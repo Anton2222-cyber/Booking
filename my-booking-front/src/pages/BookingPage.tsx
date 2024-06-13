@@ -15,6 +15,7 @@ import BookingPageSkeleton from "components/skeletons/BookingPageSkeleton.tsx";
 import { Link, useParams } from "react-router-dom";
 import { useGetBookingQuery } from "services/booking.ts";
 import { useGetHotelQuery } from "services/hotel.ts";
+import { useGetPageReviewsQuery } from "services/review.ts";
 import { checkStatus } from "utils/checkBookingStatus.ts";
 import { calculateDays, convertFromTimestamptz, formatToShortDate } from "utils/dateFormat.ts";
 import { API_URL } from "utils/getEnvData.ts";
@@ -37,6 +38,7 @@ const BookingPage: React.FC = () => {
     }, [booking]);
 
     const { data: hotel, isSuccess } = useGetHotelQuery(hotelId || "0", { skip: !hotelId });
+    const { data: reviews } = useGetPageReviewsQuery({ bookingId: booking?.id }, { skip: !booking });
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -218,7 +220,12 @@ const BookingPage: React.FC = () => {
                                             <IconChevronDown />
                                         </span>
                                     </div>
-                                    {isExpandedReview && <AddReview hotelId={Number(hotelId)} />}
+                                    {isExpandedReview && (
+                                        <AddReview
+                                            isReview={Boolean(reviews?.data.length)}
+                                            bookingId={booking.id}
+                                        />
+                                    )}
                                 </div>
                             )}
                         </div>

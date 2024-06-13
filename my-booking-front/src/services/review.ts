@@ -20,12 +20,13 @@ export const reviewApi = createApi({
                 return `getPage?${queryString}`;
             },
         }),
+
         addReview: builder.mutation({
             query: (review: CreateReview) => {
                 const reviewFormData = new FormData();
                 reviewFormData.append("description", review.description);
                 reviewFormData.append("score", review.score.toString());
-                reviewFormData.append("hotelId", review.hotelId.toString());
+                reviewFormData.append("bookingId", review.bookingId.toString());
 
                 if (review.photos) {
                     Array.from(review.photos).forEach((image) => reviewFormData.append("Photos", image));

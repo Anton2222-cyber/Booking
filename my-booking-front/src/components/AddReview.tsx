@@ -17,19 +17,17 @@ const ReviewSchema = z.object({
 
 type ReviewSchemaType = z.infer<typeof ReviewSchema>;
 
-const AddReview = ({ hotelId }: { hotelId: number }) => {
+const AddReview = ({ bookingId, isReview }: { bookingId: number; isReview: boolean }) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm<ReviewSchemaType>({ resolver: zodResolver(ReviewSchema) });
 
-    const [isAddedReview, setIsAddedReview] = useState(false);
-
-    const [create, { isLoading }] = useAddReviewMutation();
-
+    const [isAddedReview, setIsAddedReview] = useState(isReview);
     const [rating, setRating] = useState<number>(5);
     const [files, setFiles] = useState<File[]>([]);
+    const [create, { isLoading }] = useAddReviewMutation();
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files;
@@ -54,9 +52,8 @@ const AddReview = ({ hotelId }: { hotelId: number }) => {
     };
 
     const onSubmit: SubmitHandler<ReviewSchemaType> = async (data) => {
-        console.log("Review data:", { ...data, hotelId, rating });
         try {
-            await create({ ...data, hotelId: hotelId, score: rating }).unwrap();
+            await create({ ...data, bookingId: bookingId, score: rating }).unwrap();
             setIsAddedReview(true);
         } catch (err) {
             console.log("Error create Review: ", err);
@@ -70,8 +67,8 @@ const AddReview = ({ hotelId }: { hotelId: number }) => {
         <div className="w-full ">
             {isAddedReview ? (
                 <div className="bg-green/20 border px-4 py-3 rounded relative flex items-center gap-2 justify-center">
-                    <strong className="font-bold">Success! </strong>
-                    <span className=" inline">Review added.</span>
+                    <strong className="font-bold">Успішно! </strong>
+                    <span className=" inline">Ви вже залишили відгук на дане бронювання!</span>
                 </div>
             ) : (
                 <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
@@ -124,16 +121,7 @@ const AddReview = ({ hotelId }: { hotelId: number }) => {
                             type="submit"
                             className="disabled:bg-sky/20 disabled:cursor-not-allowed"
                         >
-                            Submit Review
-                        </Button>
-                        <Button
-                            size="lg"
-                            type="button"
-                            disabled={isLoading}
-                            onClick={() => setFiles([])}
-                            className="disabled:bg-sky/20 disabled:cursor-not-allowed"
-                        >
-                            Reset
+                            Відправити
                         </Button>
                     </div>
                 </form>

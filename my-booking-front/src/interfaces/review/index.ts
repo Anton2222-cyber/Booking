@@ -14,7 +14,7 @@ export interface Review {
 export interface CreateReview {
     description: string;
     score: number;
-    hotelId: number;
+    bookingId: number;
     photos?: File[];
 }
 
@@ -25,4 +25,5 @@ export interface GetReviewPageRequest extends PaginationOptions {
     maxScore?: number;
     user?: User;
     hotelId?: number;
+    bookingId?: number;
 }
