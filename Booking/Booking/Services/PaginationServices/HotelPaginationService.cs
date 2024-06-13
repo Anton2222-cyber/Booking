@@ -29,12 +29,33 @@ public class HotelPaginationService(
 			query = query.Where(h => h.Name.ToLower().Contains(vm.Description.ToLower()));
 
 		if (vm.Rating is not null)
-			query = query.Where(h => h.Reviews.Average(r => r.Score).GetValueOrDefault(0) == vm.Rating);
+			query = query.Where(
+				h => h.Rooms
+					.SelectMany(
+						r => r.Bookings.SelectMany(b => b.Reviews)
+					)
+					.Average(r => r.Score)
+					.GetValueOrDefault(0) == vm.Rating
+			);
 
 		if (vm.MinRating is not null)
-			query = query.Where(h => h.Reviews.Average(r => r.Score).GetValueOrDefault(0) >= vm.MinRating);
+			query = query.Where(
+				h => h.Rooms
+					.SelectMany(
+						r => r.Bookings.SelectMany(b => b.Reviews)
+					)
+					.Average(r => r.Score)
+					.GetValueOrDefault(0) >= vm.MinRating
+			);
 		if (vm.MaxRating is not null)
-			query = query.Where(h => h.Reviews.Average(r => r.Score).GetValueOrDefault(0) <= vm.MaxRating);
+			query = query.Where(
+				h => h.Rooms
+					.SelectMany(
+						r => r.Bookings.SelectMany(b => b.Reviews)
+					)
+					.Average(r => r.Score)
+					.GetValueOrDefault(0) <= vm.MaxRating
+			);
 
 		if (vm.UserId is not null)
 			query = query.Where(h => h.UserId == vm.UserId);
@@ -86,4 +107,12 @@ public class HotelPaginationService(
 
 		return query;
 	}
+
+	private static double GetAverageScore(Hotel hotel) =>
+		hotel.Rooms
+			.SelectMany(
+				r => r.Bookings.SelectMany(b => b.Reviews)
+			)
+			.Average(r => r.Score)
+			.GetValueOrDefault(0);
 }

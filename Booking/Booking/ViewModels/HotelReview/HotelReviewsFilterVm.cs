@@ -12,6 +12,8 @@ public class HotelReviewsFilterVm : PaginationVm {
 
 	public HotelReviewsUserFilterVm? User { get; set; }
 
+	public long? BookingId { get; set; }
+
 	public long? HotelId { get; set; }
 
 	public bool? IsRandomItems { get; set; }

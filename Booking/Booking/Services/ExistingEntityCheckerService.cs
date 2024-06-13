@@ -6,7 +6,7 @@ namespace Booking.Services;
 
 public class ExistingEntityCheckerService(
 	DataContext context,
-	IScopedIdentityService scopedIdentityService
+	IScopedIdentityService identityService
 ) : IExistingEntityCheckerService {
 
 	public async Task<bool> IsCorrectCountryId(long id, CancellationToken cancellationToken) =>
@@ -15,11 +15,20 @@ public class ExistingEntityCheckerService(
 	public async Task<bool> IsCorrectHotelReviewId(long id, CancellationToken cancellationToken) =>
 		await context.HotelReviews.AnyAsync(h => h.Id == id, cancellationToken);
 
+	public async Task<bool> IsCorrectHotelReviewByBookingIdAndUserId(long bookingId, CancellationToken cancellationToken) =>
+		await context.HotelReviews.AnyAsync(
+			hr => hr.BookingId == bookingId && hr.UserId == identityService.GetRequiredUserId(),
+			cancellationToken
+		);
+
+	public async Task<bool> IsCorrectHotelReviewIdOfCurrentUser(long id, CancellationToken cancellationToken) =>
+		await context.HotelReviews.AnyAsync(hr => hr.Id == id && hr.UserId == identityService.GetRequiredUserId(), cancellationToken);
+
 	public async Task<bool> IsCorrectHotelId(long id, CancellationToken cancellationToken) =>
 		await context.Hotels.AnyAsync(h => h.Id == id, cancellationToken);
 
 	public async Task<bool> IsCorrectHotelIdOfCurrentUser(long id, CancellationToken cancellationToken) =>
-		await context.Hotels.AnyAsync(h => h.Id == id && h.UserId == scopedIdentityService.GetRequiredUser().Id, cancellationToken);
+		await context.Hotels.AnyAsync(h => h.Id == id && h.UserId == identityService.GetRequiredUserId(), cancellationToken);
 
 	public async Task<bool> IsCorrectHotelTypeId(long id, CancellationToken cancellationToken) =>
 		await context.HotelTypes.AnyAsync(ht => ht.Id == id, cancellationToken);
@@ -48,7 +57,7 @@ public class ExistingEntityCheckerService(
 	public async Task<bool> IsCorrectRoomIdOfCurrentUser(long id, CancellationToken cancellationToken) =>
 		await context.Rooms
 			.Include(r => r.Hotel)
-			.AnyAsync(r => r.Id == id && r.Hotel.UserId == scopedIdentityService.GetRequiredUser().Id, cancellationToken);
+			.AnyAsync(r => r.Id == id && r.Hotel.UserId == identityService.GetRequiredUser().Id, cancellationToken);
 
 	public async Task<bool> IsCorrectBookingId(long id, CancellationToken cancellationToken) =>
 		await context.Bookings.AnyAsync(b => b.Id == id, cancellationToken);

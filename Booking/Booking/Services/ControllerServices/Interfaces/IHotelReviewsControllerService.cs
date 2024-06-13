@@ -1,10 +1,9 @@
 ﻿using Booking.ViewModels.HotelReview;
-using Model.Entities.Identity;
 
 namespace Booking.Services.ControllerServices.Interfaces;
 
 public interface IHotelReviewsControllerService {
-	Task CreateAsync(CreateHotelReviewVm vm, User user);
-	Task DeleteIfExistsAsync(long id);
+	Task CreateAsync(CreateHotelReviewVm vm);
 	Task UpdateAsync(UpdateHotelReviewVm vm);
+	Task DeleteIfExistsAsync(long id);
 }

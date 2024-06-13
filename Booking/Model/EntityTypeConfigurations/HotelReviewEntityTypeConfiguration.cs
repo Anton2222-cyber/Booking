@@ -14,5 +14,10 @@ internal class HotelReviewEntityTypeConfiguration : IEntityTypeConfiguration<Hot
 
 		builder.Property(hr => hr.Score)
 			.IsRequired(false);
+
+		builder.HasAlternateKey(hr => new {
+			hr.UserId,
+			hr.BookingId
+		});
 	}
 }

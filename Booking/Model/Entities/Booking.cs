@@ -14,4 +14,6 @@ public class Booking {
 
 	public long UserId { get; set; }
 	public User User { get; set; } = null!;
+
+	public ICollection<HotelReview> Reviews { get; set; } = null!;
 }

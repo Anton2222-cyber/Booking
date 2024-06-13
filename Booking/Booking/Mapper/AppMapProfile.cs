@@ -34,7 +34,10 @@ public class AppMapProfile : Profile {
 			.ForMember(
 				h => h.Rating,
 				opt => opt.MapFrom(
-					h => h.Reviews
+					h => h.Rooms
+						.SelectMany(
+							r => r.Bookings.SelectMany(b => b.Reviews)
+						)
 						.Average(r => r.Score)
 						.GetValueOrDefault(0)
 				)
@@ -42,7 +45,11 @@ public class AppMapProfile : Profile {
 			.ForMember(
 				h => h.Reviews,
 				opt => opt.MapFrom(
-					h => h.Reviews.Count()
+					h => h.Rooms
+						.SelectMany(
+							r => r.Bookings.SelectMany(b => b.Reviews)
+						)
+						.Count()
 				)
 			);
 		CreateMap<CreateHotelVm, Hotel>()
