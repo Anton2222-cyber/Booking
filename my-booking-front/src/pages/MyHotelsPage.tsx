@@ -10,7 +10,7 @@ const MyHotelsPage = () => {
     const user = useAppSelector(getUser);
 
     const {
-        data: hotels,
+        data: hotelsData,
         isLoading,
         isError,
     } = useGetPageHotelsQuery({ userId: Number(user?.id) }, { skip: !user });
@@ -21,8 +21,8 @@ const MyHotelsPage = () => {
                 Мої готелі
             </Label>
             {isLoading && <HotelsTableSkeleton />}
-            {hotels && <HotelsTable hotels={hotels.data} />}
-            {(isError || hotels?.data.length === 0) && <NotFoundResult text="У вас немає готелів" />}
+            {hotelsData && <HotelsTable hotels={hotelsData.data} />}
+            {(isError || hotelsData?.data.length === 0) && <NotFoundResult text="У вас немає готелів" />}
         </div>
     );
 };

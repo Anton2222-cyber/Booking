@@ -16,16 +16,21 @@ const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 };
 
-const ParameterisedSearchPage = () => {
+const SearchHotelResultsPage = () => {
     const query = useQuery();
     const destination = query.get("destination") || "";
     const cityId = Number(query.get("cityId")) || undefined;
     const navigate = useNavigate();
+
     const [page, setPage] = useState(0);
     const [hotels, setHotels] = useState<Hotel[]>([]);
     const [hasMore, setHasMore] = useState<boolean>(true);
 
-    const { data, isLoading, isError } = useGetPageHotelsQuery({
+    const {
+        data: hotelsData,
+        isLoading,
+        isError,
+    } = useGetPageHotelsQuery({
         pageIndex: page,
         pageSize: 5,
         address: { city: { name: destination, id: cityId } },
@@ -42,14 +47,14 @@ const ParameterisedSearchPage = () => {
     }, [destination, cityId]);
 
     useEffect(() => {
-        if (data) {
-            if (data.data.length === 0) {
+        if (hotelsData) {
+            if (hotelsData.data.length === 0) {
                 setHasMore(false);
             } else {
-                setHotels((prev) => [...prev, ...data.data]);
+                setHotels((prev) => [...prev, ...hotelsData.data]);
             }
         }
-    }, [data]);
+    }, [hotelsData]);
 
     const fetchMoreData = () => {
         setPage((prevPage) => prevPage + 1);
@@ -93,7 +98,7 @@ const ParameterisedSearchPage = () => {
                         <div className="flex items-center justify-between">
                             <h1 className=" text-2xl text-black font-bold flex items-center">
                                 <IconSearch />
-                                {`${destination.toUpperCase()}: знайдено ${data?.itemsAvailable} помешкань`}
+                                {`${destination.toUpperCase()}: знайдено ${hotelsData?.itemsAvailable} помешкань`}
                             </h1>
                             <div className="bg-map-bg w-36 h-16 rounded flex items-center justify-center">
                                 <Button onClick={handleShowOnMap} size="md" className="text-xs">
@@ -123,7 +128,7 @@ const ParameterisedSearchPage = () => {
                     </>
                 )}
 
-                {(isError || data?.itemsAvailable === 0) && (
+                {(isError || hotelsData?.itemsAvailable === 0) && (
                     <NotFoundResult text="Вибачте, не знайдено результатів за вашими критеріями!" />
                 )}
             </div>
@@ -131,4 +136,4 @@ const ParameterisedSearchPage = () => {
     );
 };
 
-export default ParameterisedSearchPage;
+export default SearchHotelResultsPage;

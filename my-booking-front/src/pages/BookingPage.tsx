@@ -25,20 +25,22 @@ import React, { useEffect, useState } from "react";
 const BookingPage: React.FC = () => {
     const { id } = useParams();
 
+    const [hotelId, setHotelId] = useState<string | null>(null);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [isExpandedReview, setIsExpandedReview] = useState<boolean>(false);
 
-    const { data: booking } = useGetBookingQuery(id || "0");
-    const [hotelId, setHotelId] = useState<string | null>(null);
+    const { data: bookingData } = useGetBookingQuery(id || "0");
+    const { data: hotelData, isSuccess } = useGetHotelQuery(hotelId || "0", { skip: !hotelId });
+    const { data: reviewsData } = useGetPageReviewsQuery(
+        { bookingId: bookingData?.id },
+        { skip: !bookingData },
+    );
 
     useEffect(() => {
-        if (booking?.room.hotelId) {
-            setHotelId(booking.room.hotelId.toString());
+        if (bookingData?.room.hotelId) {
+            setHotelId(bookingData.room.hotelId.toString());
         }
-    }, [booking]);
-
-    const { data: hotel, isSuccess } = useGetHotelQuery(hotelId || "0", { skip: !hotelId });
-    const { data: reviews } = useGetPageReviewsQuery({ bookingId: booking?.id }, { skip: !booking });
+    }, [bookingData]);
 
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -48,42 +50,28 @@ const BookingPage: React.FC = () => {
         setIsExpandedReview(!isExpandedReview);
     };
 
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard
-            .writeText(text)
-            .then(() => {
-                console.log("Скопійовано до буфера обміну: " + text);
-            })
-            .catch((err) => {
-                console.error("Помилка копіювання: ", err);
-            });
-    };
-
-    const confirmationNumber = "4828814194";
-    const pinCode = "9099";
-
     return (
         <>
             {!isSuccess && <BookingPageSkeleton />}
-            {booking && (
+            {bookingData && (
                 <div className="container mx-auto mt-5">
                     <div className="flex justify-between gap-2">
                         <div className="w-3/4 flex flex-col gap-2">
                             <div className="flex justify-start">
                                 <span
-                                    className={`text-sm ${checkStatus(booking.to) ? "text-red" : "text-green"}`}
+                                    className={`text-sm ${checkStatus(bookingData.to) ? "text-red" : "text-green"}`}
                                 >
-                                    {checkStatus(booking.to) ? "Завершено" : "Активно"}
+                                    {checkStatus(bookingData.to) ? "Завершено" : "Активно"}
                                 </span>
                             </div>
                             <h2 className="text-2xl font-bold font-main mb-4">
-                                Бронювання {checkStatus(booking.to) ? "завершено" : "активно"}
+                                Бронювання {checkStatus(bookingData.to) ? "завершено" : "активно"}
                             </h2>
                             <div className="flex justify-start items-center mb-4 space-x-4">
                                 <div className="flex items-center space-x-2 cursor-pointer group">
                                     <IconBuilding className="text-sky group-hover:text-black" />
                                     <Link
-                                        to={`/hotel/${hotel?.id}`}
+                                        to={`/hotel/${hotelData?.id}`}
                                         className="text-sky text-sm group-hover:text-black group-hover:underline"
                                     >
                                         Забронювати знову
@@ -93,7 +81,7 @@ const BookingPage: React.FC = () => {
                                 <div className="flex items-center space-x-2 px-5 cursor-pointer group">
                                     <IconSearch className="text-sky group-hover:text-black" />
                                     <Link
-                                        to={`/search-results?cityId=${hotel?.address.city.id}&destination=${hotel?.address.city.name}`}
+                                        to={`/search-results?cityId=${hotelData?.address.city.id}&destination=${hotelData?.address.city.name}`}
                                         className="text-sky text-sm group-hover:text-black group-hover:underline"
                                     >
                                         Знайдіть інший варіант проживання
@@ -135,7 +123,7 @@ const BookingPage: React.FC = () => {
 
                             <div className="flex mb-4">
                                 <div className="flex-1">
-                                    <h3 className="text-2xl font-bold text-sky">{hotel?.name}</h3>
+                                    <h3 className="text-2xl font-bold text-sky">{hotelData?.name}</h3>
 
                                     <div className="flex justify-between">
                                         <div>
@@ -145,14 +133,14 @@ const BookingPage: React.FC = () => {
                                                     <div className="border-r border-lightgray/20 pr-4">
                                                         <p>Заїзд</p>
                                                         <p className="font-bold text-base">
-                                                            {formatToShortDate(booking.from)}
+                                                            {formatToShortDate(bookingData.from)}
                                                         </p>
                                                         <p className="text-lightgray">з 14:00</p>
                                                     </div>
                                                     <div>
                                                         <p>Виїзд</p>
                                                         <p className="font-bold text-base">
-                                                            {formatToShortDate(booking.to)}
+                                                            {formatToShortDate(bookingData.to)}
                                                         </p>
                                                         <p className="text-lightgray">до 12:00</p>
                                                     </div>
@@ -163,10 +151,10 @@ const BookingPage: React.FC = () => {
                                                 <div>
                                                     <p className="font-bold">Ваше бронювання</p>
                                                     <p>
-                                                        Максимальні к-сть {booking.room.adultPlaces} дорослих
-                                                        + {booking.room.childrenPlaces} дітей -{" "}
-                                                        {calculateDays(booking.from, booking.to)} ночі, 1
-                                                        номер
+                                                        Максимальні к-сть {bookingData.room.adultPlaces}{" "}
+                                                        дорослих + {bookingData.room.childrenPlaces} дітей -{" "}
+                                                        {calculateDays(bookingData.from, bookingData.to)}{" "}
+                                                        ночі, 1 номер
                                                     </p>
                                                 </div>
                                             </div>
@@ -174,7 +162,7 @@ const BookingPage: React.FC = () => {
 
                                         <div className="flex-shrink-0 ml-4">
                                             <img
-                                                src={`${API_URL}/images/800_${hotel?.photos[0].name}`}
+                                                src={`${API_URL}/images/800_${hotelData?.photos[0].name}`}
                                                 alt="Hotel"
                                                 className="border border-lightgray/20 rounded-lg w-20 object-cover"
                                             />
@@ -186,13 +174,13 @@ const BookingPage: React.FC = () => {
                                         <div>
                                             <p className="font-bold">Адреса</p>
                                             <p>
-                                                {hotel?.address.city.name}, {hotel?.address.street},{" "}
-                                                {hotel?.address.houseNumber},{" "}
-                                                {hotel?.address.city.country.name}
+                                                {hotelData?.address.city.name}, {hotelData?.address.street},{" "}
+                                                {hotelData?.address.houseNumber},{" "}
+                                                {hotelData?.address.city.country.name}
                                             </p>
 
                                             <div className="relative">
-                                                <Link to={`/way-to-hotel/${hotel?.id}`}>
+                                                <Link to={`/way-to-hotel/${hotelData?.id}`}>
                                                     <button className="text-sky text-sm group-hover:text-black underline">
                                                         Показати маршрут
                                                     </button>
@@ -203,7 +191,7 @@ const BookingPage: React.FC = () => {
                                 </div>
                             </div>
 
-                            {convertFromTimestamptz(booking.to) < new Date() && (
+                            {convertFromTimestamptz(bookingData.to) < new Date() && (
                                 <div className="border border-lightgray/20 rounded-md p-2 mb-2">
                                     <div className="flex items-center justify-between mb-0">
                                         <div className="flex items-center">
@@ -222,8 +210,8 @@ const BookingPage: React.FC = () => {
                                     </div>
                                     {isExpandedReview && (
                                         <AddReview
-                                            isReview={Boolean(reviews?.data.length)}
-                                            bookingId={booking.id}
+                                            isReview={Boolean(reviewsData?.data.length)}
+                                            bookingId={bookingData.id}
                                         />
                                     )}
                                 </div>
@@ -231,22 +219,18 @@ const BookingPage: React.FC = () => {
                         </div>
                         <div className="w-2/4 pl-4 max-w-xs ">
                             <div className="border border-gray rounded-sm p-4 mb-4 text-sm bg-light2gray">
-                                <p>
-                                    Номер підтвердження:{" "}
-                                    <span className="font-mono font-bold">{confirmationNumber}</span>
-                                    <button
-                                        className="ml-2"
-                                        onClick={() => copyToClipboard(confirmationNumber)}
-                                    >
-                                        <IconCopy size={16} />
+                                <div className="inline-flex gap-2">
+                                    Номер підтвердження: <span className="font-bold">{4828814194}</span>
+                                    <button className="flex items-center justify-center">
+                                        <IconCopy />
                                     </button>
-                                </p>
-                                <p>
-                                    PIN-код: <span className="font-mono font-bold">{pinCode}</span>
-                                    <button className="ml-2" onClick={() => copyToClipboard(pinCode)}>
-                                        <IconCopy size={16} />
+                                </div>
+                                <div className="inline-flex gap-2">
+                                    PIN-код: <span className="font-bold">9584</span>
+                                    <button className="flex items-center justify-center">
+                                        <IconCopy />
                                     </button>
-                                </p>
+                                </div>
                             </div>
                             <div className="border border-lightgray/20 rounded-sm p-4 ">
                                 <div className="">

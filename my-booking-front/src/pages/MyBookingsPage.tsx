@@ -5,7 +5,7 @@ import Label from "components/ui/Label.tsx";
 import { useGetPageBookingsQuery } from "services/booking.ts";
 
 const MyBookingsPage = () => {
-    const { data, isLoading, isError } = useGetPageBookingsQuery({});
+    const { data: bookingData, isLoading, isError } = useGetPageBookingsQuery({});
 
     return (
         <div className="container mx-auto mt-5 flex flex-col gap-5">
@@ -15,9 +15,11 @@ const MyBookingsPage = () => {
                 {isLoading &&
                     Array.from({ length: 3 }).map((_, index) => <BookingHotelCardSkeleton key={index} />)}
 
-                {(isError || data?.data.length === 0) && <NotFoundResult text="У вас немає бронювань" />}
+                {(isError || bookingData?.data.length === 0) && (
+                    <NotFoundResult text="У вас немає бронювань" />
+                )}
 
-                {data?.data.map((booking) => <BookingHotelCard key={booking.id} {...booking} />)}
+                {bookingData?.data.map((booking) => <BookingHotelCard key={booking.id} {...booking} />)}
             </div>
         </div>
     );

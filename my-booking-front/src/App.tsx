@@ -1,20 +1,20 @@
 import AccountLayout from "components/layout/AccountLayout.tsx";
 import Layout from "components/layout/Layout.tsx";
 import BookingPage from "pages/BookingPage.tsx";
-import CityHotelsMapPage from "pages/CityHotelsMap.tsx";
 import HomePage from "pages/HomePage.tsx";
 import HotelCreatePage from "pages/HotelCreatePage.tsx";
 import HotelPage from "pages/HotelPage.tsx";
-import HotelWayPage from "pages/HotelWayPage.tsx";
 import LoginPage from "pages/LoginPage.tsx";
+import MapCityPage from "pages/MapCityPage.tsx";
+import MapWayToHotelPage from "pages/MapWayToHotelPage.tsx";
 import MyBookingsPage from "pages/MyBookingsPage.tsx";
 import MyHotelsPage from "pages/MyHotelsPage.tsx";
-import ParameterisedSearchPage from "pages/ParameterisedSearchPage.tsx";
-import QuickSearchPage from "pages/QuickSearchPage.tsx";
+import MySavedPage from "pages/MySavedPage.tsx";
+import PersonalizedHotelResultsPage from "pages/PersonalizedHotelResultsPage.tsx";
 import RegisterPage from "pages/RegisterPage.tsx";
 import RoomCreatePage from "pages/RoomCreatePage.tsx";
-import SavedPage from "pages/SavedPage.tsx";
-import TypesSearchPage from "pages/TypesSearchPage.tsx";
+import SearchHotelResultsPage from "pages/SearchHotelResultsPage.tsx";
+import TypeHotelResultsPage from "pages/TypeHotelResultsPage.tsx";
 import { Route, Routes } from "react-router-dom";
 import { useAppDispatch } from "store/index.ts";
 import { setLocation } from "store/slice/userSlice.ts";
@@ -39,18 +39,18 @@ function App() {
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<HomePage />} />
-                <Route path="search-accommodation" element={<QuickSearchPage />} />
-                <Route path="search-types/:id" element={<TypesSearchPage />} />
-                <Route path="search-map" element={<CityHotelsMapPage />} />
+                <Route path="search-accommodation" element={<PersonalizedHotelResultsPage />} />
+                <Route path="search-types/:id" element={<TypeHotelResultsPage />} />
+                <Route path="search-map" element={<MapCityPage />} />
                 <Route path="hotel/:id" element={<HotelPage />} />
                 <Route path="hotel/create" element={<HotelCreatePage />} />
                 <Route path="room/create/:hotelId" element={<RoomCreatePage />} />
                 <Route path="my-bookings" element={<MyBookingsPage />} />
                 <Route path="my-hotels" element={<MyHotelsPage />} />
-                <Route path="my-saved" element={<SavedPage />} />{" "}
-                <Route path="search-results" element={<ParameterisedSearchPage />} />
+                <Route path="my-saved" element={<MySavedPage />} />{" "}
+                <Route path="search-results" element={<SearchHotelResultsPage />} />
                 <Route path="booking/:id" element={<BookingPage />} />
-                <Route path="way-to-hotel/:id" element={<HotelWayPage />} />
+                <Route path="way-to-hotel/:id" element={<MapWayToHotelPage />} />
             </Route>
 
             <Route path="/auth/" element={<AccountLayout />}>

@@ -15,11 +15,13 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 
 const RoomCreatePage = () => {
     const { hotelId } = useParams();
-
-    const { data: conveniences } = useGetAllConveniencesQuery();
-    const [files, setFiles] = useState<File[]>([]);
-    const [create, { isLoading }] = useAddRoomMutation();
     const navigate = useNavigate();
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [files, setFiles] = useState<File[]>([]);
+
+    const { data: conveniencesData } = useGetAllConveniencesQuery();
+
+    const [create, { isLoading }] = useAddRoomMutation();
 
     const {
         register,
@@ -29,8 +31,6 @@ const RoomCreatePage = () => {
         getValues,
         formState: { errors },
     } = useForm<RoomCreateSchemaType>({ resolver: zodResolver(RoomCreateSchema) });
-
-    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (inputRef.current) {
@@ -190,7 +190,7 @@ const RoomCreatePage = () => {
                         <Label>Оберіть зручності:</Label>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                            {conveniences?.map((convenience) => (
+                            {conveniencesData?.map((convenience) => (
                                 <label key={convenience.id} className="flex items-center space-x-2">
                                     <input
                                         id={`convenience-${convenience.id}`}

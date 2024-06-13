@@ -7,7 +7,7 @@ import { Hotel } from "interfaces/hotel";
 import { useGetPageHotelsQuery } from "services/hotel.ts";
 import { SwiperSlide } from "swiper/react";
 
-const QuickSearchPage = () => {
+const PersonalizedHotelResultsPage = () => {
     const { data: popularHotels } = useGetPageHotelsQuery({
         pageIndex: 0,
         pageSize: 10,
@@ -103,4 +103,4 @@ const QuickSearchPage = () => {
     );
 };
 
-export default QuickSearchPage;
+export default PersonalizedHotelResultsPage;
