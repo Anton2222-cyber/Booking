@@ -65,7 +65,7 @@ const HotelCard: React.FC<Hotel> = (props) => {
                         км від центру
                     </span>
                 </div>
-                <div className="flex items-center mt-2 text-xs">{description}</div>
+                <p className=" mt-2 text-xs line-clamp-[11]">{description}</p>
             </div>
             <div className="text-right flex flex-col gap-5 ml-4">
                 <div className="flex items-center justify-end">

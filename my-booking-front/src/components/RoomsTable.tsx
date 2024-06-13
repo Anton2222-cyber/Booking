@@ -1,19 +1,24 @@
 import { IconCaretRightFilled, IconUserFilled } from "@tabler/icons-react";
 import NotFoundResult from "components/NotFoundResult.tsx";
+import RoomCard from "components/cards/RoomCard.tsx";
 import { Button } from "components/ui/Button.tsx";
+import Modal from "components/ui/Modal.tsx";
 import { Room } from "interfaces/room";
 import { useCreateBookingMutation } from "services/booking.ts";
 import { convertFromTimestamptz, convertToTimestamptz } from "utils/dateFormat.ts";
 
-import React from "react";
+import React, { useState } from "react";
 
 interface RoomsTableProps {
     from: string;
     to: string;
     rooms: Room[];
 }
+
 const RoomsTable: React.FC<RoomsTableProps> = (props) => {
     let { rooms, to, from } = props;
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
 
     const [createBooking] = useCreateBookingMutation();
 
@@ -28,6 +33,11 @@ const RoomsTable: React.FC<RoomsTableProps> = (props) => {
         }
 
         createBooking({ roomId: roomId, from: from, to: to });
+    };
+
+    const handleOpenModal = (room: Room) => {
+        setSelectedRoom(room);
+        setShowModal(true);
     };
 
     return (
@@ -45,10 +55,13 @@ const RoomsTable: React.FC<RoomsTableProps> = (props) => {
                     {rooms.map((room) => (
                         <tr className="border-b border-sky" key={room.id}>
                             <td className=" text-sm font-bold text-sky underline">
-                                <div className="flex items-center gap-1">
+                                <button
+                                    onClick={() => handleOpenModal(room)}
+                                    className="flex items-center gap-1"
+                                >
                                     <IconCaretRightFilled className="text-yellow" />
                                     {room.name}
-                                </div>
+                                </button>
                             </td>
                             <td>
                                 <div className="flex items-center">
@@ -77,6 +90,10 @@ const RoomsTable: React.FC<RoomsTableProps> = (props) => {
                 </tbody>
             </table>
             {rooms.length === 0 && <NotFoundResult text="Вибачте, доступних номерів немає!" />}
+
+            <Modal open={showModal} close={() => setShowModal(false)}>
+                {selectedRoom && <RoomCard {...selectedRoom} />}
+            </Modal>
         </>
     );
 };

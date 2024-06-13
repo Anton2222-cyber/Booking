@@ -75,7 +75,10 @@ const HotelCreatePage = () => {
         try {
             await create({ ...data, photos: files, cityId: Number(data.address.cityId) }).unwrap();
 
-            navigate(`/search-results?cityId=${data.address.cityId}`);
+            const cityId = data.address.cityId;
+            const cityName = cities?.find((c) => c.id === Number(cityId))?.name;
+
+            navigate(`/search-results?cityId=${data.address.cityId}&destination=${cityName}`);
         } catch (err) {
             console.log("Error created hotel: ", err);
         }
