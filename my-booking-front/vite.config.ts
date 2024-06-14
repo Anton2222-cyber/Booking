@@ -5,6 +5,10 @@ import { defineConfig } from "vite";
 export default defineConfig({
     base: "/",
     plugins: [react()],
+    preview: {
+        port: 5173,
+        strictPort: true,
+    },
     resolve: {
         alias: {
             assets: "/src/assets",
@@ -21,14 +25,10 @@ export default defineConfig({
             interfaces: "/src/interfaces",
         },
     },
-    preview: {
+    server: {
         port: 5173,
         strictPort: true,
+        host: true,
+        origin: "http://0.0.0.0:5173",
     },
-    // server: {
-    //     port: 5173,
-    //     strictPort: true,
-    //     host: true,
-    //     origin: "http://0.0.0.0:5173",
-    // },
 });

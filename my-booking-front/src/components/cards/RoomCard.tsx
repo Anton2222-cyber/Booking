@@ -27,7 +27,7 @@ const RoomCard: React.FC<Room> = (props) => {
                 </div>
                 <div className="flex items-center flex-wrap gap-2 mb-4 text-sm">
                     {conveniences.map((convenience) => (
-                        <div className="flex items-center">
+                        <div key={convenience.id} className="flex items-center">
                             <IconZoomCheck className="mr-1" /> {convenience.name}
                         </div>
                     ))}

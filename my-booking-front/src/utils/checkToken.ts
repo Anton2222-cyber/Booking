@@ -1,10 +1,12 @@
+import { jwtDecode } from "jwt-decode";
+
 export const checkToken = (token: string | null) => {
     if (!token) {
         return false;
     }
 
     try {
-        const tokenData = JSON.parse(atob(token.split(".")[1]));
+        const tokenData = jwtDecode(token);
 
         if (tokenData.exp) {
             const expirationTime = tokenData.exp * 1000;

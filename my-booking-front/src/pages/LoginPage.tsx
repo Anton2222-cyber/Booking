@@ -7,6 +7,7 @@ import { useGoogleLoginMutation, useLoginMutation } from "services/user.ts";
 import { useAppDispatch } from "store/index.ts";
 import { setCredentials } from "store/slice/userSlice.ts";
 import { jwtParser } from "utils/jwtParser.ts";
+import showToast from "utils/toastShow.ts";
 
 import React from "react";
 
@@ -18,16 +19,19 @@ const LoginPage: React.FC = () => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
 
-    const [googleLogin] = useGoogleLoginMutation();
-    const [emailLogin] = useLoginMutation();
+    const [googleLogin, { isLoading: isLoadingGoogleLogin }] = useGoogleLoginMutation();
+    const [emailLogin, { isLoading: isLoadingEmailLogin }] = useLoginMutation();
 
-    const login = async () => {
+    const login = async (e: React.FormEvent) => {
+        e.preventDefault();
+
         const res = await emailLogin({ email, password });
 
         if (res && "data" in res && res.data) {
             setUser(res.data.token);
+            showToast(`Авторизація успішна!`, "success");
         } else {
-            console.log("Error login. Check login data!");
+            showToast(`Помилка авторизаціі. Перевірте ваші дані!`, "error");
         }
     };
 
@@ -37,10 +41,10 @@ const LoginPage: React.FC = () => {
         });
 
         if (res && "data" in res && res.data) {
-            console.log(res.data.token);
             setUser(res.data.token);
+            showToast(`Авторизація успішна!`, "success");
         } else {
-            console.log("Error login. Check login data!");
+            showToast(`Помилка авторизаціі. Перевірте ваші дані!`, "error");
         }
     };
 
@@ -66,7 +70,7 @@ const LoginPage: React.FC = () => {
             <div className="bg-white p-8 rounded w-full max-w-md font-main">
                 <h1 className="text-2xl font-main mb-6 font-extrabold ">Увійдіть або створіть акаунт</h1>
 
-                <form className="flex flex-col gap-4">
+                <form className="flex flex-col gap-4" onSubmit={login}>
                     <div>
                         <label htmlFor="email" className="mb-1 text-sm block font-semibold">
                             Електронна пошта
@@ -90,12 +94,18 @@ const LoginPage: React.FC = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             type="password"
+                            minLength={8}
                             id="password"
                             placeholder="Введіть свій пароль"
                         />
                     </div>
 
-                    <Button type="button" onClick={login} variant="primary" className="w-full mb-6">
+                    <Button
+                        disabled={isLoadingGoogleLogin || isLoadingEmailLogin}
+                        type="submit"
+                        variant="primary"
+                        className="w-full mb-6 disabled:opacity-50"
+                    >
                         Продовжити з електронною поштою
                     </Button>
                 </form>

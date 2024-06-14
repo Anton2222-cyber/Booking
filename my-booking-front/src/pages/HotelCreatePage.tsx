@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetAllCitiesQuery } from "services/city.ts";
 import { useAddHotelMutation } from "services/hotel.ts";
 import { useGetAllHotelTypesQuery } from "services/hotelTypes.ts";
+import showToast from "utils/toastShow.ts";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
@@ -42,7 +43,7 @@ const HotelCreatePage = () => {
             files.forEach((file) => dataTransfer.items.add(file));
             inputRef.current.files = dataTransfer.files;
         }
-        setValue("photos", inputRef.current?.files);
+        setValue("photos", inputRef.current?.files as any);
     }, [files, setValue]);
 
     useEffect(() => {
@@ -104,14 +105,19 @@ const HotelCreatePage = () => {
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            await create({ ...data, photos: files, cityId: Number(data.address.cityId) }).unwrap();
+            await create({
+                ...data,
+                photos: data.photos as File[],
+                cityId: Number(data.address.cityId),
+            }).unwrap();
 
             const cityId = data.address.cityId;
             const cityName = citiesData?.find((c) => c.id === Number(cityId))?.name;
+            showToast(`Успішно створено новий готель!`, "success");
 
             navigate(`/search-results?cityId=${data.address.cityId}&destination=${cityName}`);
         } catch (err) {
-            console.log("Error created hotel: ", err);
+            showToast(`Помилка при створенні нового готелю!`, "error");
         }
     });
 

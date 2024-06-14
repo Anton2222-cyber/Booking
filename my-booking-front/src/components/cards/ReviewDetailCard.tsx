@@ -1,7 +1,6 @@
 import { IconBed, IconCalendar, IconUsers } from "@tabler/icons-react";
 import { Review } from "interfaces/review";
 import { API_URL } from "utils/getEnvData.ts";
-import { getRandomColor } from "utils/getRandomColor.ts";
 import { getRatingDescription } from "utils/getRating.ts";
 
 import React from "react";
@@ -14,11 +13,11 @@ const ReviewDetailCard: React.FC<Review> = (props) => {
             <div className="flex">
                 <div className="flex-shrink-0 mr-4">
                     <div className="flex items-center">
-                            <img
-                                src={`${API_URL}/images/200_${user.photo}`}
-                                alt={user.firstName}
-                                className="rounded-full w-8 h-8"
-                            />
+                        <img
+                            src={`${API_URL}/images/200_${user.photo}`}
+                            alt={user.firstName}
+                            className="rounded-full w-8 h-8"
+                        />
                         <div className="font-bold ml-2 text-sm">{user.firstName}</div>
                     </div>
 

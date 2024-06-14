@@ -10,6 +10,7 @@ import { UseFormGetValues, UseFormSetValue, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetAllConveniencesQuery } from "services/convenience.ts";
 import { useAddRoomMutation } from "services/rooms.ts";
+import showToast from "utils/toastShow.ts";
 
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 
@@ -38,7 +39,7 @@ const RoomCreatePage = () => {
             files.forEach((file) => dataTransfer.items.add(file));
             inputRef.current.files = dataTransfer.files;
         }
-        setValue("photos", inputRef.current?.files);
+        setValue("photos", inputRef.current?.files as any);
     }, [files, setValue]);
 
     useEffect(() => {
@@ -72,15 +73,20 @@ const RoomCreatePage = () => {
     };
 
     const onSubmit = handleSubmit(async (data) => {
+        console.log(data);
+
         try {
             await create({
                 ...data,
+                photos: data.photos as File[],
                 hotelId: Number(hotelId),
             }).unwrap();
 
+            showToast(`Успішно додано новий номер!`, "success");
+
             navigate(`/hotel/${Number(hotelId)}`);
         } catch (err) {
-            console.log("Error created hotel: ", err);
+            showToast(`Помилка при додаванні нового номера!`, "error");
         }
     });
 

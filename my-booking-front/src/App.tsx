@@ -17,13 +17,15 @@ import RoomCreatePage from "pages/RoomCreatePage.tsx";
 import SearchHotelResultsPage from "pages/SearchHotelResultsPage.tsx";
 import TypeHotelResultsPage from "pages/TypeHotelResultsPage.tsx";
 import { Route, Routes } from "react-router-dom";
+import { useGetUserFavoriteHotelsQuery } from "services/favoriteHotels.ts";
 import { useAppDispatch } from "store/index.ts";
-import { setLocation } from "store/slice/userSlice.ts";
+import { setFavorite, setLocation } from "store/slice/userSlice.ts";
 
 import { useEffect } from "react";
 
 function App() {
     const dispatch = useAppDispatch();
+    const { data: favoriteHotels } = useGetUserFavoriteHotelsQuery();
 
     useEffect(() => {
         if (!navigator.geolocation) {
@@ -35,6 +37,12 @@ function App() {
             });
         }
     }, []);
+
+    useEffect(() => {
+        if (favoriteHotels) {
+            dispatch(setFavorite(favoriteHotels.data));
+        }
+    }, [favoriteHotels]);
 
     return (
         <Routes>

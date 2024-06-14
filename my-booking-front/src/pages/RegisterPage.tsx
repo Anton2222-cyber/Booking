@@ -6,6 +6,7 @@ import { useRegisterMutation } from "services/user.ts";
 import { useAppDispatch } from "store/index.ts";
 import { setCredentials } from "store/slice/userSlice.ts";
 import { jwtParser } from "utils/jwtParser.ts";
+import showToast from "utils/toastShow.ts";
 
 import React, { useState } from "react";
 
@@ -32,8 +33,9 @@ const RegisterPage: React.FC = () => {
         const res = await register({ firstName, lastName, image, email, username, password });
         if (res && "data" in res && res.data) {
             setUser(res.data.token);
+            showToast(`Реєстрація успішна!`, "success");
         } else {
-            console.log("Error during registration. Check your data!");
+            showToast(`Помилка реєстраціі. Перевірте ваші дані!`, "error");
         }
     };
 

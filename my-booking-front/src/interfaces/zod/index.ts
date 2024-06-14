@@ -30,7 +30,20 @@ export const HotelCreateSchema = z.object({
         message: "Type is required",
     }),
     address: AddressSchema,
-    photos: z.any(),
+    photos: z
+        .any()
+        .transform((files) => (files ? Array.from(files) : []))
+        .refine((files: any[]) => files.length > 0, `Min photo count is 1.`)
+        .refine((files: any[]) => files.length <= 10, `Max photo count is 10.`)
+        .refine(
+            (files: any[]) => files.length === 0 || files.every((file) => file.size <= MAX_FILE_SIZE),
+            `Max file size is 5MB.`,
+        )
+        .refine(
+            (files: any[]) =>
+                files.length === 0 || files.every((file) => ACCEPTED_IMAGE_MIME_TYPES.includes(file.type)),
+            "Only .jpg, .jpeg, .png and .webp files are accepted.",
+        ),
 });
 
 export type HotelCreateSchemaType = z.infer<typeof HotelCreateSchema>;
@@ -60,13 +73,17 @@ export const RoomCreateSchema = z.object({
     ),
     photos: z
         .any()
-        .refine((files) => files?.length == 1, "Image is required.")
-        .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+        .transform((files) => (files ? Array.from(files) : []))
+        .refine((files: any[]) => files.length <= 5, `Max photo count is 5.`)
         .refine(
-            (files) => ACCEPTED_IMAGE_MIME_TYPES.includes(files?.[0]?.type),
+            (files: any[]) => files.length === 0 || files.every((file) => file.size <= MAX_FILE_SIZE),
+            `Max file size is 5MB.`,
+        )
+        .refine(
+            (files: any[]) =>
+                files.length === 0 || files.every((file) => ACCEPTED_IMAGE_MIME_TYPES.includes(file.type)),
             "Only .jpg, .jpeg, .png and .webp files are accepted.",
         ),
-
     convenienceIds: z.array(z.number()).nonempty("Convenience IDs must be an array and cannot be empty"),
 });
 
