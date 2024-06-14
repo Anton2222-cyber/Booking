@@ -14,20 +14,11 @@ const ReviewDetailCard: React.FC<Review> = (props) => {
             <div className="flex">
                 <div className="flex-shrink-0 mr-4">
                     <div className="flex items-center">
-                        {user.photo ? (
                             <img
                                 src={`${API_URL}/images/200_${user.photo}`}
                                 alt={user.firstName}
                                 className="rounded-full w-8 h-8"
                             />
-                        ) : (
-                            <div
-                                className="rounded-full w-12 h-12 flex items-center justify-center text-white font-bold"
-                                style={{ backgroundColor: getRandomColor() }}
-                            >
-                                {user.firstName.charAt(0).toUpperCase()}
-                            </div>
-                        )}
                         <div className="font-bold ml-2 text-sm">{user.firstName}</div>
                     </div>
 
