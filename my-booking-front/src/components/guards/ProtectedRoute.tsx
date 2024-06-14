@@ -7,6 +7,8 @@ const ProtectedRoute = () => {
     const location = useLocation();
     const token = useAppSelector(getToken);
 
+    console.log(token);
+
     return checkToken(token) ? <Outlet /> : <Navigate to="/auth/login" state={{ from: location }} replace />;
 };
 

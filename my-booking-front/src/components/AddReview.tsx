@@ -6,6 +6,7 @@ import { Input } from "components/ui/Input.tsx";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Rating } from "react-simple-star-rating";
 import { useAddReviewMutation } from "services/review.ts";
+import showToast from "utils/toastShow.ts";
 import * as z from "zod";
 
 import { ChangeEvent, useState } from "react";
@@ -56,7 +57,7 @@ const AddReview = ({ bookingId, isReview }: { bookingId: number; isReview: boole
             await create({ ...data, bookingId: bookingId, score: rating }).unwrap();
             setIsAddedReview(true);
         } catch (err) {
-            console.log("Error create Review: ", err);
+            showToast(`Помилка додавання відгуку!`, "error");
         }
     };
 
