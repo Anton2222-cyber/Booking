@@ -1,5 +1,6 @@
 import { Hotel } from "interfaces/hotel";
 import { Link } from "react-router-dom";
+import { useGetPageRoomsQuery } from "services/rooms.ts";
 import { API_URL } from "utils/getEnvData.ts";
 import { getRatingDescription } from "utils/getRating.ts";
 
@@ -7,6 +8,13 @@ import React from "react";
 
 const HotelSearchCard: React.FC<Hotel> = (props) => {
     const { id, name, address, rating, photos } = props;
+
+    const { data } = useGetPageRoomsQuery({
+        hotelId: id,
+    });
+
+    const prices = data?.data?.map((item) => item.price) || [];
+    const minPrice = prices.length > 0 ? Math.min(...prices) : "недоступно";
     const ratingDescription = getRatingDescription(rating);
 
     return (
@@ -17,7 +25,7 @@ const HotelSearchCard: React.FC<Hotel> = (props) => {
             <div className="overflow-hidden rounded-lg">
                 <img
                     className="h-64 w-full object-cover"
-                    src={`${API_URL}/images/800_${photos[0].name}`}
+                    src={`${API_URL}/images/400_${photos[0].name}`}
                     alt={name}
                 />
             </div>
@@ -25,7 +33,7 @@ const HotelSearchCard: React.FC<Hotel> = (props) => {
                 <p>{address.city.name}</p>
                 <h1 className="text-black font-semibold text-sm">{name}</h1>
                 <p className="text-sm">{`${rating.toFixed(1)} ${ratingDescription}`}</p>
-                <p className="text-sm">Від UAH 3 500</p>
+                <p className="text-sm">Від UAH {minPrice}</p>
             </div>
         </Link>
     );

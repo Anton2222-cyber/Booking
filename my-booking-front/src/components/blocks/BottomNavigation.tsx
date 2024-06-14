@@ -1,4 +1,5 @@
 import { Button } from "components/ui/Button.tsx";
+import { Link } from "react-router-dom";
 
 const bottomNavItems = [
     {
@@ -71,9 +72,15 @@ const BottomNavigation = () => {
     return (
         <div className="bg-blue bg-cover mt-5">
             <div className="container flex items-center justify-center mx-auto py-4">
-                <Button variant="transparent" size="sm" className="border border-white font-normal text-xs">
-                    Зареєструвати своє помешкання
-                </Button>
+                <Link to={"/hotel/create"}>
+                    <Button
+                        variant="transparent"
+                        size="sm"
+                        className="border border-white font-normal text-xs"
+                    >
+                        Зареєструвати своє помешкання
+                    </Button>
+                </Link>
             </div>
             <hr className="border-t border-white" />
             <div className="container flex items-center justify-between mx-auto  ">

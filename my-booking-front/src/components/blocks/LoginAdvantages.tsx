@@ -1,6 +1,7 @@
 import GeniusLogo from "assets/GeniusGenericGiftBox.png";
 import { Button } from "components/ui/Button.tsx";
 import Label from "components/ui/Label.tsx";
+import { Link } from "react-router-dom";
 
 const LoginAdvantages = () => {
     return (
@@ -14,12 +15,16 @@ const LoginAdvantages = () => {
                         значок Genius
                     </p>
                     <div className="inline-flex gap-2">
-                        <Button variant="primary" size="sm" className="text-sm">
-                            Увійти
-                        </Button>
-                        <Button variant="secondary" size="sm" className="hover:bg-sky/10">
-                            Зареєструватися
-                        </Button>
+                        <Link to={"/auth/login"}>
+                            <Button variant="primary" size="sm" className="text-sm">
+                                Увійти
+                            </Button>
+                        </Link>
+                        <Link to={"/auth/register"}>
+                            <Button variant="secondary" size="sm" className="hover:bg-sky/10">
+                                Зареєструватися
+                            </Button>
+                        </Link>
                     </div>
                 </div>
 

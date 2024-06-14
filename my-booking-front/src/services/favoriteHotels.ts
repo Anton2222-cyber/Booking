@@ -11,11 +11,38 @@ export const favoriteHotelsApi = createApi({
     endpoints: (builder) => ({
         getAllFavoriteHotels: builder.query<Hotel[], void>({
             query: () => "getAll",
+            providesTags: ["FavoriteHotels"],
         }),
         getUserFavoriteHotels: builder.query<GetPageResponse<Hotel>, void>({
             query: () => "getPage",
+            providesTags: ["FavoriteHotels"],
+        }),
+        addToFavorite: builder.mutation({
+            query: (hotelId: number) => {
+                const favoriteFormData = new FormData();
+                favoriteFormData.append("hotelId", hotelId.toString());
+
+                return {
+                    url: "create",
+                    method: "POST",
+                    body: favoriteFormData,
+                };
+            },
+            invalidatesTags: ["FavoriteHotels"],
+        }),
+        removeFromFavorite: builder.mutation({
+            query: (hotelId: number) => ({
+                url: `delete?hotelId=${hotelId}`,
+                method: "DELETE",
+            }),
+            invalidatesTags: ["FavoriteHotels"],
         }),
     }),
 });
 
-export const { useGetAllFavoriteHotelsQuery, useGetUserFavoriteHotelsQuery } = favoriteHotelsApi;
+export const {
+    useGetAllFavoriteHotelsQuery,
+    useRemoveFromFavoriteMutation,
+    useGetUserFavoriteHotelsQuery,
+    useAddToFavoriteMutation,
+} = favoriteHotelsApi;

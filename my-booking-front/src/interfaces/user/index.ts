@@ -1,3 +1,5 @@
+import { Hotel } from "interfaces/hotel";
+
 export interface User {
     id: string;
     email: string;
@@ -15,6 +17,7 @@ export interface UserState {
     location: ILocation | null;
     user: User | null;
     token: string | null;
+    favoriteHotels: Hotel[];
 }
 
 export interface LoginResponse {
