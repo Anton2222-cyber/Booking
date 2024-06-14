@@ -38,7 +38,7 @@ const RoomCreatePage = () => {
             files.forEach((file) => dataTransfer.items.add(file));
             inputRef.current.files = dataTransfer.files;
         }
-        setValue("photos", inputRef.current?.files);
+        setValue("photos", inputRef.current?.files as any);
     }, [files, setValue]);
 
     useEffect(() => {
@@ -72,9 +72,12 @@ const RoomCreatePage = () => {
     };
 
     const onSubmit = handleSubmit(async (data) => {
+        console.log(data);
+
         try {
             await create({
                 ...data,
+                photos: data.photos as File[],
                 hotelId: Number(hotelId),
             }).unwrap();
 
