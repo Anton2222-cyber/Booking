@@ -42,7 +42,7 @@ const HotelCreatePage = () => {
             files.forEach((file) => dataTransfer.items.add(file));
             inputRef.current.files = dataTransfer.files;
         }
-        setValue("photos", inputRef.current?.files);
+        setValue("photos", inputRef.current?.files as any);
     }, [files, setValue]);
 
     useEffect(() => {
@@ -104,7 +104,11 @@ const HotelCreatePage = () => {
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            await create({ ...data, photos: files, cityId: Number(data.address.cityId) }).unwrap();
+            await create({
+                ...data,
+                photos: data.photos as File[],
+                cityId: Number(data.address.cityId),
+            }).unwrap();
 
             const cityId = data.address.cityId;
             const cityName = citiesData?.find((c) => c.id === Number(cityId))?.name;
